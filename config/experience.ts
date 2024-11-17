@@ -29,6 +29,49 @@ export interface ExperienceInterface {
 
 const experiences: ExperienceInterface[] = [
   {
+    id: "LapelCustomConfigAdminPanel",
+    companyName: "Lapel  Custom Config",
+    type: "Professional",
+    category: ["Frontend", "REST API", "Intigration"],
+    shortDescription:
+      "Lapel Custom Config Admin Panel, React, Typescript, Tailwind CSS, Shadcn UI",
+    websiteLink: "https://www.slpersonalchauffeurs.com/",
+    githubLink: "",
+    techStack: ["React", "Typescript", "Tailwind CSS", "Shadcn UI"],
+    startDate: new Date("2024-02-01"),
+    endDate: new Date("2024-02-29"),
+    companyLogoImg: "/experience/slpersonalchauffeurs/logo.webp",
+    pagesInfoArr: [
+      {
+        title: "Landing Page",
+        description: "",
+        imgArr: ["/experience/slpersonalchauffeurs/landing.webp"],
+      },
+      {
+        title: "Tours Page",
+        description: "",
+        imgArr: ["/experience/slpersonalchauffeurs/tours.webp"],
+      },
+      {
+        title: "Gallery Page",
+        description: "",
+        imgArr: ["/experience/slpersonalchauffeurs/gallery.webp"],
+      },
+      {
+        title: "Contact Page",
+        description: "",
+        imgArr: ["/experience/slpersonalchauffeurs/contact.webp"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "During my time working on SL Personal Chauffeurs, I played a crucial role in designing and developing a professional tour booking platform tailored for travelers in Sri Lanka. My focus was on building an intuitive, fast, and mobile-friendly website that simplified tour planning for users.",
+        "I developed the website using React and TypeScript, ensuring smooth performance and scalability. Tailwind CSS and Shadcn UI were utilized for designing clean and responsive user interfaces, enhancing both usability and aesthetics.",
+        "I worked closely with the product team to implement key features like seamless tour selection, gallery exploration, and contact forms to create a comprehensive user experience.",
+      ],
+    },
+  },
+  {
     id: "slpersonalchauffeurs",
     companyName: "SL Personal Chauffeurs",
     type: "Professional",
