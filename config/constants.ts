@@ -35,6 +35,8 @@ export type ValidCategory =
   | "UI/UX"
   | "Web Dev"
   | "Mobile Dev"
+  | "Intigration"
+  | "REST API"
   | "3D Modeling";
 
 export type ValidExpType = "Personal Project" | "Professional";
