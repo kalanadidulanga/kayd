@@ -27,7 +27,7 @@ export default function Experience({ params }: ExperiencePageProps) {
   }
 
   return (
-    <article className="mx-auto relative max-w-3xl py-6 lg:py-10">
+    <article className="mx-auto relative max-w-3xl pt-6 lg:pt-10">
       <Link
         href="/experience"
         className={cn(
@@ -153,7 +153,7 @@ export default function Experience({ params }: ExperiencePageProps) {
       </div>
 
       <hr className="mt-12" />
-      <div className="flex justify-center py-6 lg:py-10">
+      <div className="flex justify-center pt-6 lg:pt-10">
         <Link
           href="/experience"
           className={cn(buttonVariants({ variant: "ghost" }))}
