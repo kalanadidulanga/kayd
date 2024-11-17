@@ -29,7 +29,7 @@ export interface ExperienceInterface {
 
 const experiences: ExperienceInterface[] = [
   {
-    id: "LapelCustomConfigAdminPanel",
+    id: "lapelcustomconfig",
     companyName: "Lapel  Custom Config",
     type: "Professional",
     category: ["Frontend", "REST API", "Intigration"],
@@ -39,35 +39,46 @@ const experiences: ExperienceInterface[] = [
     githubLink: "",
     techStack: ["React", "Typescript", "Tailwind CSS", "Shadcn UI"],
     startDate: new Date("2024-02-01"),
-    endDate: new Date("2024-02-29"),
-    companyLogoImg: "/experience/slpersonalchauffeurs/logo.webp",
+    endDate: new Date("2024-03-05"),
+    companyLogoImg: "/experience/lapelcustomconfig/logo.PNG",
     pagesInfoArr: [
       {
-        title: "Landing Page",
+        title: "Paackages Page",
         description: "",
-        imgArr: ["/experience/slpersonalchauffeurs/landing.webp"],
+        imgArr: ["/experience/lapelcustomconfig/1.PNG"],
       },
       {
-        title: "Tours Page",
+        title: "Add Option",
         description: "",
-        imgArr: ["/experience/slpersonalchauffeurs/tours.webp"],
+        imgArr: ["/experience/lapelcustomconfig/2.PNG"],
       },
       {
-        title: "Gallery Page",
+        title: "Shirt Options Page",
         description: "",
-        imgArr: ["/experience/slpersonalchauffeurs/gallery.webp"],
+        imgArr: ["/experience/lapelcustomconfig/3.PNG"],
       },
       {
-        title: "Contact Page",
+        title: "Order Change Page",
         description: "",
-        imgArr: ["/experience/slpersonalchauffeurs/contact.webp"],
+        imgArr: ["/experience/lapelcustomconfig/4.PNG"],
+      },
+      {
+        title: "View Option",
+        description: "",
+        imgArr: ["/experience/lapelcustomconfig/5.PNG"],
       },
     ],
     descriptionDetails: {
       paragraphs: [
-        "During my time working on SL Personal Chauffeurs, I played a crucial role in designing and developing a professional tour booking platform tailored for travelers in Sri Lanka. My focus was on building an intuitive, fast, and mobile-friendly website that simplified tour planning for users.",
-        "I developed the website using React and TypeScript, ensuring smooth performance and scalability. Tailwind CSS and Shadcn UI were utilized for designing clean and responsive user interfaces, enhancing both usability and aesthetics.",
-        "I worked closely with the product team to implement key features like seamless tour selection, gallery exploration, and contact forms to create a comprehensive user experience.",
+        "I developed an admin panel for the Lapel company's custom clothing design and ordering platform. This system enables the company's administrators to manage clothing options, sub-options, and their attributes while also providing customers the ability to design and order custom outfits through their website. The project was built using React.js for the frontend and integrated with a REST API for backend communication. It focuses on handling large datasets efficiently, ensuring high performance and scalability.",
+        "I developed the admin panel using React.js and incorporated modern state management techniques for seamless data handling. Tailwind CSS was utilized for creating a clean and responsive user interface, ensuring both functionality and aesthetics. The integration of REST APIs allowed smooth communication between the frontend and the backend, making operations like CRUD functionalities highly efficient.",
+        "Throughout the project, I collaborated with the Lapel product team to understand the requirements and deliver scalable solutions. The admin panel provided the team with essential tools to streamline operations such as clothing package management, dynamic option configuration, and fabric customization, ultimately enhancing the overall efficiency and user experience.",
+      ],
+      bullets: [
+        "Dynamic Package Management: Enables admins to create, edit, and manage clothing packages with detailed attributes like images, pricing, and categories.",
+        "Option Configuration: Provides customizable sub-options with attributes such as styles, contrast, and visibility settings using advanced rule-based configurations.",
+        "Fabric Management: Facilitates uploading and managing fabric images for various clothing categories, ensuring precision in design visualization.",
+        "Scalable and Interactive UI: Developed a responsive and user-friendly admin interface to handle large datasets and dynamic content seamlessly.",
       ],
     },
   },
