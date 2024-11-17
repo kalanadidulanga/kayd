@@ -136,7 +136,7 @@ export default function Experience({ params }: ExperiencePageProps) {
             </h3>
             <div>
               <p>{page.description}</p>
-              {page.imgArr.map((img, ind) => (
+              {page.imgArr?.map((img, ind) => (
                 <Image
                   src={img}
                   key={ind}
