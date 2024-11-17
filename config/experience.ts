@@ -35,7 +35,8 @@ const experiences: ExperienceInterface[] = [
     category: ["Frontend", "REST API", "Intigration"],
     shortDescription:
       "Lapel Custom Config Admin Panel, React, Typescript, Tailwind CSS, Shadcn UI",
-    websiteLink: "https://www.slpersonalchauffeurs.com/",
+    websiteLink:
+      "https://www.linkedin.com/posts/kalana-didulanga_reactjs-webdevelopment-tailwindcss-activity-7263898345566273536-5mAi?utm_source=share&utm_medium=member_android",
     githubLink: "",
     techStack: ["React", "Typescript", "Tailwind CSS", "Shadcn UI"],
     startDate: new Date("2024-02-01"),
