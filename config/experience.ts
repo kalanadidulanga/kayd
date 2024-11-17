@@ -84,6 +84,61 @@ const experiences: ExperienceInterface[] = [
     },
   },
   {
+    id: "lapelcustomconfig",
+    companyName: "Lapel  Custom Config",
+    type: "Professional",
+    category: ["Frontend", "REST API", "Intigration"],
+    shortDescription:
+      "Lapel Custom Config Admin Panel, React, Typescript, Tailwind CSS, Shadcn UI",
+    websiteLink:
+      "https://www.linkedin.com/posts/kalana-didulanga_reactjs-webdevelopment-tailwindcss-activity-7263898345566273536-5mAi?utm_source=share&utm_medium=member_android",
+    githubLink: "",
+    techStack: ["React", "Typescript", "Tailwind CSS", "Shadcn UI"],
+    startDate: new Date("2024-02-01"),
+    endDate: new Date("2024-03-05"),
+    companyLogoImg: "/experience/lapelcustomconfig/logo.PNG",
+    pagesInfoArr: [
+      {
+        title: "Paackages Page",
+        description: "",
+        imgArr: ["/experience/lapelcustomconfig/1.PNG"],
+      },
+      {
+        title: "Add Option",
+        description: "",
+        imgArr: ["/experience/lapelcustomconfig/2.PNG"],
+      },
+      {
+        title: "Shirt Options Page",
+        description: "",
+        imgArr: ["/experience/lapelcustomconfig/3.PNG"],
+      },
+      {
+        title: "Order Change Page",
+        description: "",
+        imgArr: ["/experience/lapelcustomconfig/4.PNG"],
+      },
+      {
+        title: "View Option",
+        description: "",
+        imgArr: ["/experience/lapelcustomconfig/5.PNG"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "I developed an admin panel for the Lapel company's custom clothing design and ordering platform. This system enables the company's administrators to manage clothing options, sub-options, and their attributes while also providing customers the ability to design and order custom outfits through their website. The project was built using React.js for the frontend and integrated with a REST API for backend communication. It focuses on handling large datasets efficiently, ensuring high performance and scalability.",
+        "I developed the admin panel using React.js and incorporated modern state management techniques for seamless data handling. Tailwind CSS was utilized for creating a clean and responsive user interface, ensuring both functionality and aesthetics. The integration of REST APIs allowed smooth communication between the frontend and the backend, making operations like CRUD functionalities highly efficient.",
+        "Throughout the project, I collaborated with the Lapel product team to understand the requirements and deliver scalable solutions. The admin panel provided the team with essential tools to streamline operations such as clothing package management, dynamic option configuration, and fabric customization, ultimately enhancing the overall efficiency and user experience.",
+      ],
+      bullets: [
+        "Dynamic Package Management: Enables admins to create, edit, and manage clothing packages with detailed attributes like images, pricing, and categories.",
+        "Option Configuration: Provides customizable sub-options with attributes such as styles, contrast, and visibility settings using advanced rule-based configurations.",
+        "Fabric Management: Facilitates uploading and managing fabric images for various clothing categories, ensuring precision in design visualization.",
+        "Scalable and Interactive UI: Developed a responsive and user-friendly admin interface to handle large datasets and dynamic content seamlessly.",
+      ],
+    },
+  },
+  {
     id: "slpersonalchauffeurs",
     companyName: "SL Personal Chauffeurs",
     type: "Professional",
