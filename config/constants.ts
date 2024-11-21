@@ -8,8 +8,8 @@ export type ValidSkills =
   | "MongoDB"
   | "Typescript"
   | "Javascript"
-  | "HTML 5"
-  | "CSS 3"
+  | "HTML"
+  | "CSS"
   | "React Native"
   | "Angular"
   | "Redux"
@@ -30,6 +30,9 @@ export type ValidSkills =
 
 export type ValidCategory =
   | "Full Stack"
+  | "MERN Stack"
+  | "Next js"
+  | "Typescript"
   | "Frontend"
   | "Backend"
   | "UI/UX"

@@ -29,6 +29,138 @@ export interface ExperienceInterface {
 
 const experiences: ExperienceInterface[] = [
   {
+    id: "2048-game",
+    companyName: "2048 Game",
+    type: "Personal Project",
+    category: ["Web Dev"],
+    shortDescription:
+      "A classic 2048 game where players combine numbered tiles to reach the elusive 2048 tile.",
+    websiteLink: "https://lnkd.in/gnRykQk8",
+    githubLink: "https://lnkd.in/gtCkY_NX",
+    techStack: ["HTML", "CSS", "Javascript"],
+    startDate: new Date("2024-09-15"),
+    endDate: new Date("2024-09-20"),
+    companyLogoImg: "/experience/2048game/logo.jpg",
+    pagesInfoArr: [
+      {
+        title: "Game Demo",
+        description: "Play the classic 2048 game online.",
+        imgArr: ["/experience/2048game/1.jpg"],
+      },
+      {
+        title: "Game Demo",
+        description: "Play the classic 2048 game online.",
+        imgArr: ["/experience/2048game/2.jpg"],
+      },
+      {
+        title: "Mobile Responsive",
+        description: "Play the classic 2048 game online.",
+        imgArr: ["/experience/2048game/3.jpg"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "I recently completed a classic 2048 game as a fun side project, where players combine numbered tiles to reach the elusive 2048 tile. It might sound simple, but this game calls for serious strategy and quick reflexes to climb the high-score ladder!",
+        "Built entirely from scratch with HTML, CSS, and JavaScript, this game features a fully responsive design for both desktop and mobile. The controls are optimized for a seamless experience, allowing players to use arrow keys on desktop or swipe on mobile devices.",
+        "This project let me dive deep into game mechanics and polish my web development skills while having fun creating a sleek, engaging puzzle game. It was a fantastic way to blend logic, design, and user experience into a project that’s both challenging and rewarding.",
+      ],
+      bullets: [
+        "Classic puzzle gameplay",
+        "Responsive design for all devices",
+        "Optimized controls for desktop and mobile",
+        "Engaging user interface and experience",
+        "Challenging mechanics that test strategy and reflexes",
+      ],
+    },
+  },
+  {
+    id: "ascii-donut-animation",
+    companyName: "ASCII Donut Animation",
+    type: "Personal Project",
+    category: ["Web Dev"],
+    shortDescription:
+      "An animated ASCII donut that spins endlessly in the browser.",
+    websiteLink: "https://kalanadidulanga.github.io/Donut-Animation/",
+    githubLink: "https://github.com/kalanadidulanga/Donut-Animation.git",
+    techStack: ["Javascript", "CSS", "HTML"],
+    startDate: new Date("2024-07-01"),
+    endDate: new Date("2024-07-03"),
+    companyLogoImg: "/experience/asciidonut/logo.PNG",
+    pagesInfoArr: [
+      {
+        title: "Demo",
+        description: "Interactive demo of the spinning ASCII donut.",
+        imgArr: ["/experience/asciidonut/logo.PNG"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "Introducing my latest playful project: an animated ASCII donut that spins endlessly in the browser! This project showcases a mesmerizing, rotating donut shape using only JavaScript and CSS, inspired by the creative world of ASCII art and retro-style animations.",
+        "The animation utilizes trigonometric functions to dynamically render the donut shape and create a smooth spinning effect. It’s a fun exploration of how simple characters can create engaging visual experiences on the web.",
+        "This project taught me a lot about optimizing animations for performance and understanding the intricacies of rendering ASCII characters dynamically. Sometimes, the best way to learn is through having fun with code!",
+      ],
+      bullets: [
+        "Endless spinning animation",
+        "Dynamic rendering of ASCII characters",
+        "Utilizes JavaScript for animation logic",
+        "CSS for styling and layout",
+        "Fun exploration of ASCII art techniques",
+      ],
+    },
+  },
+  {
+    id: "uniguru",
+    companyName: "Uniguru",
+    type: "Professional",
+    category: ["Full Stack", "Next js", "Typescript"],
+    shortDescription:
+      "Education and Healthcare Recruitment Consultancy Platform - Full Stack Development",
+    websiteLink: "https://uniguru.co/",
+    githubLink: "",
+    techStack: ["Next.js", "Prisma", "MySQL", "Tailwind CSS", "Node.js"],
+    startDate: new Date("2024-08-15"),
+    endDate: new Date("2023-11-02"),
+    companyLogoImg: "/experience/uniguru/logo.PNG",
+    pagesInfoArr: [
+      {
+        title: "Home Page",
+        description:
+          "Overview of services offered by Uniguru. Visit uniguru.co for more details.",
+        imgArr: ["/experience/uniguru/homepage.png"],
+      },
+      {
+        title: "User Dashboards",
+        description:
+          "Three types of user dashboards for students, partners, and superadmins.",
+        imgArr: ["/experience/uniguru/dashboards.PNG"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "I developed the full-stack platform for Uniguru, a consultancy agency specializing in education and healthcare recruitment. The platform connects students with universities and healthcare professionals with job opportunities, streamlining the application and recruitment processes.",
+        "Utilizing Next.js for server-side rendering and Prisma with MySQL for database management, I ensured the application was efficient and scalable. The architecture supports dynamic content delivery and real-time updates for users.",
+        "The user interface was designed using Tailwind CSS, providing a responsive and modern look that enhances user experience across devices. Features include a comprehensive dashboard for students and recruiters, facilitating easy navigation and access to essential services.",
+        "The platform includes three types of user dashboards:",
+        "- Student Dashboard: Students can view their university tracking status, manage their uploaded documents, and access personalized information through their student portal.",
+        "- Partner Dashboard: Partners can monitor their engagement with Uniguru using their unique partner code and track relevant metrics.",
+        "- Superadmin Dashboard: Superadmins have full control over the platform, managing all universities, students, partners, intakes, accommodations, and other critical operations.",
+        "By focusing on user engagement and efficient service delivery, I created a solution that meets the needs of both students seeking educational opportunities and healthcare professionals looking for employment.",
+      ],
+      bullets: [
+        "Comprehensive Education Consultancy Services",
+        "Healthcare Recruitment Solutions",
+        "Responsive Design with Tailwind CSS",
+        "Dynamic Content Delivery with Next.js",
+        "Efficient Database Management with Prisma and MySQL",
+        "User-Friendly Dashboard for Easy Navigation",
+        "Three User Types: Student, Partner, Superadmin",
+        "Student Portal for Tracking Status and Document Management",
+        "Partner Dashboard for Engagement Monitoring",
+        "Superadmin Controls for Comprehensive Management",
+      ],
+    },
+  },
+  {
     id: "lapelcreatecustom",
     companyName: "Lapel Create Custom",
     type: "Professional",
