@@ -132,7 +132,7 @@ const experiences: ExperienceInterface[] = [
         title: "User Dashboards",
         description:
           "Three types of user dashboards for students, partners, and superadmins.",
-        imgArr: ["/experience/uniguru/dashboards.PNG"],
+        imgArr: ["/experience/uniguru/dashboards.png"],
       },
     ],
     descriptionDetails: {
