@@ -18,6 +18,7 @@ import { featuredEducations } from "@/config/educations";
 import { SocialLinks } from "@/config/socials";
 import CustomTooltip from "@/components/custom-tooltip";
 import { NowBlock } from "@/components/now-block";
+import { SelectedWork } from "@/components/case-study";
 import { Testimonials } from "@/components/testimonials";
 import { StatsStrip } from "@/components/stats-strip";
 // import {
@@ -94,6 +95,7 @@ export default async function IndexPage() {
         </div>
       </section>
       <NowBlock />
+      <SelectedWork />
       <section
         id="skills"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { test, expect } from "@playwright/test";
 import { siteStats } from "../lib/stats";
-import { Experiences } from "../config/experience";
+import { Experiences, featuredCaseStudies } from "../config/experience";
 import { now } from "../config/now";
 import { testimonials } from "../config/testimonials";
 
@@ -99,6 +99,23 @@ test.describe("experience data", () => {
       expect(e.caseStudy, `${e.id} is featured but has no caseStudy`).toBeDefined();
       expect(e.caseStudy?.problem.trim()).not.toBe("");
       expect(e.caseStudy?.approach.trim()).not.toBe("");
+    }
+  });
+});
+
+test.describe("selected work", () => {
+  test("renders one entry per featured case study", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator("#selected-work");
+
+    if (featuredCaseStudies.length === 0) {
+      await expect(section).toHaveCount(0);
+    } else {
+      await expect(section).toBeVisible();
+      await expect(section.locator("article")).toHaveCount(featuredCaseStudies.length);
+      for (const e of featuredCaseStudies) {
+        await expect(section).toContainText(e.companyName);
+      }
     }
   });
 });
