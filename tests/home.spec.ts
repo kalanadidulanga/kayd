@@ -140,6 +140,20 @@ test.describe("home page structure", () => {
     );
   });
 
+  test("the unconditional sections are all present", async ({ page }) => {
+    // These five have no config gate (unlike now/selected-work/testimonials,
+    // which render null on empty config), so they must always be in the DOM.
+    // Without this, the order test below only checks relative order among
+    // whatever happens to exist, and a deleted section would pass silently.
+    await page.goto("/");
+    const ids = await page.locator("section[id]").evaluateAll((nodes) =>
+      nodes.map((n) => n.id)
+    );
+    expect(ids).toEqual(
+      expect.arrayContaining(["experience", "about", "skills", "educations", "contributions"])
+    );
+  });
+
   test("sections appear in the intended order", async ({ page }) => {
     await page.goto("/");
     const ids = await page.locator("section[id]").evaluateAll((nodes) =>

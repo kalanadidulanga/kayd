@@ -130,6 +130,7 @@ export default async function IndexPage() {
           label="About"
           title={pagesConfig.aboutme.title}
           description={pagesConfig.aboutme.description}
+          className="max-w-3xl"
         />
 
         <div className=" flex items-center justify-center gap-5">
@@ -188,7 +189,7 @@ export default async function IndexPage() {
       >
         <SectionHeader
           index="07"
-          label="Education"
+          label="Educations"
           title={pagesConfig.educations.title}
           description={pagesConfig.educations.description}
         />
