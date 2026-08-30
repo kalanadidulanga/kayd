@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { test, expect } from "@playwright/test";
 import { siteStats } from "../lib/stats";
 import { Experiences } from "../config/experience";
@@ -31,13 +33,17 @@ test.describe("now section", () => {
     }
   });
 
-  test("the updated date is a fixed literal, not build time", () => {
-    // A new Date() here would restamp on every deploy and fabricate freshness.
-    const today = new Date();
-    const sameDay =
-      now.updatedAt.getFullYear() === today.getFullYear() &&
-      now.updatedAt.getMonth() === today.getMonth() &&
-      now.updatedAt.getDate() === today.getDate();
-    expect(sameDay && now.text.trim() !== "").toBe(false);
+  test("config/now.ts never sets updatedAt with a bare new Date()", () => {
+    // A source check, not a value check: comparing the parsed updatedAt to
+    // today's date would stay silent while text is empty, and would false
+    // positive on a real update legitimately made today. Reading the file
+    // and forbidding an argument-less new Date() catches the mistake
+    // regardless of what text or the current date happen to be, since that
+    // call evaluates at build time and would fabricate a freshness date.
+    const source = readFileSync(
+      path.join(__dirname, "..", "config", "now.ts"),
+      "utf-8"
+    );
+    expect(source).not.toMatch(/updatedAt:\s*new Date\(\s*\)/);
   });
 });
