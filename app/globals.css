@@ -26,6 +26,7 @@
   --color-popover-foreground: hsl(var(--popover-foreground));
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
+  --color-brand: hsl(var(--brand));
 
   /* next/font defines --font-inter and --font-cal in layout.tsx. They are not
      named --font-sans / --font-heading because those are these theme keys, and
@@ -128,6 +129,9 @@
 
     --ring: 215 20.2% 65.1%;
 
+    /* deep blue accent, used sparingly for links, section numbers, hover */
+    --brand: 221 83% 53%;
+
     --radius: 0.5rem;
 
     --d: 700ms;
@@ -163,6 +167,9 @@
     --destructive-foreground: 210 40% 98%;
 
     --ring: 216 34% 17%;
+
+    /* lifted for contrast against the near black dark background */
+    --brand: 217 91% 60%;
 
     --radius: 0.5rem;
     --d: 700ms;
@@ -389,4 +396,37 @@
   100% {
     stroke-dashoffset: 0;
   }
+}
+
+/* One type scale, declared once. Before this each heading picked its own
+   responsive sizes, which is most of why the page read as templated. */
+@utility type-display {
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  @media (width >= 640px) { font-size: 3.5rem; }
+  @media (width >= 1024px) { font-size: 4.5rem; }
+}
+
+@utility type-section {
+  font-family: var(--font-heading);
+  font-size: 1.875rem;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  @media (width >= 768px) { font-size: 2.75rem; }
+}
+
+@utility type-card {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+@utility type-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
