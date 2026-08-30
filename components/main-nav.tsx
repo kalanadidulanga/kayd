@@ -9,9 +9,10 @@ import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { MobileNav } from "@/components/mobile-nav";
 import { siteConfig } from "@/config/site";
+import type { NavItem } from "@/config/routes";
 
 interface MainNavProps {
-    items?: any[];
+    items?: NavItem[];
     children?: React.ReactNode;
 }
 
@@ -27,9 +28,13 @@ export function MainNav({ items, children }: MainNavProps) {
     const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
     const pathname = usePathname();
 
-    React.useEffect(() => {
+    // Close the mobile menu on navigation. Adjusting state during render is
+    // the React 19 idiom here; a useEffect would cause a cascading re-render.
+    const [lastPathname, setLastPathname] = React.useState(pathname);
+    if (lastPathname !== pathname) {
+        setLastPathname(pathname);
         setShowMobileMenu(false);
-    }, [pathname]);
+    }
 
     return (
         <div className="flex gap-6 md:gap-10">

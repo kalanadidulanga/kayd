@@ -36,13 +36,12 @@ import {
   Phone,
   School,
   GraduationCap,
-  Facebook,
 } from "lucide-react";
+import { FaAws, FaFacebook, FaLinkedin } from "react-icons/fa";
 import {
-  SiAmazonaws,
   SiAngular,
   SiBootstrap,
-  SiCss3,
+  SiCss,
   SiExpress,
   SiGraphql,
   SiHtml5,
@@ -60,12 +59,16 @@ import {
   SiTailwindcss,
   SiTypescript,
   SiGmail,
-  SiLinkedin,
-  SiTwitter,
+  SiX,
   SiCakephp,
   SiVercel,
 } from "react-icons/si";
 import { IoIosGitBranch } from "react-icons/io";
+
+export type IconType = React.ComponentType<{
+  className?: string;
+  size?: string | number;
+}>;
 
 export const Icons = {
   contact: Phone,
@@ -74,7 +77,7 @@ export const Icons = {
   gitBranch: IoIosGitBranch,
   location: School,
   education: GraduationCap,
-  facebook: Facebook,
+  facebook: FaFacebook,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -104,10 +107,10 @@ export const Icons = {
   link: HiOutlineLink,
   externalLink: HiOutlineExternalLink,
   star: AiFillStar,
-  amazonaws: SiAmazonaws,
+  amazonaws: FaAws,
   angular: SiAngular,
   bootstrap: SiBootstrap,
-  css3: SiCss3,
+  css3: SiCss,
   express: SiExpress,
   graphql: SiGraphql,
   html5: SiHtml5,
@@ -128,8 +131,8 @@ export const Icons = {
   tailwindcss: SiTailwindcss,
   typescript: SiTypescript,
   gmail: SiGmail,
-  twitter: SiTwitter,
-  linkedin: SiLinkedin,
+  twitter: SiX,
+  linkedin: FaLinkedin,
   userFill: BiSolidUser,
   work: HiBriefcase,
   gitHub: ({ ...props }: LucideProps) => (

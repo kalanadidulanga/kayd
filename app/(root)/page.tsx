@@ -34,7 +34,7 @@ export default async function IndexPage() {
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 mb-0 md:pb-12 md:pt-20 h-full flex items-center">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
+        <div className="container flex max-w-5xl flex-col items-center gap-4 text-center">
           <Link
             href={siteConfig.links.linkedin}
             className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
@@ -59,7 +59,7 @@ export default async function IndexPage() {
             Full Stack Software Engineer | KayD
           </h3>
 
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+          <p className="max-w-2xl leading-normal text-muted-foreground sm:text-xl sm:leading-8">
             Kalana Didulanga is a Full Stack Software Engineer specializing in
             frontend development with the MERN stack. He also builds native
             mobile apps and Windows software, delivering dynamic, scalable
@@ -93,7 +93,7 @@ export default async function IndexPage() {
         id="skills"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             {pagesConfig.skills.title}
           </h2>
@@ -107,7 +107,7 @@ export default async function IndexPage() {
             <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
           </Button>
         </Link>
-        {/* <div className="mx-auto text-center md:max-w-[58rem]">
+        {/* <div className="mx-auto text-center md:max-w-232">
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
             See all the relevant skills.
           </p>
@@ -117,7 +117,7 @@ export default async function IndexPage() {
         id="experience"
         className="space-y-6 dark:bg-transparent py-10 my-14"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             {pagesConfig.experience.title}
           </h2>
@@ -141,7 +141,7 @@ export default async function IndexPage() {
         id="educations"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 my-14"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             {pagesConfig.educations.title}
           </h2>
@@ -163,7 +163,7 @@ export default async function IndexPage() {
         id="experience"
         className="container space-y-6 dark:bg-transparent py-10 my-14"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             {pagesConfig.aboutme.title}
           </h2>
@@ -202,7 +202,7 @@ export default async function IndexPage() {
         id="contributions"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 mt-14"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
             {pagesConfig.contributions.title}
           </h2>
@@ -218,7 +218,7 @@ export default async function IndexPage() {
             <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
           </Button>
         </Link>
-        {/* <div className="mx-auto text-center md:max-w-[58rem]">
+        {/* <div className="mx-auto text-center md:max-w-232">
                     <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
                         See all the relevant skills.
                     </p>

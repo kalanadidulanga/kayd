@@ -1,0 +1,7 @@
+allowBuilds:
+  unrs-resolver: true
+  sharp: true
+  '@tailwindcss/oxide': true
+minimumReleaseAgeExclude:
+  - react-hook-form@7.87.0
+  - zod@4.5.4

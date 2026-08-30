@@ -1,43 +1,37 @@
-// app/api/contact/route.ts
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
-  const { name, email, message, social, mobile } = await req.json();
+  const { name, email, message, mobile } = await req.json();
 
-  console.log({ name, email, message, social, mobile });
-
-  const transporter = nodemailer.createTransport({
-    host: "mail.kalanadidulanga.com",
-    port: 465,
-    secure: true, // true for port 465, false for other ports
-    auth: {
-      user: "noreply@kalanadidulanga.com",
-      pass: "***REMOVED-CREDENTIAL***",
-    },
-  });
-
-  const mailOptions = {
-    from: "noreply@kalanadidulanga.com", // Ensure this address is verified
-    to: "dev.kalanadidulanga@gmail.com",
-    replyTo: email, // Set reply-to as the sender's email
-    subject: "Contact Form Submission by " + name,
-    text: `Message from: ${email}\n\n${message}\n\nMobile: ${mobile}`,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    return NextResponse.json(
-      { message: "Message sent successfully" },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error("Error sending email:", error);
-    return NextResponse.json(
-      { error: "Error sending email", details: error.message },
-      { status: 500 }
-    );
+  if (!name || !email || !message) {
+    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
 
-  // return NextResponse.json({ message: 'Message sent successfully' }, { status: 200 });
+  const { SMTP_HOST, SMTP_USER, SMTP_PASS, CONTACT_TO } = process.env;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !CONTACT_TO) {
+    console.error("Contact form: SMTP env vars not configured");
+    return NextResponse.json({ error: "Mail is not configured" }, { status: 500 });
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: 465,
+    secure: true,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+  });
+
+  try {
+    await transporter.sendMail({
+      from: SMTP_USER,
+      to: CONTACT_TO,
+      replyTo: email,
+      subject: `Contact Form Submission by ${name}`,
+      text: `Message from: ${email}\n\n${message}\n\nMobile: ${mobile ?? "-"}`,
+    });
+    return NextResponse.json({ message: "Message sent successfully" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return NextResponse.json({ error: "Error sending email" }, { status: 500 });
+  }
 }

@@ -1,6 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Tailwind v4 changed the default border/divide color from gray-200 to
+   currentColor. This keeps the v3 appearance for the ~24 bare `border`
+   utilities in this codebase. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 /* Scrollbar styling for modern browsers */
 .scrollable-content::-webkit-scrollbar {

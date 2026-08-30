@@ -1,3 +1,4 @@
+import type { StaticImageData } from "next/image";
 import { ValidCategory, ValidExpType, ValidSkills } from "./constants";
 
 interface PagesInfoInterface {
@@ -22,7 +23,7 @@ export interface ExperienceInterface {
   techStack: ValidSkills[];
   startDate?: Date;
   endDate?: Date;
-  companyLogoImg: any;
+  companyLogoImg: StaticImageData | string;
   descriptionDetails?: DescriptionDetailsInterface;
   pagesInfoArr: PagesInfoInterface[];
 }

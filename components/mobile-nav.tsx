@@ -5,9 +5,10 @@ import { Norican } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
 import { siteConfig } from "@/config/site";
+import type { NavItem } from "@/config/routes";
 
 interface MobileNavProps {
-    items: any[];
+    items: NavItem[];
     children?: React.ReactNode;
 }
 

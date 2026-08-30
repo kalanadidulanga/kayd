@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { firstName, lastName, email, company, website, message } = body;
 
-        const res = await fetch(
+        await fetch(
             `${formLink}/formResponse?${fieldIdFirstName}=${firstName}&${fieldIdLastName}=${lastName}&${fieldIdEmail}=${email}&${fieldIdCompany}=${company}&${fieldIdWebsite}=${website}&${fieldIdMessage}=${message}`
         );
 
@@ -30,6 +30,6 @@ export async function POST(req: Request) {
     }
 }
 
-export async function GET(req: Request) {
+export async function GET() {
     return new NextResponse("Hello from SB Contact API!");
 }

@@ -9,7 +9,7 @@ interface SkillsCardProps {
 
 export default function SkillsCard({ skills }: SkillsCardProps) {
     return (
-        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] lg:grid-cols-3">
+        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-5xl lg:grid-cols-3">
             {skills.map((skill, id) => (
                 <div
                     key={id}

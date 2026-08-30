@@ -1,5 +1,3 @@
-import React from "react";
-import Link from "next/link";
 
 import { Icons } from "./icons";
 import { educationsInterface } from "@/config/educations";
@@ -10,7 +8,7 @@ interface EducationsCardProps {
 
 export default function Educations({ educations }: EducationsCardProps) {
   return (
-    <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] lg:grid-cols-3 static">
+    <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-5xl lg:grid-cols-3 static">
       {educations.map((item, id) => (
         // <Link href={item.link} target="_blank" key={id}>
         <div

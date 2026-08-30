@@ -6,12 +6,12 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import React from "react";
-import { Icons } from "./icons";
+import { Icons, type IconType } from "./icons";
 
 interface CustomTooltipProps {
     children: React.ReactNode;
     text: string;
-    icon?: any;
+    icon?: IconType;
 }
 
 export default function CustomTooltip({

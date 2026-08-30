@@ -1,53 +1,47 @@
-# Next.js 14 Portfolio Website
+# kalanadidulanga.com
 
-This portfolio website is designed to showcase your professional and personal work while adhering to the latest coding patterns and featuring a stunning, minimalistic design.
+Portfolio site for Kalana Didulanga. Next.js App Router, statically generated,
+deployed on Vercel.
 
-https://github.com/namanbarkiya/minimal-next-portfolio/assets/82203888/f93bf5ca-c2bd-4fe5-a413-1050ebf6cf78
+## Stack
 
+- **Next.js 16** (App Router, Turbopack) + **React 19**
+- **Tailwind CSS 4** + shadcn/ui (Radix primitives)
+- **TypeScript 6**, ESLint 9 (flat config)
+- pnpm
 
-## Features
-- **Next.js 14**: Utilizing the latest version of Next.js for enhanced performance and features.
-- **UI Library**: Leveraging the power of shadcn UI and Tailwind CSS for a visually appealing and responsive user interface.
-- **Google Form Integration**: Seamlessly integrated with Google Forms to store and manage form responses.
-- **Analytics**: Keep track of your website's performance with Google Analytics and Vercel Analytics.
-- **Experience Blogs**: Share your experiences and insights through dedicated blog sections.
-- **Skills Highlights**: Highlight your key skills and expertise to impress visitors.
+All content lives in [`config/`](config/) as plain TypeScript — there is no
+database and no CMS. Editing a page means editing the config file for it.
 
-## Getting Started
-To get started with your own Next.js 14 Portfolio Website, follow these steps:
+## Getting started
 
-1. Copy the contents of `.env.copy` to a new `.env` file and fill in the required information.
-2. Install the project dependencies using one of the following commands:
-    ```bash
-    npm install
-    ```
+```bash
+pnpm install
+cp .env.example .env.local   # fill in what you need; all vars are optional
+pnpm dev
+```
 
-3. Start the development server by running:
-    ```bash
-    npm run dev
-    ```
+Open <http://localhost:3000>.
 
-4. Open [http://localhost:3000](http://localhost:3000) in your web browser to see the website in action.
+| Script | What it does |
+| --- | --- |
+| `pnpm dev` | Dev server |
+| `pnpm build` | Production build |
+| `pnpm lint` | ESLint |
+| `pnpm typecheck` | `tsc --noEmit` |
 
-Now, you're all set to customize and populate your portfolio website with your professional and personal content. Enjoy showcasing your work!
+## Environment variables
 
-## Insights
-![Screenshot 2024-02-02 at 3 45 16 AM](https://github.com/namanbarkiya/minimal-next-portfolio/assets/82203888/3fb9c94d-9d99-4e98-92ea-14aadc91b568)
-![Screenshot 2024-02-02 at 3 47 49 AM](https://github.com/namanbarkiya/minimal-next-portfolio/assets/82203888/7cfe28cc-b619-4199-9dab-1cf16723b86d)
+Every variable is optional — the site builds and runs without a `.env` file.
+Features degrade individually rather than failing the build.
 
+| Variable | Used by | If unset |
+| --- | --- | --- |
+| `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_TO` | `/api/contact` | Contact form returns 500 |
+| `SB_GOOGLE_FORM_*` | `/api/sb-contact` | That endpoint returns 500 |
+| `NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID` | Google Analytics | Analytics not loaded |
 
+## Credits
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Originally based on
+[namanbarkiya/minimal-next-portfolio](https://github.com/namanbarkiya/minimal-next-portfolio).

@@ -13,15 +13,14 @@ import ExperienceDescription from "@/components/exp-desc";
 import CustomTooltip from "@/components/custom-tooltip";
 
 interface ExperiencePageProps {
-  params: {
-    expId: string;
-  };
+  params: Promise<{ expId: string }>;
 }
 
 const githubUsername = "kalanadidulanga";
 
-export default function Experience({ params }: ExperiencePageProps) {
-  let exp = Experiences.find((val) => val.id === params.expId);
+export default async function Experience({ params }: ExperiencePageProps) {
+  const { expId } = await params;
+  const exp = Experiences.find((val) => val.id === expId);
   if (!exp) {
     redirect("/experience");
   }
@@ -41,7 +40,7 @@ export default function Experience({ params }: ExperiencePageProps) {
       <div>
         {exp?.startDate && (
           <time
-            dateTime={Date.now().toString()}
+            dateTime={exp.startDate.toISOString()}
             className="block text-sm text-muted-foreground"
           >
             {formatDateFromObj(exp.startDate)}

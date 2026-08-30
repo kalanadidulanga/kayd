@@ -18,7 +18,7 @@ export default function ContactPage() {
         description={pagesConfig.contact.description}
       />
       <div className="flex justify-center min-w-full">
-        <div className="flex w-[40rem]">
+        <div className="flex w-160">
           <ContactForm />
         </div>
       </div>

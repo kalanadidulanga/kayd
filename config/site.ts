@@ -1,4 +1,4 @@
-export const siteConfig: any = {
+export const siteConfig = {
   name: "KayD",
   description:
     "Hello! I'm a Full Stack Software Engineer, adept at crafting seamless digital experiences. Explore my portfolio to see how I combine creativity and technical skills to build innovative applications.",

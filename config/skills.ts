@@ -1,10 +1,10 @@
-import { Icons } from "@/components/icons";
+import { Icons, type IconType } from "@/components/icons";
 
 export interface skillsInterface {
   name: string;
   description: string;
   rating: number;
-  icon: any;
+  icon: IconType;
 }
 
 export const skillsUnsorted: skillsInterface[] = [

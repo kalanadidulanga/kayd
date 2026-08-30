@@ -1,5 +1,7 @@
 import "./globals.css";
 
+import type { Metadata, Viewport } from "next";
+
 import { Inter as FontSans } from "next/font/google";
 import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -26,7 +28,7 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: "KalanaDidulanga | " + siteConfig.name,
     template: `%s | ${siteConfig.name}`,
@@ -46,10 +48,6 @@ export const metadata = {
     },
   ],
   creator: "kalanadidulanga",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -66,11 +64,15 @@ export const metadata = {
   // manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+};
+
 export default function RootLayout({ children }: RootLayoutProps) {
-  const GA_ID = process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID;
-  if (!GA_ID) {
-    throw new Error("Missing Google Analytics ID");
-  }
+  const gaId = process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID;
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -87,10 +89,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Analytics />
           <Toaster />
           <ModalProvider />
-          {/* <TailwindIndicator /> */}
         </ThemeProvider>
       </body>
-      <GoogleAnalytics gaId={GA_ID} />
+      {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
     </html>
   );
 }
