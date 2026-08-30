@@ -1,7 +1,10 @@
+# Single-package repo. `packages` is here only so pnpm 9 (which Vercel pins by
+# project creation date) parses this file instead of demanding a workspace;
+# `allowBuilds` is what pnpm 11 actually needs it for.
+packages:
+  - .
+
 allowBuilds:
   unrs-resolver: true
   sharp: true
   '@tailwindcss/oxide': true
-minimumReleaseAgeExclude:
-  - react-hook-form@7.87.0
-  - zod@4.5.4

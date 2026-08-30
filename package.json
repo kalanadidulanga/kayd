@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "private": true,
   "packageManager": "pnpm@11.6.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -31,11 +34,11 @@
     "nodemailer": "^9.0.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-hook-form": "^7.87.0",
+    "react-hook-form": "^7.86.0",
     "react-icons": "^5.7.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^4.5.4",
+    "zod": "~4.5.2",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
