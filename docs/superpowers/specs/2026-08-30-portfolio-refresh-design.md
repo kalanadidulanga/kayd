@@ -68,7 +68,7 @@ immediately.
 
 ## Home page structure
 
-Eight sections:
+Nine sections:
 
 | # | Section | Source | Renders when |
 | --- | --- | --- | --- |
@@ -76,10 +76,15 @@ Eight sections:
 | 01 | Now | `config/now.ts` | `text` is non-empty |
 | 02 | Selected work | `experience.featured` | ≥1 featured entry |
 | 03 | Experience + client logos | `config/experience.ts` | always |
-| 04 | Skills | `config/skills.ts` | always |
-| 05 | Testimonials | `config/testimonials.ts` | array non-empty |
-| 06 | Education | `config/educations.ts` | always |
-| 07 | Contributions | `config/contributions.ts` | always |
+| 04 | About | `config/pages.ts` | always |
+| 05 | Skills | `config/skills.ts` | always |
+| 06 | Testimonials | `config/testimonials.ts` | array non-empty |
+| 07 | Education | `config/educations.ts` | always |
+| 08 | Contributions | `config/contributions.ts` | always |
+
+The About section already exists on the page and carries real copy from
+`pagesConfig.aboutme`. It was omitted from the first draft of this table by
+oversight, not by a decision to remove it.
 
 Stats live inline in the hero rather than as their own section, since three
 numbers do not justify a full-height block.
