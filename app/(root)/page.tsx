@@ -57,7 +57,7 @@ export default async function IndexPage() {
           {/* </div> */}
           <h1 className="type-display">Kalana Didulanga</h1>
           <h3 className="type-card text-muted-foreground">
-            Full Stack Software Engineer
+            Full Stack Software Engineer | KayD
           </h3>
 
           <p className="max-w-2xl leading-normal text-muted-foreground sm:text-xl sm:leading-8">
