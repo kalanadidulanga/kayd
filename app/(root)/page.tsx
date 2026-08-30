@@ -22,6 +22,7 @@ import { NowBlock } from "@/components/now-block";
 import { SelectedWork } from "@/components/case-study";
 import { Testimonials } from "@/components/testimonials";
 import { StatsStrip } from "@/components/stats-strip";
+import { SectionHeader } from "@/components/section-header";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -54,7 +55,7 @@ export default async function IndexPage() {
             width={100}
             sizes="100vw"
             className="bg-primary rounded-full mb-0 h-auto md:mb-2 w-[60%] max-w-[16rem] border-8 border-primary dark:border-white dark:bg-white"
-            alt="naman-barkiya-img"
+            alt="Kalana Didulanga"
           />
           {/* </div> */}
           <h1 className="type-display">Kalana Didulanga</h1>
@@ -98,42 +99,15 @@ export default async function IndexPage() {
       <NowBlock />
       <SelectedWork />
       <section
-        id="skills"
-        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
-      >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.skills.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.skills.description}
-          </p>
-        </div>
-        <SkillsCard skills={featuredSkills} />
-        <Link href="/skills" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
-        {/* <div className="mx-auto text-center md:max-w-232">
-          <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            See all the relevant skills.
-          </p>
-        </div> */}
-      </section>
-      <Testimonials />
-      <section
         id="experience"
         className="space-y-6 dark:bg-transparent py-10 my-14"
       >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.experience.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.experience.description}
-          </p>
-        </div>
+        <SectionHeader
+          index="03"
+          label="Experience"
+          title={pagesConfig.experience.title}
+          description={pagesConfig.experience.description}
+        />
         <div className="mx-auto grid justify-center gap-4  md:w-full lg:grid-cols-3 place-items-center">
           {featuredExperiences.map((exp) => (
             <ProjectCard key={exp.id} project={exp} />
@@ -148,39 +122,15 @@ export default async function IndexPage() {
       </section>
 
       <section
-        id="educations"
-        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 my-14"
-      >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.educations.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.educations.description}
-          </p>
-        </div>
-        <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
-          <Educations educations={featuredEducations} />
-        </div>
-        <Link href="/educations" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
-      </section>
-
-      <section
-        id="experience"
+        id="about"
         className="container space-y-6 dark:bg-transparent py-10 my-14"
       >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.aboutme.title}
-          </h2>
-          <p className=" max-w-full md:max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.aboutme.description}
-          </p>
-        </div>
+        <SectionHeader
+          index="04"
+          label="About"
+          title={pagesConfig.aboutme.title}
+          description={pagesConfig.aboutme.description}
+        />
 
         <div className=" flex items-center justify-center gap-5">
           {SocialLinks.map((item, ind) => (
@@ -209,17 +159,59 @@ export default async function IndexPage() {
       </section>
 
       <section
+        id="skills"
+        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
+      >
+        <SectionHeader
+          index="05"
+          label="Skills"
+          title={pagesConfig.skills.title}
+          description={pagesConfig.skills.description}
+        />
+        <SkillsCard skills={featuredSkills} />
+        <Link href="/skills" className="flex justify-center">
+          <Button variant={"outline"} className="rounded-xl">
+            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+          </Button>
+        </Link>
+        {/* <div className="mx-auto text-center md:max-w-232">
+          <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            See all the relevant skills.
+          </p>
+        </div> */}
+      </section>
+      <Testimonials />
+
+      <section
+        id="educations"
+        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 my-14"
+      >
+        <SectionHeader
+          index="07"
+          label="Education"
+          title={pagesConfig.educations.title}
+          description={pagesConfig.educations.description}
+        />
+        <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
+          <Educations educations={featuredEducations} />
+        </div>
+        <Link href="/educations" className="flex justify-center">
+          <Button variant={"outline"} className="rounded-xl">
+            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+          </Button>
+        </Link>
+      </section>
+
+      <section
         id="contributions"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 mt-14"
       >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.contributions.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.contributions.description}
-          </p>
-        </div>
+        <SectionHeader
+          index="08"
+          label="Contributions"
+          title={pagesConfig.contributions.title}
+          description={pagesConfig.contributions.description}
+        />
         <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
           <ContributionCard contributions={featuredContributions} />
         </div>

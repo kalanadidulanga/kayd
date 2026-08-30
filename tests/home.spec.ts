@@ -128,3 +128,34 @@ test("client logos come from real professional entries", async ({ page }) => {
   );
   await expect(strip.locator("img")).toHaveCount(expected.size);
 });
+
+test.describe("home page structure", () => {
+  test("section ids are unique", async ({ page }) => {
+    await page.goto("/");
+    const ids = await page.locator("section[id]").evaluateAll((nodes) =>
+      nodes.map((n) => n.id)
+    );
+    expect(new Set(ids).size, `duplicate section id in ${ids.join(", ")}`).toBe(
+      ids.length
+    );
+  });
+
+  test("sections appear in the intended order", async ({ page }) => {
+    await page.goto("/");
+    const ids = await page.locator("section[id]").evaluateAll((nodes) =>
+      nodes.map((n) => n.id)
+    );
+    const expectedOrder = [
+      "now",
+      "selected-work",
+      "experience",
+      "about",
+      "skills",
+      "testimonials",
+      "educations",
+      "contributions",
+    ];
+    const present = expectedOrder.filter((id) => ids.includes(id));
+    expect(ids.filter((id) => present.includes(id))).toEqual(present);
+  });
+});
