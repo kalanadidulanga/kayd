@@ -4,6 +4,7 @@ import { test, expect } from "@playwright/test";
 import { siteStats } from "../lib/stats";
 import { Experiences } from "../config/experience";
 import { now } from "../config/now";
+import { testimonials } from "../config/testimonials";
 
 test.describe("computed stats", () => {
   test("the numbers are derived from the experience config", () => {
@@ -45,5 +46,30 @@ test.describe("now section", () => {
       "utf-8"
     );
     expect(source).not.toMatch(/updatedAt:\s*new Date\(\s*\)/);
+  });
+});
+
+test.describe("testimonials", () => {
+  test("renders only real attributed quotes", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator("#testimonials");
+
+    if (testimonials.length === 0) {
+      await expect(section).toHaveCount(0);
+    } else {
+      await expect(section).toBeVisible();
+      for (const t of testimonials) {
+        await expect(section).toContainText(t.name);
+      }
+    }
+  });
+
+  test("every quote carries a real attribution", () => {
+    // A quote with no name or company is indistinguishable from an invented one.
+    for (const t of testimonials) {
+      expect(t.quote.trim()).not.toBe("");
+      expect(t.name.trim()).not.toBe("");
+      expect(t.company.trim()).not.toBe("");
+    }
   });
 });

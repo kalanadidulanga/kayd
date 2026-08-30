@@ -18,6 +18,7 @@ import { featuredEducations } from "@/config/educations";
 import { SocialLinks } from "@/config/socials";
 import CustomTooltip from "@/components/custom-tooltip";
 import { NowBlock } from "@/components/now-block";
+import { Testimonials } from "@/components/testimonials";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -115,6 +116,7 @@ export default async function IndexPage() {
           </p>
         </div> */}
       </section>
+      <Testimonials />
       <section
         id="experience"
         className="space-y-6 dark:bg-transparent py-10 my-14"
