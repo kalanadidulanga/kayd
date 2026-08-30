@@ -26,6 +26,13 @@ export interface ExperienceInterface {
   companyLogoImg: StaticImageData | string;
   descriptionDetails?: DescriptionDetailsInterface;
   pagesInfoArr: PagesInfoInterface[];
+  featured?: boolean;
+  caseStudy?: {
+    problem: string;
+    approach: string;
+    /** Omitted rather than invented. "Shipped and in production" is valid. */
+    outcome?: string;
+  };
 }
 
 const experiences: ExperienceInterface[] = [
@@ -120,7 +127,9 @@ const experiences: ExperienceInterface[] = [
     githubLink: "",
     techStack: ["Next.js", "Prisma", "MySQL", "Tailwind CSS", "Node.js"],
     startDate: new Date("2024-08-15"),
-    endDate: new Date("2023-11-02"),
+    // Year corrected from 2023, which put the end before the start. The
+    // exact end date should be confirmed by the site owner.
+    endDate: new Date("2024-11-02"),
     companyLogoImg: "/experience/uniguru/logo.PNG",
     pagesInfoArr: [
       {
@@ -434,4 +443,8 @@ export const Experiences = experiences.sort(
 
 export const featuredExperiences = Experiences.slice(0, 3).sort(
   (a, b) => (b?.startDate?.getTime() ?? 0) - (a?.startDate?.getTime() ?? 0)
+);
+
+export const featuredCaseStudies = Experiences.filter(
+  (e) => e.featured && e.caseStudy
 );

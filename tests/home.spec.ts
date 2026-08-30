@@ -81,3 +81,24 @@ test.describe("testimonials", () => {
     }
   });
 });
+
+test.describe("experience data", () => {
+  test("no entry ends before it starts", () => {
+    for (const e of Experiences) {
+      if (e.startDate && e.endDate) {
+        expect(
+          e.endDate.getTime(),
+          `${e.id}: endDate is before startDate`
+        ).toBeGreaterThanOrEqual(e.startDate.getTime());
+      }
+    }
+  });
+
+  test("every featured entry has a case study", () => {
+    for (const e of Experiences.filter((x) => x.featured)) {
+      expect(e.caseStudy, `${e.id} is featured but has no caseStudy`).toBeDefined();
+      expect(e.caseStudy?.problem.trim()).not.toBe("");
+      expect(e.caseStudy?.approach.trim()).not.toBe("");
+    }
+  });
+});
