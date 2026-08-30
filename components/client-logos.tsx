@@ -25,8 +25,8 @@ export function ClientLogos() {
           key={c.companyName}
           src={c.companyLogoImg}
           alt={c.companyName}
-          width={48}
-          height={48}
+          width={160}
+          height={40}
           className="h-10 w-auto object-contain"
         />
       ))}
