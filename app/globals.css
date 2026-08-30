@@ -1,5 +1,68 @@
 @import "tailwindcss";
-@config "../tailwind.config.js";
+@plugin "tailwindcss-animate";
+
+/* next-themes sets `class="dark"` on <html> */
+@custom-variant dark (&:is(.dark *));
+
+/* Was tailwind.config.js before v4. The colours stay as `hsl(var(--x))` so the
+   :root / .dark blocks below keep driving them; `inline` is what lets that work. */
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  /* next/font defines --font-inter and --font-cal in layout.tsx. They are not
+     named --font-sans / --font-heading because those are these theme keys, and
+     a key referencing itself resolves to nothing. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading: var(--font-cal), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+/* v4 dropped theme.container.{center,padding,screens}; this is that config. */
+@utility container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 2rem;
+  /* v4 emits its own per-breakpoint max-widths for .container; the old config
+     set screens:{2xl:1400px}, i.e. a single cap. A flat max-width is the same
+     thing: below 1400px the width:100% governs, above it this does. */
+  max-width: 1400px;
+}
 
 /* Tailwind v4 changed the default border/divide color from gray-200 to
    currentColor. This keeps the v3 appearance for the ~24 bare `border`
