@@ -38,7 +38,6 @@ Features degrade individually rather than failing the build.
 | Variable | Used by | If unset |
 | --- | --- | --- |
 | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_TO` | `/api/contact` | Contact form returns 500 |
-| `SB_GOOGLE_FORM_*` | `/api/sb-contact` | That endpoint returns 500 |
 | `NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID` | Google Analytics | Analytics not loaded |
 
 ## Credits
