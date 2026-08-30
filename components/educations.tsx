@@ -13,15 +13,15 @@ export default function Educations({ educations }: EducationsCardProps) {
         // <Link href={item.link} target="_blank" key={id}>
         <div
           key={id}
-          className="relative rounded-lg border bg-background p-2 w-full h-full hover:bg-accent hover:text-accent-foreground"
+          className="relative rounded-lg border border-border bg-background p-2 w-full h-full transition-colors hover:border-brand hover:bg-accent hover:text-accent-foreground"
         >
           <Icons.externalLink
             size={35}
-            className="absolute bottom-3 right-3 border bg-background rounded-full p-2 cursor-pointer text-muted-foreground "
+            className="absolute bottom-3 right-3 border border-border bg-background rounded-full p-2 cursor-pointer text-muted-foreground"
           />
           <div className="flex h-full flex-col justify-between rounded-md p-6">
             <div className="flex flex-row justify-between">
-              <h3 className="font-bold flex space-x-2 items-center">
+              <h3 className="type-card flex items-center space-x-2">
                 <Icons.education size={20} />
                 <span>{item.title}</span>
               </h3>
