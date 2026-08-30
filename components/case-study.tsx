@@ -65,7 +65,8 @@ export function SelectedWork() {
                   alt={`${e.companyName} screenshot`}
                   width={800}
                   height={500}
-                  className="h-auto w-full rounded-lg border border-border object-cover"
+                  sizes="(min-width: 768px) 55vw, 100vw"
+                  className="h-auto w-full rounded-lg border border-border object-cover object-top"
                 />
               ) : null}
             </article>
