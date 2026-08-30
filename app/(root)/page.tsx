@@ -19,6 +19,7 @@ import { SocialLinks } from "@/config/socials";
 import CustomTooltip from "@/components/custom-tooltip";
 import { NowBlock } from "@/components/now-block";
 import { Testimonials } from "@/components/testimonials";
+import { StatsStrip } from "@/components/stats-strip";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -54,11 +55,9 @@ export default async function IndexPage() {
             alt="naman-barkiya-img"
           />
           {/* </div> */}
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Kalana Didulanga
-          </h1>
-          <h3 className="font-heading text-base sm:text-xl md:text-xl lg:text-2xl text-center">
-            Full Stack Software Engineer | KayD
+          <h1 className="type-display">Kalana Didulanga</h1>
+          <h3 className="type-card text-muted-foreground">
+            Full Stack Software Engineer
           </h3>
 
           <p className="max-w-2xl leading-normal text-muted-foreground sm:text-xl sm:leading-8">
@@ -87,6 +86,9 @@ export default async function IndexPage() {
             >
               <Icons.contact className="w-4 h-4 mr-2" /> Contact
             </Link>
+          </div>
+          <div className="mt-10">
+            <StatsStrip />
           </div>
           <Icons.chevronDown className="h-6 w-6 mt-10" />
         </div>

@@ -18,6 +18,14 @@ test.describe("computed stats", () => {
     const tech = new Set(Experiences.flatMap((e) => e.techStack));
     expect(siteStats.technologies).toBe(tech.size);
   });
+
+  test("the rendered numbers match the computed ones", async ({ page }) => {
+    await page.goto("/");
+    const strip = page.getByTestId("stats-strip");
+    await expect(strip).toContainText(String(siteStats.projectsShipped));
+    await expect(strip).toContainText(String(siteStats.clients));
+    await expect(strip).toContainText(String(siteStats.technologies));
+  });
 });
 
 test.describe("now section", () => {
