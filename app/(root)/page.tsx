@@ -17,6 +17,7 @@ import Educations from "@/components/educations";
 import { featuredEducations } from "@/config/educations";
 import { SocialLinks } from "@/config/socials";
 import CustomTooltip from "@/components/custom-tooltip";
+import { NowBlock } from "@/components/now-block";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -89,6 +90,7 @@ export default async function IndexPage() {
           <Icons.chevronDown className="h-6 w-6 mt-10" />
         </div>
       </section>
+      <NowBlock />
       <section
         id="skills"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
