@@ -10,6 +10,7 @@ import { Icons } from "@/components/icons";
 import { pagesConfig } from "@/config/pages";
 import { featuredExperiences } from "@/config/experience";
 import ProjectCard from "@/components/project-card";
+import { ClientLogos } from "@/components/client-logos";
 import { featuredContributions } from "@/config/contributions";
 import ContributionCard from "@/components/contribution-card";
 import { siteConfig } from "@/config/site";
@@ -138,6 +139,7 @@ export default async function IndexPage() {
             <ProjectCard key={exp.id} project={exp} />
           ))}
         </div>
+        <ClientLogos />
         <Link href="/experience" className="flex justify-center">
           <Button variant={"outline"} className="rounded-xl">
             <Icons.chevronDown className="mr-2 h-4 w-4" /> View All

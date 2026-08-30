@@ -119,3 +119,12 @@ test.describe("selected work", () => {
     }
   });
 });
+
+test("client logos come from real professional entries", async ({ page }) => {
+  await page.goto("/");
+  const strip = page.getByTestId("client-logos");
+  const expected = new Set(
+    Experiences.filter((e) => e.type === "Professional").map((e) => e.companyName)
+  );
+  await expect(strip.locator("img")).toHaveCount(expected.size);
+});
