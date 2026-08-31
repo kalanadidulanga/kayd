@@ -172,3 +172,23 @@ test.describe("home page structure", () => {
     expect(ids.filter((id) => present.includes(id))).toEqual(present);
   });
 });
+
+test.describe("home page with JavaScript disabled", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("shows the section bodies instead of blank space", async ({ page }) => {
+    // Reveal renders its wrapper at opacity 0 and only clears it on hydration,
+    // so with no JavaScript the noscript rule in the root layout has to force
+    // these visible. Existence proves nothing here, the text was always in the
+    // HTML: the regression this guards against was 1738px of invisible page.
+    await page.goto("/");
+    const wrappers = page.locator("[data-reveal]");
+    expect(await wrappers.count()).toBeGreaterThan(0);
+    const opacities = await wrappers.evaluateAll((ns) =>
+      ns.map((n) => getComputedStyle(n).opacity)
+    );
+    expect(opacities.every((o) => o === "1"), `reveal opacities: ${opacities}`).toBe(
+      true
+    );
+  });
+});
