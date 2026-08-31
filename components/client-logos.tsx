@@ -1,16 +1,19 @@
 import Image from "next/image";
 
-import { Experiences } from "@/config/experience";
+import { Experiences, type ExperienceInterface } from "@/config/experience";
 
 /** One logo per distinct professional client, taken from the experience data. */
-const clients = Array.from(
-  new Map(
-    Experiences.filter((e) => e.type === "Professional").map((e) => [
-      e.client ?? e.companyName,
-      e,
-    ])
-  ).values()
-);
+const byClient = new Map<string, ExperienceInterface>();
+for (const e of Experiences) {
+  if (e.type !== "Professional") continue;
+  const key = e.client ?? e.companyName;
+  // First wins, not last: Experiences is sorted newest first, so a client with
+  // several projects keeps the logo of its most recent one. Keep-last picked
+  // the lapelcustomconfig lockup, a project sub-brand, over the plain Lapel
+  // wordmark, which reads as a project name in a strip labelled Clients.
+  if (!byClient.has(key)) byClient.set(key, e);
+}
+const clients = Array.from(byClient.values());
 
 export function ClientLogos() {
   if (clients.length === 0) return null;

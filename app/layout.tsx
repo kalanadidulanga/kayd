@@ -73,7 +73,18 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        {/* Reveal starts at opacity 0 and clears it on hydration, so without
+            JavaScript the wrapped content would never appear. noscript rather
+            than @media (scripting: none), which has a narrower browser floor
+            than the fallback it is standing in for. */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html:
+              "<style>[data-reveal]{opacity:1!important;transform:none!important}</style>",
+          }}
+        />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

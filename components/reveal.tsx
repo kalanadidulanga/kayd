@@ -46,6 +46,9 @@ export function Reveal({
   return (
     <div
       ref={ref}
+      // The noscript rule in the root layout keys off this, so a page with no
+      // JavaScript shows the content instead of an empty gap.
+      data-reveal=""
       style={{ transitionDelay: `${delay}ms` }}
       className={cn(
         "transition-all duration-500 ease-out motion-reduce:transition-none",
