@@ -73,7 +73,7 @@ export default async function Experience({ params }: ExperiencePageProps) {
           >
             <Image
               src={KayD}
-              alt={"naman"}
+              alt="Kalana Didulanga"
               width={42}
               height={42}
               className="rounded-full bg-white"

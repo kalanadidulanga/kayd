@@ -16,14 +16,14 @@ export default function ContributionCard({
       {contributions.map((contribution, id) =>
         contribution.link ? (
           <Link href={contribution.link} target="_blank" key={id}>
-            <div className="relative rounded-lg border bg-background p-2 hover:bg-accent hover:text-accent-foreground">
+            <div className="relative rounded-lg border border-border bg-background p-2 transition-colors hover:border-brand hover:bg-accent hover:text-accent-foreground">
               <Icons.externalLink
                 size={35}
-                className="absolute bottom-3 right-3 border bg-background rounded-full p-2 cursor-pointer text-muted-foreground "
+                className="absolute bottom-3 right-3 border border-border bg-background rounded-full p-2 cursor-pointer text-muted-foreground"
               />
               <div className="flex h-full flex-col justify-between rounded-md p-6">
                 <div className="flex flex-row justify-between">
-                  <h3 className="font-bold flex space-x-2 items-center">
+                  <h3 className="type-card flex items-center space-x-2">
                     <Icons.gitRepoIcon size={20} />
                     <span>{contribution.repo}</span>
                   </h3>
@@ -43,16 +43,16 @@ export default function ContributionCard({
           </Link>
         ) : (
           <div
-            className="relative rounded-lg border bg-background p-2 hover:bg-accent hover:text-accent-foreground"
+            className="relative rounded-lg border border-border bg-background p-2 transition-colors hover:border-brand hover:bg-accent hover:text-accent-foreground"
             key={id}
           >
             <Icons.externalLink
               size={35}
-              className="absolute bottom-3 right-3 border bg-background rounded-full p-2 cursor-pointer text-muted-foreground "
+              className="absolute bottom-3 right-3 border border-border bg-background rounded-full p-2 cursor-pointer text-muted-foreground"
             />
             <div className="flex h-full flex-col justify-between rounded-md p-6">
               <div className="flex flex-row justify-between">
-                <h3 className="font-bold flex space-x-2 items-center">
+                <h3 className="type-card flex items-center space-x-2">
                   <Icons.gitRepoIcon size={20} />
                   <span>{contribution.repo}</span>
                 </h3>

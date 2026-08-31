@@ -10,6 +10,7 @@ import { Icons } from "@/components/icons";
 import { pagesConfig } from "@/config/pages";
 import { featuredExperiences } from "@/config/experience";
 import ProjectCard from "@/components/project-card";
+import { ClientLogos } from "@/components/client-logos";
 import { featuredContributions } from "@/config/contributions";
 import ContributionCard from "@/components/contribution-card";
 import { siteConfig } from "@/config/site";
@@ -17,6 +18,12 @@ import Educations from "@/components/educations";
 import { featuredEducations } from "@/config/educations";
 import { SocialLinks } from "@/config/socials";
 import CustomTooltip from "@/components/custom-tooltip";
+import { NowBlock } from "@/components/now-block";
+import { SelectedWork } from "@/components/case-study";
+import { Testimonials } from "@/components/testimonials";
+import { StatsStrip } from "@/components/stats-strip";
+import { SectionHeader } from "@/components/section-header";
+import { Reveal } from "@/components/reveal";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -49,13 +56,11 @@ export default async function IndexPage() {
             width={100}
             sizes="100vw"
             className="bg-primary rounded-full mb-0 h-auto md:mb-2 w-[60%] max-w-[16rem] border-8 border-primary dark:border-white dark:bg-white"
-            alt="naman-barkiya-img"
+            alt="Kalana Didulanga"
           />
           {/* </div> */}
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Kalana Didulanga
-          </h1>
-          <h3 className="font-heading text-base sm:text-xl md:text-xl lg:text-2xl text-center">
+          <h1 className="type-display">Kalana Didulanga</h1>
+          <h3 className="type-card text-muted-foreground">
             Full Stack Software Engineer | KayD
           </h3>
 
@@ -86,91 +91,48 @@ export default async function IndexPage() {
               <Icons.contact className="w-4 h-4 mr-2" /> Contact
             </Link>
           </div>
+          <div className="mt-10">
+            <StatsStrip />
+          </div>
           <Icons.chevronDown className="h-6 w-6 mt-10" />
         </div>
       </section>
-      <section
-        id="skills"
-        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
-      >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.skills.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.skills.description}
-          </p>
-        </div>
-        <SkillsCard skills={featuredSkills} />
-        <Link href="/skills" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
-        {/* <div className="mx-auto text-center md:max-w-232">
-          <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            See all the relevant skills.
-          </p>
-        </div> */}
-      </section>
-      <section
-        id="experience"
-        className="space-y-6 dark:bg-transparent py-10 my-14"
-      >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.experience.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.experience.description}
-          </p>
-        </div>
-        <div className="mx-auto grid justify-center gap-4  md:w-full lg:grid-cols-3 place-items-center">
-          {featuredExperiences.map((exp) => (
-            <ProjectCard key={exp.id} project={exp} />
-          ))}
-        </div>
-        <Link href="/experience" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
-      </section>
-
-      <section
-        id="educations"
-        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 my-14"
-      >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.educations.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.educations.description}
-          </p>
-        </div>
-        <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
-          <Educations educations={featuredEducations} />
-        </div>
-        <Link href="/educations" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
-      </section>
-
+      <NowBlock />
+      <SelectedWork />
       <section
         id="experience"
         className="container space-y-6 dark:bg-transparent py-10 my-14"
       >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.aboutme.title}
-          </h2>
-          <p className=" max-w-full md:max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.aboutme.description}
-          </p>
-        </div>
+        <SectionHeader
+          label="Experience"
+          title={pagesConfig.experience.title}
+          description={pagesConfig.experience.description}
+        />
+        <Reveal className="space-y-6">
+          <div className="mx-auto grid justify-center gap-4  md:w-full lg:grid-cols-3 place-items-center">
+            {featuredExperiences.map((exp) => (
+              <ProjectCard key={exp.id} project={exp} />
+            ))}
+          </div>
+          <ClientLogos />
+          <Link href="/experience" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
+      </section>
+
+      <section
+        id="about"
+        className="container space-y-6 dark:bg-transparent py-10 my-14"
+      >
+        <SectionHeader
+          label="About"
+          title={pagesConfig.aboutme.title}
+          description={pagesConfig.aboutme.description}
+          className="max-w-3xl"
+        />
 
         <div className=" flex items-center justify-center gap-5">
           {SocialLinks.map((item, ind) => (
@@ -199,25 +161,70 @@ export default async function IndexPage() {
       </section>
 
       <section
+        id="skills"
+        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
+      >
+        <SectionHeader
+          label="Skills"
+          title={pagesConfig.skills.title}
+          description={pagesConfig.skills.description}
+        />
+        <Reveal className="space-y-6">
+          <SkillsCard skills={featuredSkills} />
+          <Link href="/skills" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
+        {/* <div className="mx-auto text-center md:max-w-232">
+          <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            See all the relevant skills.
+          </p>
+        </div> */}
+      </section>
+      <Testimonials />
+
+      <section
+        id="educations"
+        className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 my-14"
+      >
+        <SectionHeader
+          label="Educations"
+          title={pagesConfig.educations.title}
+          description={pagesConfig.educations.description}
+        />
+        <Reveal className="space-y-6">
+          <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
+            <Educations educations={featuredEducations} />
+          </div>
+          <Link href="/educations" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
+      </section>
+
+      <section
         id="contributions"
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 mt-14"
       >
-        <div className="mx-auto flex max-w-232 flex-col items-center space-y-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            {pagesConfig.contributions.title}
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            {pagesConfig.contributions.description}
-          </p>
-        </div>
-        <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
-          <ContributionCard contributions={featuredContributions} />
-        </div>
-        <Link href="/contributions" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
+        <SectionHeader
+          label="Contributions"
+          title={pagesConfig.contributions.title}
+          description={pagesConfig.contributions.description}
+        />
+        <Reveal className="space-y-6">
+          <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
+            <ContributionCard contributions={featuredContributions} />
+          </div>
+          <Link href="/contributions" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
         {/* <div className="mx-auto text-center md:max-w-232">
                     <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
                         See all the relevant skills.

@@ -13,12 +13,12 @@ export default function SkillsCard({ skills }: SkillsCardProps) {
             {skills.map((skill, id) => (
                 <div
                     key={id}
-                    className="relative overflow-hidden rounded-lg border bg-background p-2"
+                    className="relative overflow-hidden rounded-lg border border-border bg-background p-2 transition-colors hover:border-brand"
                 >
                     <div className="flex h-[230px] flex-col justify-between rounded-md p-6 sm:h-[230px]">
                         <skill.icon size={50} />
                         <div className="space-y-2">
-                            <h3 className="font-bold">{skill.name}</h3>
+                            <h3 className="type-card">{skill.name}</h3>
                             <p className="text-sm text-muted-foreground">
                                 {skill.description}
                             </p>
