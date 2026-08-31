@@ -4,6 +4,7 @@ import Image from "next/image";
 import { featuredCaseStudies } from "@/config/experience";
 import { SectionHeader } from "@/components/section-header";
 import { Reveal } from "@/components/reveal";
+import { cn } from "@/lib/utils";
 
 export function SelectedWork() {
   if (featuredCaseStudies.length === 0) return null;
@@ -13,13 +14,18 @@ export function SelectedWork() {
       <SectionHeader
         index="02"
         label="Selected work"
-        title="Selected work"
+        title="Case studies"
         description="A few projects in more detail: what the problem was, what I built, and what happened."
       />
       <div className="mt-12 space-y-20">
         {featuredCaseStudies.map((e, i) => (
           <Reveal key={e.id} delay={i * 80}>
-            <article className="grid gap-8 md:grid-cols-[1fr_1.2fr] md:gap-12">
+            <article
+              className={cn(
+                "grid gap-8 md:gap-12",
+                e.pagesInfoArr[0]?.imgArr?.[0] && "md:grid-cols-[1fr_1.2fr]"
+              )}
+            >
               <div>
                 <h3 className="type-card">{e.companyName}</h3>
                 <p className="type-label mt-2 text-muted-foreground">

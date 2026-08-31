@@ -4,9 +4,12 @@ import { SectionHeader } from "@/components/section-header";
 export function NowBlock() {
   if (now.text.trim() === "") return null;
 
+  // updatedAt is parsed as UTC midnight, so format in UTC too. Without this
+  // any negative offset renders the previous month.
   const updated = now.updatedAt.toLocaleDateString("en-US", {
     month: "long",
     year: "numeric",
+    timeZone: "UTC",
   });
 
   return (

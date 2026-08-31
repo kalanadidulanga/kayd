@@ -10,7 +10,7 @@ export function Testimonials() {
       <SectionHeader index="06" label="Testimonials" title="What people say" />
       <div className="mt-12 grid gap-8 md:grid-cols-2">
         {testimonials.map((t, i) => (
-          <Reveal key={`${t.name}-${t.company}`} delay={i * 60}>
+          <Reveal key={`${t.name}-${t.company}-${i}`} delay={i * 60}>
             <figure className="border-l-2 border-brand pl-6">
               <blockquote className="text-lg leading-relaxed">{t.quote}</blockquote>
               <figcaption className="mt-4 text-sm text-muted-foreground">

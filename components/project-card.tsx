@@ -17,7 +17,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 <Image
                     className="rounded-lg border border-border object-cover"
                     src={project.companyLogoImg}
-                    alt="img"
+                    // Decorative: the company name is already the h5 below, so
+                    // naming the logo would just repeat it to a screen reader.
+                    alt=""
                     fill
                 />
             </div>

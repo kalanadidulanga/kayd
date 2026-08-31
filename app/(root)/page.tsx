@@ -23,6 +23,7 @@ import { SelectedWork } from "@/components/case-study";
 import { Testimonials } from "@/components/testimonials";
 import { StatsStrip } from "@/components/stats-strip";
 import { SectionHeader } from "@/components/section-header";
+import { Reveal } from "@/components/reveal";
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -100,25 +101,26 @@ export default async function IndexPage() {
       <SelectedWork />
       <section
         id="experience"
-        className="space-y-6 dark:bg-transparent py-10 my-14"
+        className="container space-y-6 dark:bg-transparent py-10 my-14"
       >
         <SectionHeader
-          index="03"
           label="Experience"
           title={pagesConfig.experience.title}
           description={pagesConfig.experience.description}
         />
-        <div className="mx-auto grid justify-center gap-4  md:w-full lg:grid-cols-3 place-items-center">
-          {featuredExperiences.map((exp) => (
-            <ProjectCard key={exp.id} project={exp} />
-          ))}
-        </div>
-        <ClientLogos />
-        <Link href="/experience" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
+        <Reveal className="space-y-6">
+          <div className="mx-auto grid justify-center gap-4  md:w-full lg:grid-cols-3 place-items-center">
+            {featuredExperiences.map((exp) => (
+              <ProjectCard key={exp.id} project={exp} />
+            ))}
+          </div>
+          <ClientLogos />
+          <Link href="/experience" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
       </section>
 
       <section
@@ -126,7 +128,6 @@ export default async function IndexPage() {
         className="container space-y-6 dark:bg-transparent py-10 my-14"
       >
         <SectionHeader
-          index="04"
           label="About"
           title={pagesConfig.aboutme.title}
           description={pagesConfig.aboutme.description}
@@ -164,17 +165,18 @@ export default async function IndexPage() {
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10"
       >
         <SectionHeader
-          index="05"
           label="Skills"
           title={pagesConfig.skills.title}
           description={pagesConfig.skills.description}
         />
-        <SkillsCard skills={featuredSkills} />
-        <Link href="/skills" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
+        <Reveal className="space-y-6">
+          <SkillsCard skills={featuredSkills} />
+          <Link href="/skills" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
         {/* <div className="mx-auto text-center md:max-w-232">
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
             See all the relevant skills.
@@ -188,19 +190,20 @@ export default async function IndexPage() {
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 my-14"
       >
         <SectionHeader
-          index="07"
           label="Educations"
           title={pagesConfig.educations.title}
           description={pagesConfig.educations.description}
         />
-        <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
-          <Educations educations={featuredEducations} />
-        </div>
-        <Link href="/educations" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
+        <Reveal className="space-y-6">
+          <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
+            <Educations educations={featuredEducations} />
+          </div>
+          <Link href="/educations" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
       </section>
 
       <section
@@ -208,19 +211,20 @@ export default async function IndexPage() {
         className="container space-y-6 bg-slate-50 dark:bg-transparent py-10 mt-14"
       >
         <SectionHeader
-          index="08"
           label="Contributions"
           title={pagesConfig.contributions.title}
           description={pagesConfig.contributions.description}
         />
-        <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
-          <ContributionCard contributions={featuredContributions} />
-        </div>
-        <Link href="/contributions" className="flex justify-center">
-          <Button variant={"outline"} className="rounded-xl">
-            <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
-          </Button>
-        </Link>
+        <Reveal className="space-y-6">
+          <div className="mx-auto justify-center gap-4  md:w-full lg:grid-cols-3">
+            <ContributionCard contributions={featuredContributions} />
+          </div>
+          <Link href="/contributions" className="flex justify-center">
+            <Button variant={"outline"} className="rounded-xl">
+              <Icons.chevronDown className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </Link>
+        </Reveal>
         {/* <div className="mx-auto text-center md:max-w-232">
                     <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
                         See all the relevant skills.

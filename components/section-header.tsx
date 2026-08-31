@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  index: string;
+  /** Optional: sections gated behind an empty config render no number, so a
+   * number is only shown where the sequence is actually unbroken. */
+  index?: string;
   label: string;
   title: string;
   description?: string;
@@ -18,8 +20,12 @@ export function SectionHeader({
   return (
     <div className={cn("max-w-2xl", className)}>
       <p className="type-label flex items-center gap-2 text-muted-foreground">
-        <span className="text-brand">{index}</span>
-        <span aria-hidden="true">/</span>
+        {index ? (
+          <>
+            <span className="text-brand">{index}</span>
+            <span aria-hidden="true">/</span>
+          </>
+        ) : null}
         <span>{label}</span>
       </p>
       <h2 className="type-section mt-4">{title}</h2>
