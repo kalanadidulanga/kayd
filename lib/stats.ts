@@ -9,10 +9,14 @@ import { Experiences } from "@/config/experience";
  * years as continuous work.
  */
 export const siteStats = {
-  projectsShipped: Experiences.length,
+  projects: Experiences.length,
 
+  // Keyed on client where several projects belong to one client, so a client
+  // with two projects counts once.
   clients: new Set(
-    Experiences.filter((e) => e.type === "Professional").map((e) => e.companyName)
+    Experiences.filter((e) => e.type === "Professional").map(
+      (e) => e.client ?? e.companyName
+    )
   ).size,
 
   technologies: new Set(Experiences.flatMap((e) => e.techStack)).size,

@@ -7,22 +7,22 @@ import { now } from "../config/now";
 import { testimonials } from "../config/testimonials";
 
 test.describe("computed stats", () => {
-  test("the numbers are derived from the experience config", () => {
-    expect(siteStats.projectsShipped).toBe(Experiences.length);
-
-    const professionalCompanies = new Set(
-      Experiences.filter((e) => e.type === "Professional").map((e) => e.companyName)
-    );
-    expect(siteStats.clients).toBe(professionalCompanies.size);
-
-    const tech = new Set(Experiences.flatMap((e) => e.techStack));
-    expect(siteStats.technologies).toBe(tech.size);
+  // Literal expected numbers on purpose. Recomputing the same expression the
+  // implementation uses only proves the code agrees with itself: that is how a
+  // client counted twice shipped. These were counted by hand from the config
+  // and must be updated by hand when the config changes. The
+  // no-hand-written-numbers rule binds the site, not this oracle.
+  test("the numbers match the experience config, counted by hand", () => {
+    expect(siteStats.projects).toBe(9);
+    // Six professional entries, five clients: two of them are Lapel projects.
+    expect(siteStats.clients).toBe(5);
+    expect(siteStats.technologies).toBe(13);
   });
 
   test("the rendered numbers match the computed ones", async ({ page }) => {
     await page.goto("/");
     const strip = page.getByTestId("stats-strip");
-    await expect(strip).toContainText(String(siteStats.projectsShipped));
+    await expect(strip).toContainText(String(siteStats.projects));
     await expect(strip).toContainText(String(siteStats.clients));
     await expect(strip).toContainText(String(siteStats.technologies));
   });
@@ -123,10 +123,9 @@ test.describe("selected work", () => {
 test("client logos come from real professional entries", async ({ page }) => {
   await page.goto("/");
   const strip = page.getByTestId("client-logos");
-  const expected = new Set(
-    Experiences.filter((e) => e.type === "Professional").map((e) => e.companyName)
-  );
-  await expect(strip.locator("img")).toHaveCount(expected.size);
+  // Literal for the same reason as the stats oracle: mirroring the component's
+  // own filter here would have agreed with the duplicate Lapel logo.
+  await expect(strip.locator("img")).toHaveCount(5);
 });
 
 test.describe("home page structure", () => {

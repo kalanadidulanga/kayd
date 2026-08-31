@@ -1,7 +1,7 @@
 import { siteStats } from "@/lib/stats";
 
 const items = [
-  { value: siteStats.projectsShipped, label: "Projects shipped" },
+  { value: siteStats.projects, label: "Projects" },
   { value: siteStats.clients, label: "Clients" },
   { value: siteStats.technologies, label: "Technologies" },
 ];

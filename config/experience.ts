@@ -16,6 +16,8 @@ export interface ExperienceInterface {
   id: string;
   type: ValidExpType;
   companyName: string;
+  /** Set only when several projects belong to one client, so counts dedupe. */
+  client?: string;
   category: ValidCategory[];
   shortDescription: string;
   websiteLink?: string;
@@ -173,6 +175,9 @@ const experiences: ExperienceInterface[] = [
   {
     id: "lapelcreatecustom",
     companyName: "Lapel Create Custom",
+    // Both Lapel projects are counted as one client, inferred from the
+    // project names. The shared client should be confirmed by the site owner.
+    client: "Lapel",
     type: "Professional",
     category: ["Frontend", "REST API", "Intigration"],
     shortDescription:
@@ -262,6 +267,9 @@ const experiences: ExperienceInterface[] = [
   {
     id: "lapelcustomconfig",
     companyName: "Lapel  Custom Config",
+    // Both Lapel projects are counted as one client, inferred from the
+    // project names. The shared client should be confirmed by the site owner.
+    client: "Lapel",
     type: "Professional",
     category: ["Frontend", "REST API", "Intigration"],
     shortDescription:
