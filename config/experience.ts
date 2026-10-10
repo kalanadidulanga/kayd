@@ -18,6 +18,12 @@ export interface ExperienceInterface {
   companyName: string;
   /** Set only when several projects belong to one client, so counts dedupe. */
   client?: string;
+  /**
+   * The company the work was for, when the client who paid owns several
+   * (Langford College belongs to the Uniguru client). Logos key on it;
+   * the client count does not.
+   */
+  brand?: string;
   category: ValidCategory[];
   shortDescription: string;
   websiteLink?: string;
@@ -52,6 +58,8 @@ const experiences: ExperienceInterface[] = [
     companyName: "Uniguru Operations Platform",
     // Same client as the "uniguru" entry below, so the client count dedupes.
     client: "Uniguru",
+    brand: "Langford College",
+    companyLogoImg: "/experience/college-lms/logo.png",
     type: "Professional",
     category: ["Full Stack", "Next js", "Typescript"],
     shortDescription:
@@ -299,6 +307,7 @@ const experiences: ExperienceInterface[] = [
     companyName: "Hotel Management System",
     // The two C-Lento projects count as one client.
     client: "C-Lento",
+    companyLogoImg: "/experience/hotel-management-system/logo.png",
     type: "Professional",
     category: ["Full Stack", "Next js", "Typescript"],
     shortDescription:

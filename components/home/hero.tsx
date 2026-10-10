@@ -117,10 +117,10 @@ export function Hero() {
           </Reveal>
           <FloatingStats
             stats={[
-              { value: siteStats.projects, label: "projects" },
-              { value: siteStats.clients, label: "clients" },
-              { value: profile.yearsOfExperience, label: `years, since ${profile.experienceSince}` },
-              { value: siteStats.technologies, label: "technologies" },
+              { value: siteStats.projects, label: "Projects", icon: "projects" },
+              { value: siteStats.clients, label: "Clients", icon: "clients" },
+              { value: profile.yearsOfExperience, label: "Years", note: `since ${profile.experienceSince}`, icon: "years" },
+              { value: siteStats.technologies, label: "Technologies", icon: "tech" },
             ]}
           />
         </div>

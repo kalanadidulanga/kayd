@@ -121,12 +121,15 @@ test.describe("selected work", () => {
   });
 });
 
-test("client logos come from real professional entries", async ({ page }) => {
+test("the logo strip shows each client and company once", async ({ page }) => {
   await page.goto("/");
   const strip = page.getByTestId("client-logos");
   // Literal for the same reason as the stats oracle: mirroring the component's
   // own filter here would have agreed with the duplicate Lapel logo.
-  await expect(strip.locator("img")).toHaveCount(5);
+  await expect(strip.locator("img")).toHaveCount(8);
+  for (const name of ["Langford College", "C-Lento", "Techseya (Pvt) Ltd", "Uniguru"]) {
+    await expect(strip.getByRole("img", { name, exact: true })).toHaveCount(1);
+  }
 });
 
 test.describe("home page structure", () => {

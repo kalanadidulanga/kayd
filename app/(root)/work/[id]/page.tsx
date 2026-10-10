@@ -119,9 +119,9 @@ export default async function WorkDetailPage({ params }: WorkPageProps) {
           <ScrollZoom className="origin-top">
             <div className="shadow-soft overflow-hidden rounded-2xl border border-border-strong bg-surface">
               <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-                <i className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-                <i className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-                <i className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+                <i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                <i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                <i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
                 <span className="ml-3 truncate font-mono text-xs text-subtle">
                   {host(exp.websiteLink) ?? exp.companyName}
                 </span>

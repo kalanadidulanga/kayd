@@ -12,6 +12,8 @@ export interface Role {
   /** Omitted while the role is current. */
   end?: string;
   note?: string;
+  /** The company's real logo, for the logo strip. */
+  logo?: string;
 }
 
 export const roles: Role[] = [
@@ -25,7 +27,13 @@ export const roles: Role[] = [
   { company: "Freelance", title: "Full Stack Developer", start: "2023" },
   { company: "Fuchsius (Pvt) Ltd", title: "Software Engineer", start: "2024-12", end: "2025" },
   // 2024 is the last commit seen for Techseya work, not a stated end date.
-  { company: "Techseya (Pvt) Ltd", start: "2023", end: "2024", note: "Project-based." },
+  {
+    company: "Techseya (Pvt) Ltd",
+    start: "2023",
+    end: "2024",
+    note: "Project-based.",
+    logo: "/companies/techseya.png",
+  },
 ];
 
 export const currentRoles = roles.filter((r) => !r.end);

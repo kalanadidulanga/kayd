@@ -56,9 +56,9 @@ export function DesktopViz() {
   return (
     <div aria-hidden="true" className="relative mt-6 h-32 overflow-hidden rounded-xl border border-border-strong bg-band">
       <div className="flex h-6 items-center gap-1.5 border-b border-border pl-2.5">
-        <i className="h-2 w-2 rounded-full bg-border-strong" />
-        <i className="h-2 w-2 rounded-full bg-border-strong" />
-        <i className="h-2 w-2 rounded-full bg-border-strong" />
+        <i className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+        <i className="h-2 w-2 rounded-full bg-[#febc2e]" />
+        <i className="h-2 w-2 rounded-full bg-[#28c840]" />
       </div>
       <motion.div
         className="absolute bottom-4 right-4 h-6 w-11 rounded-full bg-brand"

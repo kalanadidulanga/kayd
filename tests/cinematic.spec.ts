@@ -171,3 +171,14 @@ test("the hero beam stays out of narrow screens", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByTestId("output-beam").locator("svg")).toBeHidden();
 });
+
+test("back to top appears once scrolled and takes you to the top", async ({ page }) => {
+  await page.goto("/");
+  const button = page.getByRole("button", { name: "Back to top" });
+  await expect(button).toHaveCount(0);
+  await page.mouse.wheel(0, 2500);
+  await expect(button).toBeVisible();
+  await button.click();
+  await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeLessThan(5);
+  await expect(page.locator("#content")).toBeFocused();
+});

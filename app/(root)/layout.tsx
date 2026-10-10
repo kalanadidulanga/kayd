@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { AccentPicker } from "@/components/accent-picker";
+import { BackToTop } from "@/components/back-to-top";
 import { MotionProviders } from "@/components/motion/providers";
 
 export default function MarketingLayout({
@@ -18,11 +19,14 @@ export default function MarketingLayout({
           Skip to content
         </a>
         <SiteHeader />
-        <main id="content" className="flex-1">
+        <main id="content" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <SiteFooter />
-        <AccentPicker className="fixed bottom-4 right-4 z-40" />
+        <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2">
+          <BackToTop />
+          <AccentPicker />
+        </div>
       </div>
     </MotionProviders>
   );
