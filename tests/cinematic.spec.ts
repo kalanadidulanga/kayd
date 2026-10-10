@@ -149,3 +149,25 @@ test("Instagram is linked on the contact page and in the footer", async ({ page 
   await page.goto("/contact");
   await expect(page.locator("a[href='https://www.instagram.com/i_m_kayd']")).toHaveCount(2);
 });
+
+test.describe("hero output beam with reduced motion", () => {
+  test.use({ contextOptions: { reducedMotion: "reduce" }, viewport: { width: 1440, height: 900 } });
+
+  test("is fully drawn at once, with no pulses", async ({ page }) => {
+    await page.goto("/");
+    const beam = page.getByTestId("output-beam");
+    await expect(beam.locator("svg")).toBeVisible();
+    const offsets = await beam
+      .locator(".beam-branch")
+      .evaluateAll((els) => els.map((el) => parseFloat(getComputedStyle(el).strokeDashoffset)));
+    expect(offsets.length).toBe(6);
+    expect(offsets.every((o) => o === 0), `offsets ${offsets}`).toBe(true);
+    await expect(beam.locator(".beam-pulse").first()).toBeHidden();
+  });
+});
+
+test("the hero beam stays out of narrow screens", async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 800 });
+  await page.goto("/");
+  await expect(page.getByTestId("output-beam").locator("svg")).toBeHidden();
+});

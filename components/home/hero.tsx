@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Words } from "@/components/motion/words";
 import { Magnetic } from "@/components/motion/magnetic";
 import { Reveal } from "@/components/reveal";
+import { OutputBeam } from "@/components/home/output-beam";
 import { CodeWindow, type CodeLine } from "@/components/home/code-window";
 import { FloatingStats } from "@/components/home/floating-stats";
 import { Marquee } from "@/components/home/marquee";
@@ -110,6 +111,7 @@ export function Hero() {
         </Reveal>
 
         <div className="relative mx-auto mt-16 max-w-3xl md:mt-24">
+          <OutputBeam />
           <Reveal delay={850}>
             <CodeWindow file="kalana.ts" lines={codeLines()} />
           </Reveal>

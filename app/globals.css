@@ -381,3 +381,31 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* Hero output beam (components/home/output-beam.tsx). The resting state is
+   fully drawn and each animation only runs in from hidden, so with reduced
+   motion, or before it starts, nothing is left half drawn. */
+.beam-line {
+  transform-origin: left;
+  animation: beam-grow 1.1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s backwards;
+}
+.beam-branch {
+  stroke-dasharray: 1;
+  animation: beam-draw 1.3s cubic-bezier(0.22, 1, 0.36, 1) 2s backwards;
+}
+.beam-device {
+  animation: beam-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 2.7s backwards;
+}
+.beam-pulse {
+  stroke-dasharray: 0.12 1;
+  stroke-dashoffset: 0.12;
+  animation: beam-pulse 3.2s linear infinite;
+}
+@keyframes beam-grow { from { transform: scaleX(0); } }
+@keyframes beam-draw { from { stroke-dashoffset: 1; } }
+@keyframes beam-in { from { opacity: 0; } }
+@keyframes beam-pulse { to { stroke-dashoffset: -1; } }
+@media (prefers-reduced-motion: reduce) {
+  .beam-line, .beam-branch, .beam-device { animation: none; }
+  .beam-pulse { display: none; }
+}
