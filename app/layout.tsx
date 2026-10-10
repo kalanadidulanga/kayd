@@ -30,11 +30,12 @@ interface RootLayoutProps {
 
 export const metadata: Metadata = {
   title: {
-    default: "Kalana Didulanga | " + siteConfig.name,
+    default: "Kalana Didulanga Koralegedara | " + siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
+    "Kalana Didulanga Koralegedara",
     "Kalana Didulanga",
     "KayD",
     "Full Stack Software Engineer",
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
   ],
   authors: [
     {
-      name: "Kalana Didulanga",
+      name: "Kalana Didulanga Koralegedara",
       url: "https://kalanadidulanga.com/",
     },
   ],

@@ -9,7 +9,7 @@ import type { ValidSkills } from "./constants";
  * today's date: that would invent a new number on every build.
  */
 export const profile = {
-  name: "Kalana Didulanga",
+  name: "Kalana Didulanga Koralegedara",
   headline: "Full stack engineer. Web, mobile and desktop.",
   yearsOfExperience: 3,
   experienceSince: 2023,

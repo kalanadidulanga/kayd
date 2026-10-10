@@ -202,3 +202,11 @@ test.describe("home page with JavaScript disabled", () => {
     await expect(page.getByTestId("stats-strip")).toContainText(String(siteStats.projects));
   });
 });
+
+test("the full name is on the page and in the title", async ({ page }) => {
+  // Literal on purpose: the owner gave his full name on 2026-10-11.
+  await page.goto("/");
+  await expect(page.locator("#hero")).toContainText("Kalana Didulanga Koralegedara");
+  await expect(page.locator("footer")).toContainText("Kalana Didulanga Koralegedara");
+  await expect(page).toHaveTitle(/Kalana Didulanga Koralegedara/);
+});
