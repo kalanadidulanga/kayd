@@ -1,5 +1,16 @@
 import Link from "next/link";
-import { Palette, SearchCode, ShoppingBag, Sparkles, Wrench } from "lucide-react";
+import {
+  AppWindow,
+  Globe,
+  LayoutDashboard,
+  Palette,
+  ScanBarcode,
+  SearchCode,
+  ShoppingBag,
+  Smartphone,
+  Sparkles,
+  Wrench,
+} from "lucide-react";
 
 import { Section, SectionHeading } from "@/components/section";
 import { Spotlight } from "@/components/motion/spotlight";
@@ -10,6 +21,11 @@ import { Experiences } from "@/config/experience";
 import { services, type Service } from "@/config/services";
 
 const ICONS: Record<Service["icon"], typeof Wrench> = {
+  webapp: LayoutDashboard,
+  website: Globe,
+  mobile: Smartphone,
+  pos: ScanBarcode,
+  software: AppWindow,
   store: ShoppingBag,
   ai: Sparkles,
   design: Palette,
@@ -18,25 +34,26 @@ const ICONS: Record<Service["icon"], typeof Wrench> = {
 };
 
 /**
- * What else a client can hire Kalana for, beyond the builds "What I do"
- * shows, each with the projects that show it, and an open door for the rest.
+ * What a client can hire Kalana for, each service with the projects that
+ * show it, and an open door for custom work. "What I do" says how he
+ * builds; this says what you can order.
  */
 export function Services() {
   return (
     <Section id="services" band>
       <SectionHeading
         eyebrow="Services"
-        title="More ways"
-        serif="I can help."
-        lead="More than web, mobile and desktop builds. Here is what else I take on, and if you need something that is not here, ask."
+        title="What I can build"
+        serif="for you."
+        lead="Tell me what your business needs and I'll build it. These are the usual starting points."
       />
 
-      <div className="grid gap-3.5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3.5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {services.map((s, i) => {
           const proof = (s.proof ?? []).flatMap((id) => Experiences.filter((e) => e.id === id));
           const Icon = ICONS[s.icon];
           return (
-            <Reveal key={s.title} delay={i * 70} className="h-full">
+            <Reveal key={s.title} delay={(i % 4) * 70} className="h-full">
               <Spotlight className="flex h-full flex-col p-7">
                 <div className="relative flex items-start justify-between">
                   <span className="grid h-10 w-10 place-items-center rounded-xl border border-brand/25 bg-brand-soft text-brand">
@@ -68,15 +85,16 @@ export function Services() {
           );
         })}
 
-        <Reveal delay={services.length * 70} className="h-full">
-          <div className="flex h-full flex-col justify-between rounded-[22px] border border-dashed border-brand/40 bg-brand-soft p-7">
-            <div>
-              <h3 className="type-card">Something else?</h3>
+        {/* Two cells wide, so the grid closes evenly at two, three and four columns. */}
+        <Reveal delay={services.length * 40} className="h-full md:col-span-2">
+          <div className="flex h-full flex-col justify-between gap-8 rounded-[22px] border border-dashed border-brand/40 bg-brand-soft p-7 sm:flex-row sm:items-end">
+            <div className="max-w-md">
+              <h3 className="type-card">Custom solutions</h3>
               <p className="mt-2 text-muted-foreground">
-                If your business needs it, I&apos;ll build it. Tell me the problem and we&apos;ll work out the software.
+                Not on the list? If your business needs it, I&apos;ll build it. Tell me the problem and we&apos;ll work out the software.
               </p>
             </div>
-            <div className="mt-8">
+            <div className="shrink-0">
               <Magnetic>
                 <Link href="/contact" className={btnPrimary}>
                   Start a project <span aria-hidden="true">→</span>
