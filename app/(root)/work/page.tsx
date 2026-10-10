@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Work",
   description:
     "Client platforms, products of my own, and work I lead: every project, newest first.",
+  alternates: { canonical: "/work" },
 };
 
 const professional = Experiences.filter((e) => e.type === "Professional");

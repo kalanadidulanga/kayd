@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { AccentPicker } from "@/components/accent-picker";
 import { BackToTop } from "@/components/back-to-top";
 import { MotionProviders } from "@/components/motion/providers";
+import { RevealObserver } from "@/components/motion/reveal-observer";
 
 export default function MarketingLayout({
   children,
@@ -11,6 +12,7 @@ export default function MarketingLayout({
 }) {
   return (
     <MotionProviders>
+      <RevealObserver />
       <div className="flex min-h-screen flex-col">
         <a
           href="#content"

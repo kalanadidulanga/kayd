@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Section, SectionHeading, ArrowLink } from "@/components/section";
@@ -17,8 +18,46 @@ import { Experiences, featuredCaseStudies } from "@/config/experience";
 import { logEntries } from "@/config/work-history";
 import { skillLabel } from "@/lib/skills";
 import { projectCover, projectKind, projectYears } from "@/lib/work";
+import { profile } from "@/config/profile";
+import { siteConfig } from "@/config/site";
+import { SocialLinks } from "@/config/socials";
+import { currentRoles } from "@/config/work-history";
+import { skillUsage } from "@/lib/skills";
 
 const HOME_ROWS = 8;
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
+
+// Tells search engines who the site is about, from the same config the
+// page renders. Escaped so no value can close the script tag.
+const jobs = currentRoles.filter((r) => r.title && r.company !== "Freelance");
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteConfig.url}/#person`,
+      name: profile.name,
+      alternateName: ["Kalana Didulanga", "KayD"],
+      url: siteConfig.url,
+      jobTitle: jobs[0]?.title,
+      worksFor: jobs.map((r) => ({ "@type": "Organization", name: r.company })),
+      sameAs: SocialLinks.filter((s) => !s.link.startsWith("mailto:")).map((s) => s.link),
+      knowsAbout: skillUsage()
+        .flatMap((g) => g.skills)
+        .sort((a, b) => b.projects.length - a.projects.length)
+        .slice(0, 15)
+        .map((s) => skillLabel(s.name)),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: siteConfig.name,
+      author: { "@id": `${siteConfig.url}/#person` },
+    },
+  ],
+}).replace(/</g, "\\u003c");
 
 // Only what a card shows crosses into the client bundle.
 const deck: DeckCard[] = featuredCaseStudies.map((e) => ({
@@ -35,6 +74,7 @@ const deck: DeckCard[] = featuredCaseStudies.map((e) => ({
 export default function IndexPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} />
       <Hero />
 
       {deck.length ? (

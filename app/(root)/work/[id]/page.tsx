@@ -25,7 +25,18 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: WorkPageProps): Promise<Metadata> {
   const { id } = await params;
   const exp = Experiences.find((e) => e.id === id);
-  return exp ? { title: exp.companyName, description: exp.shortDescription } : {};
+  if (!exp) return {};
+  return {
+    title: exp.companyName,
+    description: exp.shortDescription,
+    alternates: { canonical: `/work/${exp.id}` },
+    openGraph: {
+      type: "article",
+      siteName: "KayD",
+      title: `${exp.companyName} | KayD`,
+      description: exp.shortDescription,
+    },
+  };
 }
 
 function host(url?: string) {
@@ -122,7 +133,7 @@ export default async function WorkDetailPage({ params }: WorkPageProps) {
                 <i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
                 <i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
                 <i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-                <span className="ml-3 truncate font-mono text-xs text-subtle">
+                <span className="ml-3 truncate font-mono text-xs text-muted-foreground">
                   {host(exp.websiteLink) ?? exp.companyName}
                 </span>
               </div>

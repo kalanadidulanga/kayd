@@ -7,6 +7,7 @@ import { Reveal } from "@/components/reveal";
 export const metadata: Metadata = {
   title: "Skills",
   description: "Every skill, with the projects on this site that use it.",
+  alternates: { canonical: "/skills" },
 };
 
 export default function SkillsPage() {

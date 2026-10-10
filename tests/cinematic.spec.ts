@@ -189,20 +189,20 @@ test.describe("services index", () => {
   test("pointing at a service shows its detail and proof", async ({ page }) => {
     await page.goto("/");
     const panel = page.locator("#service-panel");
-    await page.getByRole("tab", { name: "POS systems" }).hover();
-    await expect(page.getByRole("tab", { name: "POS systems" })).toHaveAttribute("aria-selected", "true");
+    await page.getByRole("button", { name: "POS systems" }).hover();
+    await expect(page.getByRole("button", { name: "POS systems" })).toHaveAttribute("aria-expanded", "true");
     await expect(panel).toContainText("built and installed on site");
     await expect(panel.getByRole("link", { name: /ZeroPos/ })).toBeVisible();
   });
 
   test("arrow keys move through the services", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("tab", { name: "Custom web applications" }).focus();
+    await page.getByRole("button", { name: "Custom web applications" }).focus();
     await page.keyboard.press("ArrowDown");
-    await expect(page.getByRole("tab", { name: "Websites" })).toBeFocused();
+    await expect(page.getByRole("button", { name: "Websites" })).toBeFocused();
     await expect(page.locator("#service-panel")).toContainText("Fast, modern websites");
     await page.keyboard.press("End");
-    await expect(page.getByRole("tab", { name: "Consulting and code review" })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("button", { name: "Consulting and code review" })).toHaveAttribute("aria-expanded", "true");
   });
 });
 

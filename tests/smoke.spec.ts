@@ -102,3 +102,31 @@ test("each skill shows the number of projects that use it", async ({ page }) => 
     }
   }
 });
+
+test.describe("search engines", () => {
+  test("pages carry their own canonical URL", async ({ page }) => {
+    for (const path of ["/", "/work", "/skills", "/work/kendara"]) {
+      await page.goto(path);
+      const href = await page.locator('link[rel="canonical"]').getAttribute("href");
+      expect(href, path).toBe(`https://www.kalanadidulanga.com${path === "/" ? "" : path}`);
+    }
+  });
+
+  test("the home page describes the person behind it", async ({ page }) => {
+    await page.goto("/");
+    const raw = await page.locator('script[type="application/ld+json"]').textContent();
+    const person = JSON.parse(raw!)["@graph"].find((n: { "@type": string }) => n["@type"] === "Person");
+    expect(person.name).toBe("Kalana Didulanga Koralegedara");
+    expect(person.sameAs).toContain("https://github.com/kalanadidulanga/");
+  });
+
+  test("sitemap, robots and the share image are served", async ({ request }) => {
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    expect(sitemap).toContain("https://www.kalanadidulanga.com/work/kendara");
+    expect(sitemap).not.toContain("/resume");
+    expect(await (await request.get("/robots.txt")).text()).toContain("Sitemap: https://www.kalanadidulanga.com/sitemap.xml");
+    const og = await request.get("/opengraph-image");
+    expect(og.ok()).toBe(true);
+    expect(og.headers()["content-type"]).toContain("image/png");
+  });
+});

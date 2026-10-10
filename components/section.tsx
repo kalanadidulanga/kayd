@@ -49,7 +49,9 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
+    // A page title is on screen at load: it plays at once, not on scroll.
     <Reveal
+      immediate={Heading === "h1"}
       className={cn(
         "mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between",
         className

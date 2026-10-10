@@ -68,7 +68,7 @@ export function Hero() {
 
       <div className="container relative text-center">
         {job ? (
-          <Reveal>
+          <Reveal immediate>
             <span className="glass inline-flex items-center gap-2 rounded-full border border-border-strong py-1.5 pl-2 pr-3.5 text-[13px] text-muted-foreground">
               <span className="h-2 w-2 rounded-full bg-brand shadow-[0_0_0_4px_var(--brand-soft)]" />
               {job.title} at {job.company}
@@ -83,7 +83,7 @@ export function Hero() {
           <Words text="runs real businesses." delay={0.47} wordClassName="serif-accent serif-gradient" />
         </h1>
 
-        <Reveal delay={550}>
+        <Reveal immediate delay={550}>
           <p className="type-lead mx-auto mt-7 max-w-xl">
             {profile.name}, full stack engineer. Web platforms, mobile apps and
             Windows software, from the database to the last pixel.
@@ -95,7 +95,7 @@ export function Hero() {
           ) : null}
         </Reveal>
 
-        <Reveal delay={700}>
+        <Reveal immediate delay={700}>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Magnetic>
               <Link href="/work" className={btnPrimary}>
@@ -112,7 +112,7 @@ export function Hero() {
 
         <div className="group/hero relative mx-auto mt-16 max-w-3xl md:mt-24">
           <OutputBeam />
-          <Reveal delay={850}>
+          <Reveal immediate delay={850}>
             <CodeWindow file="kalana.ts" lines={codeLines()} />
           </Reveal>
           <FloatingStats

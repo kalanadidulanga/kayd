@@ -126,26 +126,24 @@ export function ServiceIndex({ items, cta }: { items: ServiceItem[]; cta: React.
 
   return (
     <div ref={root} className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-      <div role="tablist" aria-orientation="vertical" aria-label="Services" onKeyDown={onKeyDown} className="border-t border-border">
+      <ul aria-label="Services" onKeyDown={onKeyDown} className="border-t border-border">
         {items.map((s, i) => {
           const on = i === active;
           return (
-            <div key={s.title}>
+            <li key={s.title}>
               <button
                 ref={(el) => {
                   tabs.current[i] = el;
                 }}
                 type="button"
-                role="tab"
                 id={`service-tab-${i}`}
-                aria-selected={on}
-                aria-controls="service-panel"
-                tabIndex={on ? 0 : -1}
+                aria-expanded={on}
+                aria-controls={`service-panel service-detail-${i}`}
                 onClick={() => choose(i)}
                 onPointerEnter={(e) => e.pointerType === "mouse" && choose(i)}
                 className="group relative flex w-full items-center gap-5 border-b border-border py-4 text-left md:py-[18px]"
               >
-                <span className={cn("w-6 font-mono text-xs transition-colors", on ? "text-brand" : "text-subtle")}>
+                <span aria-hidden="true" className={cn("w-6 font-mono text-xs transition-colors", on ? "text-brand" : "text-subtle")}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
@@ -189,6 +187,7 @@ export function ServiceIndex({ items, cta }: { items: ServiceItem[]; cta: React.
                 {on ? (
                   <motion.div
                     key={s.title}
+                    id={`service-detail-${i}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
@@ -201,15 +200,15 @@ export function ServiceIndex({ items, cta }: { items: ServiceItem[]; cta: React.
                   </motion.div>
                 ) : null}
               </AnimatePresence>
-            </div>
+            </li>
           );
         })}
-        <div className="pt-8 lg:hidden">{cta}</div>
-      </div>
+      </ul>
+      <div className="-mt-2 lg:hidden">{cta}</div>
 
       <div className="hidden lg:block">
         <div
-          role="tabpanel"
+          role="region"
           id="service-panel"
           aria-labelledby={`service-tab-${active}`}
           className="shadow-soft sticky top-28 flex min-h-[460px] flex-col overflow-hidden rounded-[26px] border border-border-strong bg-surface p-9"

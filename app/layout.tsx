@@ -21,14 +21,17 @@ const instrument = Instrument_Serif({
 });
 
 // Runs before first paint so the remembered accent never flashes. Anything
-// unexpected in storage falls back to emerald, the default. Mirrors components/accent-picker.
-const accentScript = `try{var a=localStorage.getItem("kayd-accent");document.documentElement.dataset.accent=["emerald","indigo","ember"].indexOf(a)>-1?a:"emerald"}catch(e){document.documentElement.dataset.accent="emerald"}`;
+// unexpected in storage falls back to emerald, the default. Mirrors
+// components/accent-picker. The js class arms the scroll reveals (see
+// [data-rise] in globals.css); without it, content just shows.
+const accentScript = `document.documentElement.classList.add("js");try{var a=localStorage.getItem("kayd-accent");document.documentElement.dataset.accent=["emerald","indigo","ember"].indexOf(a)>-1?a:"emerald"}catch(e){document.documentElement.dataset.accent="emerald"}`;
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "Kalana Didulanga Koralegedara | " + siteConfig.name,
     template: `%s | ${siteConfig.name}`,
@@ -45,17 +48,22 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Kalana Didulanga Koralegedara",
-      url: "https://kalanadidulanga.com/",
+      url: siteConfig.url,
     },
   ],
   creator: "kalanadidulanga",
+  // No og:url here: pages inherit this, and each sets its own canonical.
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteConfig.url,
-    title: siteConfig.name,
+    title: "Kalana Didulanga Koralegedara | " + siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kalana Didulanga Koralegedara | " + siteConfig.name,
+    description: siteConfig.description,
   },
   // manifest: `${siteConfig.url}/site.webmanifest`,
 };

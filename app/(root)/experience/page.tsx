@@ -14,6 +14,7 @@ import { contributionsUnsorted } from "@/config/contributions";
 export const metadata: Metadata = {
   title: "Experience",
   description: "Where I have worked, what I studied, and what I have contributed to.",
+  alternates: { canonical: "/experience" },
 };
 
 function Row({ side, title, body, href }: { side: string; title: string; body: string; href?: string }) {

@@ -10,6 +10,7 @@ import { SocialLinks } from "@/config/socials";
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch about a project, a role, or anything else.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
