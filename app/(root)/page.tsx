@@ -5,6 +5,7 @@ import { Hero, btnPrimary } from "@/components/home/hero";
 import { Deck, type DeckCard } from "@/components/home/deck";
 import { WhatIDo } from "@/components/home/what-i-do";
 import { ClientLogos } from "@/components/client-logos";
+import { Services } from "@/components/services";
 import { WorkList } from "@/components/work-row";
 import { Testimonials } from "@/components/testimonials";
 import { GitLog } from "@/components/git-log";
@@ -94,6 +95,8 @@ export default function IndexPage() {
           <SkillChips />
         </Reveal>
       </Section>
+
+      <Services />
 
       <section id="contact" className="relative overflow-hidden py-32 text-center md:py-44">
         <div aria-hidden="true" className="glow absolute inset-x-0 -bottom-1/3 mx-auto h-[600px] max-w-5xl" />

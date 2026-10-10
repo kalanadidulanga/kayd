@@ -23,6 +23,7 @@ export const skillGroups: SkillGroup[] = [
       "Tailwind CSS",
       "Shadcn UI",
       "Redux",
+      "GSAP",
       "Material UI",
       "Bootstrap",
       "Angular",

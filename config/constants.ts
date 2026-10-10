@@ -43,6 +43,7 @@ export type ValidSkills =
   | "C#"
   | ".NET"
   | "ASP.NET"
+  | "GSAP"
   | "Java desktop"
   | "Android"
   | "Flutter"

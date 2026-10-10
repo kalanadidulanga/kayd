@@ -363,6 +363,7 @@ const experiences: ExperienceInterface[] = [
       "Tailwind CSS",
       "Docker",
     ],
+    coverImg: "/experience/cloud-erp-pos/cover.png",
     startDate: new Date("2026-06-04"),
     descriptionDetails: {
       paragraphs: [
@@ -1043,6 +1044,60 @@ const experiences: ExperienceInterface[] = [
         "Fully Responsive Web Application uning React and Tailwind CSS.",
         "Modern and Interactive Web Application",
         "Built with React and Typescript.",
+      ],
+    },
+  },
+  {
+    id: "kings-town-hotel",
+    companyName: "Kings Town Hotel",
+    // Built at C-Lento ("Developed by C-Lento" in the site footer), so it
+    // counts under the C-Lento client. Year as Kalana stated it; the month
+    // is not known, so the date only orders the list.
+    client: "C-Lento",
+    type: "Professional",
+    category: ["Full Stack", "Web Dev"],
+    shortDescription:
+      "The website for a hotel in Anuradhapura: rooms with live availability, online booking, and an admin for the slides, photos and gallery.",
+    websiteLink: "https://kingstownhotel.com/",
+    techStack: ["React", "Tailwind CSS", "GSAP", "REST API"],
+    coverImg: "/experience/kings-town-hotel/cover.webp",
+    startDate: new Date("2025-01-01"),
+    descriptionDetails: {
+      paragraphs: [
+        "A hotel website I built end to end at C-Lento: the site, the booking flow and the admin behind it.",
+      ],
+      bullets: [
+        "Rooms and suites, each with its next available date",
+        "Online booking from a Book Now button on every page",
+        "An admin to change the hero slides, hotel photos and gallery without a developer",
+        "Scroll animations with GSAP",
+      ],
+    },
+  },
+  {
+    id: "salubrious-resort",
+    companyName: "Salubrious Resort",
+    // Built at C-Lento ("Developed by C-Lento" in the site footer), so it
+    // counts under the C-Lento client. Year as Kalana stated it; the month
+    // is not known, so the date only orders the list.
+    client: "C-Lento",
+    type: "Professional",
+    category: ["Full Stack", "Web Dev"],
+    shortDescription:
+      "The website for a boutique resort in Anuradhapura: rooms with live availability, online booking, trips, and an admin for all of it.",
+    websiteLink: "https://salubriousresort.com/",
+    techStack: ["React", "Tailwind CSS", "GSAP", "REST API"],
+    coverImg: "/experience/salubrious-resort/cover.webp",
+    startDate: new Date("2026-01-01"),
+    descriptionDetails: {
+      paragraphs: [
+        "A resort website I built end to end at C-Lento: the site, the booking flow and the admin behind it.",
+      ],
+      bullets: [
+        "Rooms and suites, each with its next available date",
+        "Online booking, and trips the resort runs, each with its own page",
+        "An admin for the hero slides, photos, gallery and trips",
+        "Scroll animations with GSAP",
       ],
     },
   },

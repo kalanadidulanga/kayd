@@ -5,6 +5,7 @@ import { Experiences } from "../config/experience";
 import { declaredSkills, skillGroups } from "../config/skills";
 import { skillUsage } from "../lib/skills";
 import { roles } from "../config/work-history";
+import { services } from "../config/services";
 
 // Pure data checks: no page is loaded. They pin the nothing-invented rule
 // for the skills and work history that the pages render.
@@ -64,4 +65,11 @@ test("every stack name in the hero code window is used by a listed project", asy
   const used = new Set(Experiences.flatMap((e) => e.techStack));
   expect(profile.signatureStack.length).toBeGreaterThan(0);
   for (const s of profile.signatureStack) expect(used.has(s), s).toBe(true);
+});
+
+test("every service's proof is a real project", () => {
+  // A renamed or removed project would otherwise drop out of its service
+  // without a sound, leaving a claim with less behind it than it shows.
+  const ids = new Set(Experiences.map((e) => e.id));
+  for (const s of services) for (const id of s.proof ?? []) expect(ids.has(id), `${s.title}: ${id}`).toBe(true);
 });

@@ -13,11 +13,12 @@ test.describe("computed stats", () => {
   // and must be updated by hand when the config changes. The
   // no-hand-written-numbers rule binds the site, not this oracle.
   test("the numbers match the experience config, counted by hand", () => {
-    expect(siteStats.projects).toBe(25);
-    // Fourteen professional entries, eight clients: five entries are one
-    // client (keyed "Uniguru"), two are Lapel and two are C-Lento.
+    expect(siteStats.projects).toBe(27);
+    // Sixteen professional entries, eight clients: five entries are one
+    // client (keyed "Uniguru"), two are Lapel and four are C-Lento (two
+    // C-Lento systems and the two hotel sites built there).
     expect(siteStats.clients).toBe(8);
-    expect(siteStats.technologies).toBe(34);
+    expect(siteStats.technologies).toBe(35);
   });
 
   test("the rendered numbers match the computed ones", async ({ page }) => {
@@ -172,6 +173,7 @@ test.describe("home page structure", () => {
       "testimonials",
       "experience",
       "skills",
+      "services",
       "contact",
     ];
     const present = expectedOrder.filter((id) => ids.includes(id));
