@@ -1,8 +1,9 @@
 export const siteConfig = {
   name: "KayD",
   description:
-    "Hello! I'm a Full Stack Software Engineer, adept at crafting seamless digital experiences. Explore my portfolio to see how I combine creativity and technical skills to build innovative applications.",
-  url: "https://kalanadidulanga.com",
+    "Kalana Didulanga Koralegedara is a full stack engineer building web platforms, mobile apps and Windows software. Software Engineer at TwinCoreTech, freelancing since 2023.",
+  // The apex redirects here, so this is the canonical origin.
+  url: "https://www.kalanadidulanga.com",
   //   ogImage: "https://namanbarkiya.com/og.jpg",
   links: {
     linkedin: "https://www.linkedin.com/in/kalana-didulanga/",

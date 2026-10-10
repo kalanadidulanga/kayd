@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const PORT = 3111;
+// PW_PORT lets a run reuse a dev server already up on another port.
+const PORT = Number(process.env.PW_PORT ?? 3111);
 const baseURL = `http://127.0.0.1:${PORT}`;
 
 export default defineConfig({

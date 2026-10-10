@@ -1,60 +1,30 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+export const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
- * Fade and rise on first scroll into view. IntersectionObserver rather than
- * an animation library, since that is the whole feature.
+ * Rises out of a soft blur the first time it scrolls into view, or at once
+ * with `immediate`, for content on screen at load. CSS does the motion (see
+ * [data-rise] in globals.css) and RevealObserver only marks what came into
+ * view, so nothing waits on hydration: above-the-fold text paints early.
+ * The hidden state needs the `js` class on <html>, so with JavaScript off
+ * everything simply shows.
  */
 export function Reveal({
   children,
   delay = 0,
   className,
+  immediate = false,
 }: {
   children: React.ReactNode;
+  /** milliseconds */
   delay?: number;
   className?: string;
+  immediate?: boolean;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setShown(true);
-      return;
-    }
-
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div
-      ref={ref}
-      // The noscript rule in the root layout keys off this, so a page with no
-      // JavaScript shows the content instead of an empty gap.
-      data-reveal=""
-      style={{ transitionDelay: `${delay}ms` }}
-      className={cn(
-        "transition-all duration-500 ease-out motion-reduce:transition-none",
-        shown ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
-        className
-      )}
+      data-rise={immediate ? "load" : ""}
+      className={className}
+      style={delay ? ({ "--rise-delay": `${delay}ms` } as React.CSSProperties) : undefined}
     >
       {children}
     </div>

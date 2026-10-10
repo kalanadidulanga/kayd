@@ -2,8 +2,7 @@ import "./globals.css";
 
 import type { Metadata, Viewport } from "next";
 
-import { Inter as FontSans } from "next/font/google";
-import localFont from "next/font/local";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -12,68 +11,75 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ModalProvider } from "@/providers/modal-provider";
 import { Analytics } from "@/components/analytics";
 
-const fontSans = FontSans({
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
+const instrument = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: "400",
+  style: ["italic"],
+  variable: "--font-instrument",
 });
 
-// Font files can be colocated inside of `pages`
-const fontHeading = localFont({
-  src: "../assets/fonts/CalSans-SemiBold.woff2",
-  variable: "--font-cal",
-});
+// Runs before first paint so the remembered accent never flashes. Anything
+// unexpected in storage falls back to emerald, the default. Mirrors
+// components/accent-picker. The js class arms the scroll reveals (see
+// [data-rise] in globals.css); without it, content just shows.
+const accentScript = `document.documentElement.classList.add("js");try{var a=localStorage.getItem("kayd-accent");document.documentElement.dataset.accent=["emerald","indigo","ember"].indexOf(a)>-1?a:"emerald"}catch(e){document.documentElement.dataset.accent="emerald"}`;
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "KalanaDidulanga | " + siteConfig.name,
+    default: "Kalana Didulanga Koralegedara | " + siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
+    "Kalana Didulanga Koralegedara",
     "Kalana Didulanga",
     "KayD",
     "Full Stack Software Engineer",
-    "MERN Stack Developer",
-    "Frontend Engineer",
+    "Next.js Developer",
+    "React Native Developer",
   ],
   authors: [
     {
-      name: "Kalana Didulanga",
-      url: "https://kalanadidulanga.com/",
+      name: "Kalana Didulanga Koralegedara",
+      url: siteConfig.url,
     },
   ],
   creator: "kalanadidulanga",
+  // No og:url here: pages inherit this, and each sets its own canonical.
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteConfig.url,
-    title: siteConfig.name,
+    title: "Kalana Didulanga Koralegedara | " + siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
   },
-  icons: {
-    icon: "/images/K.png",
-    shortcut: "/images/K.png",
-    apple: "/images/K.png",
+  twitter: {
+    card: "summary_large_image",
+    title: "Kalana Didulanga Koralegedara | " + siteConfig.name,
+    description: siteConfig.description,
   },
   // manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
   ],
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-accent="emerald" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: accentScript }} />
         {/* Reveal starts at opacity 0 and clears it on hydration, so without
             JavaScript the wrapped content would never appear. noscript rather
             than @media (scripting: none), which has a narrower browser floor
@@ -81,15 +87,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <noscript
           dangerouslySetInnerHTML={{
             __html:
-              "<style>[data-reveal]{opacity:1!important;transform:none!important}</style>",
+              "<style>[data-reveal]{opacity:1!important;transform:none!important;translate:none!important;filter:none!important}</style>",
           }}
         />
       </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-          fontHeading.variable
+          geist.variable,
+          geistMono.variable,
+          instrument.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

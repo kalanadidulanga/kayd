@@ -13,10 +13,12 @@ test.describe("computed stats", () => {
   // and must be updated by hand when the config changes. The
   // no-hand-written-numbers rule binds the site, not this oracle.
   test("the numbers match the experience config, counted by hand", () => {
-    expect(siteStats.projects).toBe(9);
-    // Six professional entries, five clients: two of them are Lapel projects.
-    expect(siteStats.clients).toBe(5);
-    expect(siteStats.technologies).toBe(13);
+    expect(siteStats.projects).toBe(27);
+    // Sixteen professional entries, eight clients: five entries are one
+    // client (keyed "Uniguru"), two are Lapel and four are C-Lento (two
+    // C-Lento systems and the two hotel sites built there).
+    expect(siteStats.clients).toBe(8);
+    expect(siteStats.technologies).toBe(35);
   });
 
   test("the rendered numbers match the computed ones", async ({ page }) => {
@@ -120,12 +122,15 @@ test.describe("selected work", () => {
   });
 });
 
-test("client logos come from real professional entries", async ({ page }) => {
+test("the logo strip shows each client and company once", async ({ page }) => {
   await page.goto("/");
   const strip = page.getByTestId("client-logos");
   // Literal for the same reason as the stats oracle: mirroring the component's
   // own filter here would have agreed with the duplicate Lapel logo.
-  await expect(strip.locator("img")).toHaveCount(5);
+  await expect(strip.locator("img")).toHaveCount(8);
+  for (const name of ["Langford College", "C-Lento", "Techseya (Pvt) Ltd", "Uniguru"]) {
+    await expect(strip.getByRole("img", { name, exact: true })).toHaveCount(1);
+  }
 });
 
 test.describe("home page structure", () => {
@@ -140,16 +145,17 @@ test.describe("home page structure", () => {
   });
 
   test("the unconditional sections are all present", async ({ page }) => {
-    // These five have no config gate (unlike now/selected-work/testimonials,
-    // which render null on empty config), so they must always be in the DOM.
-    // Without this, the order test below only checks relative order among
-    // whatever happens to exist, and a deleted section would pass silently.
+    // These have no config gate (unlike selected-work, clients and
+    // testimonials, which render null on empty config), so they must always
+    // be in the DOM. Without this, the order test below only checks relative
+    // order among whatever happens to exist, and a deleted section would pass
+    // silently.
     await page.goto("/");
     const ids = await page.locator("section[id]").evaluateAll((nodes) =>
       nodes.map((n) => n.id)
     );
     expect(ids).toEqual(
-      expect.arrayContaining(["experience", "about", "skills", "educations", "contributions"])
+      expect.arrayContaining(["hero", "what-i-do", "work", "experience", "skills", "contact"])
     );
   });
 
@@ -159,14 +165,16 @@ test.describe("home page structure", () => {
       nodes.map((n) => n.id)
     );
     const expectedOrder = [
-      "now",
+      "hero",
       "selected-work",
-      "experience",
-      "about",
-      "skills",
+      "what-i-do",
+      "clients",
+      "work",
       "testimonials",
-      "educations",
-      "contributions",
+      "experience",
+      "skills",
+      "services",
+      "contact",
     ];
     const present = expectedOrder.filter((id) => ids.includes(id));
     expect(ids.filter((id) => present.includes(id))).toEqual(present);
@@ -182,7 +190,7 @@ test.describe("home page with JavaScript disabled", () => {
     // these visible. Existence proves nothing here, the text was always in the
     // HTML: the regression this guards against was 1738px of invisible page.
     await page.goto("/");
-    const wrappers = page.locator("[data-reveal]");
+    const wrappers = page.locator("[data-reveal], [data-rise]");
     expect(await wrappers.count()).toBeGreaterThan(0);
     const opacities = await wrappers.evaluateAll((ns) =>
       ns.map((n) => getComputedStyle(n).opacity)
@@ -190,5 +198,15 @@ test.describe("home page with JavaScript disabled", () => {
     expect(opacities.every((o) => o === "1"), `reveal opacities: ${opacities}`).toBe(
       true
     );
+    // Counters animate up from zero, but the HTML must carry the real figure.
+    await expect(page.getByTestId("stats-strip")).toContainText(String(siteStats.projects));
   });
+});
+
+test("the full name is on the page and in the title", async ({ page }) => {
+  // Literal on purpose: the owner gave his full name on 2026-10-11.
+  await page.goto("/");
+  await expect(page.locator("#hero")).toContainText("Kalana Didulanga Koralegedara");
+  await expect(page.locator("footer")).toContainText("Kalana Didulanga Koralegedara");
+  await expect(page).toHaveTitle(/Kalana Didulanga Koralegedara/);
 });

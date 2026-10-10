@@ -18,6 +18,12 @@ export interface ExperienceInterface {
   companyName: string;
   /** Set only when several projects belong to one client, so counts dedupe. */
   client?: string;
+  /**
+   * The company the work was for, when the client who paid owns several
+   * (Langford College belongs to the Uniguru client). Logos key on it;
+   * the client count does not.
+   */
+  brand?: string;
   category: ValidCategory[];
   shortDescription: string;
   websiteLink?: string;
@@ -25,9 +31,12 @@ export interface ExperienceInterface {
   techStack: ValidSkills[];
   startDate?: Date;
   endDate?: Date;
-  companyLogoImg: StaticImageData | string;
+  /** A real logo. Only logos feed the client strip. Omitted when there is none. */
+  companyLogoImg?: StaticImageData | string;
+  /** A real screenshot for the card and page header, preferred over the logo. */
+  coverImg?: string;
   descriptionDetails?: DescriptionDetailsInterface;
-  pagesInfoArr: PagesInfoInterface[];
+  pagesInfoArr?: PagesInfoInterface[];
   featured?: boolean;
   caseStudy?: {
     problem: string;
@@ -38,6 +47,601 @@ export interface ExperienceInterface {
 }
 
 const experiences: ExperienceInterface[] = [
+  // The entries from here to "2048-game" were written on 2026-10-08 from a
+  // read of each repository (code, schema, commit history) plus the owner's
+  // answers. Dates are the owner's own first and last commits, or the
+  // repository's dates where a team member wrote the code. At the owner's
+  // request no personal names of client contacts appear, and the hotel
+  // system's clients are not named. Team-built work says so.
+  {
+    id: "operations-crm-platform",
+    companyName: "Uniguru Operations Platform",
+    // Same client as the "uniguru" entry below, so the client count dedupes.
+    client: "Uniguru",
+    brand: "Langford College",
+    companyLogoImg: "/experience/college-lms/logo.png",
+    type: "Professional",
+    category: ["Full Stack", "Next js", "Typescript"],
+    shortDescription:
+      "The internal operations and CRM platform of Uniguru, a UK study-abroad consultancy: leads, admissions, partners, staff and compliance in one system.",
+    websiteLink: "https://ops.uniguru.co",
+    techStack: [
+      "Next.js",
+      "React",
+      "Typescript",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "REST API",
+    ],
+    startDate: new Date("2026-03-04"),
+    coverImg: "/experience/operations-crm-platform/cover.png",
+    featured: true,
+    caseStudy: {
+      problem:
+        "Uniguru, a study-abroad consultancy, needed one system for its lead pipeline, a staged admissions process, its partner agents and staff oversight, replacing an older system whose partner records had to be carried over.",
+      approach:
+        "A Next.js app on Supabase Postgres with row-level security. Access is permission based and checked on every route and on the server. SLA clocks run as scheduled jobs and record breaches, a public lead API feeds it from the marketing site, and a versioned mobile API serves the student and partner app.",
+      outcome: "In production.",
+    },
+    pagesInfoArr: [
+      {
+        title: "Landing page",
+        description: "The sign-in landing page of the platform.",
+        imgArr: ["/experience/operations-crm-platform/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "I am the main developer of the operations platform of Uniguru, a UK study-abroad consultancy. Staff work their leads, students and partners from one place, leadership has its own dashboards, and students and partner agents each get a portal.",
+        "It is a Next.js App Router application on Supabase: Postgres with row-level security, Auth and Storage. Every user has a system role, roles map to permission groups, and each route and server action checks the permissions it needs.",
+        "Background work runs as scheduled jobs on Vercel, with a GitHub Actions fallback for the SLA clock. The codebase is covered by Vitest unit tests and Playwright end-to-end tests.",
+      ],
+      bullets: [
+        "CRM lead pipeline with stages, SLA queues, follow-ups and consultations",
+        "Student case management: applications, documents, visa, payments and deadlines",
+        "Permission-based access: system roles, permission groups and per-route checks",
+        "SLA monitoring that records compliance breaches on a schedule",
+        "Click-to-call softphone with call-log sync",
+        "Public lead-capture API with spam protection and deduplication",
+        "Mobile REST API with push notifications for the companion app",
+        "Task boards, an independent auditor module and a knowledge hub",
+        "Student and partner portals",
+      ],
+    },
+  },
+  {
+    id: "student-partner-mobile-app",
+    companyName: "Uniguru Mobile App",
+    client: "Uniguru",
+    type: "Professional",
+    category: ["Mobile Dev", "Typescript"],
+    shortDescription:
+      "A native Android and iOS app that keeps Uniguru's students and partner agents up to date from the operations platform.",
+    techStack: ["React Native", "Expo", "Typescript", "Supabase"],
+    startDate: new Date("2026-09-16"),
+    endDate: new Date("2026-09-20"),
+    descriptionDetails: {
+      paragraphs: [
+        "The companion app to the operations platform above. Students and partner agents get push notifications for events recorded in the platform, and see the same data as their web portal: a student's journey, documents and inbox, or a partner's students, commissions and updates.",
+        "Built with Expo Router on React Native. It talks to the platform's versioned mobile API through typed contracts synced from the platform repository, keeps the session in secure storage, and turns staff accounts away at sign-in.",
+      ],
+      bullets: [
+        "Push notification registration and tap routing",
+        "Document upload from the camera or files",
+        "Separate student and partner areas",
+        "Typed API contracts synced from the platform",
+        "Store-ready config: iOS privacy manifest, EAS build profiles, over-the-air updates",
+        "Jest unit tests and Maestro end-to-end flows",
+      ],
+    },
+  },
+  {
+    id: "consultancy-website-v2",
+    companyName: "Uniguru Website v2",
+    client: "Uniguru",
+    type: "Professional",
+    category: ["Full Stack", "Next js", "Typescript"],
+    shortDescription:
+      "The redesigned public website of Uniguru, a UK study-abroad consultancy, wired into its operations platform. Built with a developer on my team.",
+    websiteLink: "https://www.uniguru.co",
+    techStack: [
+      "Next.js",
+      "Typescript",
+      "Prisma",
+      "MySQL",
+      "Tailwind CSS",
+      "Shadcn UI",
+    ],
+    startDate: new Date("2026-03-01"),
+    endDate: new Date("2026-06-17"),
+    coverImg: "/experience/consultancy-website-v2/cover.png",
+    pagesInfoArr: [
+      {
+        title: "Home page",
+        description: "The redesigned home page with its eligibility form.",
+        imgArr: ["/experience/consultancy-website-v2/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "A redesign of Uniguru's public site, built as a team. A developer on my team did most of the page restyling; my part was the integration and content work below.",
+        "Every enquiry form posts into the operations platform's lead API, with live intake options and campaign attribution on each lead: UTM tags, partner code, referrer and landing page.",
+      ],
+      bullets: [
+        "Lead submission to the operations platform, with live intake options",
+        "Campaign attribution on every lead",
+        "Honeypot spam protection",
+        "Immigration and regulation pages",
+        "Enquiry email handlers by enquiry type",
+        "AI course search refactored onto Google Gemini",
+        "Compliance copy changes applied across the site from a client audit",
+      ],
+    },
+  },
+  {
+    id: "college-lms",
+    companyName: "Langford College LMS",
+    // Langford College and Uniguru are two companies of one client (confirmed
+    // by the site owner on 2026-10-09), so they count as one client.
+    client: "Uniguru",
+    type: "Professional",
+    category: ["Full Stack", "Next js", "Typescript"],
+    shortDescription:
+      "A learning management system for Langford College in the UK, with a regulated assessment and certification chain. Built by a developer on my team, under my supervision, for my client.",
+    techStack: [
+      "Next.js",
+      "Typescript",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "Shadcn UI",
+    ],
+    startDate: new Date("2026-03-04"),
+    descriptionDetails: {
+      paragraphs: [
+        "I took this project on for my client and assigned a developer on my team to build it under my supervision. The code is his.",
+        "Students move through courses, cohorts, assignments, quizzes and live lectures. Assessed work follows a regulated chain: the student submits, an assessor marks, an internal quality assurer signs off, the result is released, and the certificate is issued with two-key approval.",
+      ],
+      bullets: [
+        "Courses, modules and topics with a learning view",
+        "Assignments with structured marking and a grade book",
+        "Quizzes with attempt logging",
+        "Lectures scheduled on Zoom automatically",
+        "Internal quality assurance sampling and sign-off",
+        "Two-key certificate issuance with an issuance log",
+        "One-click evidence pack export",
+        "Web push and email reminders",
+      ],
+    },
+  },
+  {
+    id: "headless-shopify-store",
+    companyName: "YANA23 Online Store",
+    type: "Professional",
+    category: ["Frontend", "Next js", "Typescript"],
+    shortDescription:
+      "A custom Next.js storefront for the clothing brand YANA23 on Shopify, with customer accounts and prices in two currencies.",
+    websiteLink: "https://www.yana23.com",
+    techStack: [
+      "Next.js",
+      "React",
+      "Typescript",
+      "Shopify",
+      "GraphQL",
+      "Tailwind CSS",
+    ],
+    startDate: new Date("2026-05-17"),
+    endDate: new Date("2026-08-13"),
+    coverImg: "/experience/headless-shopify-store/cover.png",
+    pagesInfoArr: [
+      {
+        title: "Home page",
+        description: "The storefront home page.",
+        imgArr: ["/experience/headless-shopify-store/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "A headless storefront for the clothing brand YANA23. The shop, product pages, cart and customer accounts are a Next.js app; Shopify holds the catalogue and runs checkout and payment, reached through its Storefront GraphQL API.",
+        "Prices follow Shopify Markets, so shoppers switch between Sri Lankan rupees and British pounds. I also restyled the store to the brand book and wrote a guide for matching Shopify's checkout to it.",
+      ],
+      bullets: [
+        "Storefront GraphQL data layer",
+        "Cart drawer and cart page with discount codes, handing off to Shopify checkout",
+        "LKR and GBP pricing through Shopify Markets, with a currency switcher",
+        "Customer accounts: sign-up, password recovery, addresses and order history",
+        "Shop filters, server-side pagination and search",
+        "Wishlist, recently viewed, re-order and quick add",
+        "Contact form with rate limiting",
+        "Sitemap, robots and page metadata",
+      ],
+    },
+  },
+  {
+    id: "online-pharmacy",
+    companyName: "PNM Online Pharmacy",
+    type: "Professional",
+    category: ["Full Stack", "REST API", "Typescript"],
+    shortDescription:
+      "A full-stack online store for Polpithigama New Medical (PNM), a pharmacy, with card payments through iPay, branch pickup and an admin panel.",
+    websiteLink: "https://pharmacy-v1-jade.vercel.app",
+    techStack: [
+      "React",
+      "Typescript",
+      "express.js",
+      "Node.js",
+      "Prisma",
+      "MySQL",
+      "Tailwind CSS",
+      "REST API",
+    ],
+    startDate: new Date("2025-04-05"),
+    endDate: new Date("2025-06-07"),
+    coverImg: "/experience/online-pharmacy/cover.png",
+    pagesInfoArr: [
+      {
+        title: "About page",
+        description: "The store's About page.",
+        imgArr: ["/experience/online-pharmacy/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "I built the whole system on my own: the storefront, the admin panel and the REST API behind them.",
+        "Customers order for delivery or pick up at a branch, and pay by card or at the branch. Card payments go through iPay: the API generates the payment form checksum, and a webhook verifies the payment notification before it marks the order paid.",
+      ],
+      bullets: [
+        "iPay card payments with checksum verification",
+        "Delivery or branch pickup at checkout",
+        "Admin pages for products, categories, orders, customers, branches and settings",
+        "Dashboard statistics with charts",
+        "Product image upload with re-encoding",
+        "JWT auth with roles and protected routes",
+        "Contact form email",
+      ],
+    },
+  },
+  {
+    id: "hotel-management-system",
+    companyName: "Hotel Management System",
+    // The two C-Lento projects count as one client.
+    client: "C-Lento",
+    companyLogoImg: "/experience/hotel-management-system/logo.png",
+    type: "Professional",
+    category: ["Full Stack", "Next js", "Typescript"],
+    shortDescription:
+      "An all-in-one hotel system: reservations, front office, restaurant and bar, inventory, HR and double-entry accounting.",
+    techStack: [
+      "Next.js",
+      "React",
+      "Typescript",
+      "Prisma",
+      "MySQL",
+      "Socket.io",
+      "Docker",
+    ],
+    startDate: new Date("2025-09-12"),
+    featured: true,
+    caseStudy: {
+      problem:
+        "Hotels needed one system for rooms and reservations, the front office, restaurant and bar, stock, staff and double-entry accounts.",
+      approach:
+        "As the largest single contributor to a team-built system, I worked mostly on the accounting core: the general ledger became the single source for revenue reports, reconciliation scripts for debtors, agents and creditors run as a dry run first, opening balances link to ledger entities, and inventory cost is recognised when stock is issued rather than when it is bought.",
+      outcome: "Running live at several hotels.",
+    },
+    descriptionDetails: {
+      paragraphs: [
+        "A team-built hotel system, now running live at several hotels. It covers rooms and reservations, the front office, restaurant, cafe and bar point of sale with kitchen order tickets, inventory, HR, assets, banquets, laundry and full double-entry accounting with a night audit.",
+        "I am the largest single contributor. My work is mostly in accounting, reports and reservations, listed below.",
+      ],
+      bullets: [
+        "General ledger as the single source for revenue reports, with tests",
+        "Dry-run-first reconciliation for debtors, agents and creditors, and a trial balance check",
+        "Journal entries under vouchers, and opening balances linked to ledger entities",
+        "Inventory cost recognised at issue rather than at purchase",
+        "Reservation amendments before check-in, OTA confirmation numbers and occupancy types",
+        "Daily sheet, long forecast, and revenue, sales and stock movement reports",
+        "Recipe wastage, staff meals, and restaurant credit bills charged to travel agents",
+      ],
+    },
+  },
+  {
+    id: "cloud-erp-pos",
+    companyName: "Hyda ERP",
+    client: "C-Lento",
+    type: "Professional",
+    category: ["Full Stack", "Backend", "Typescript"],
+    shortDescription:
+      "A multi-tenant cloud ERP and point of sale for retail businesses, with a Go API, a React client and a super admin console. I lead it as project manager and full-stack developer.",
+    techStack: [
+      "Go",
+      "PostgreSQL",
+      "Redis",
+      "React",
+      "Typescript",
+      "Tailwind CSS",
+      "Docker",
+    ],
+    coverImg: "/experience/cloud-erp-pos/cover.png",
+    startDate: new Date("2026-06-04"),
+    descriptionDetails: {
+      paragraphs: [
+        "A cloud ERP and point of sale for retail businesses, built by a small team. I am the project manager and the full-stack lead for the POS, the dashboard, the front-end design system and the marketplace.",
+        "It is contract-first: one OpenAPI spec generates both the Go server stubs and the TypeScript types. Each customer company is provisioned from a business-type template and moves through an enforced lifecycle, with plans, entitlements, platform payments and an audit log.",
+      ],
+      bullets: [
+        "Client app: login, Sinhala and English UI, POS, inventory, purchasing, sales, accounting and reporting",
+        "Super admin console for companies, plans, payments, expiry and audit",
+        "Go control plane: access model, provisioning, lifecycle, audit log and plan entitlements",
+        "Public marketplace app",
+        "Two-factor authentication",
+        "Postgres migrations and a Redis-backed job worker",
+      ],
+    },
+  },
+  {
+    id: "zeropos",
+    companyName: "ZeroPos",
+    type: "Personal Project",
+    category: ["Desktop App", "Backend"],
+    shortDescription:
+      "An offline-first Windows point of sale that a friend and I build together and install at retail shops.",
+    techStack: ["C#", ".NET", "SQLite"],
+    startDate: new Date("2026-04-04"),
+    descriptionDetails: {
+      paragraphs: [
+        "Our own product: a point of sale for small Sri Lankan retail shops that keeps working without the internet. A friend and I build it together and install it at shops. Most of the code is his.",
+        "Each shop runs an ASP.NET Core API on SQLite, cashiers use a WPF desktop client, and terminals find the shop's server on the local network over mDNS. It has setups for bakeries, electronics, grocery, PC and pharmacy shops.",
+        "My parts include per-batch pricing with a batch picker at the till, an owner-only audit of price overrides, weight presets for scale items, stock adjustments with inline approval, stock history by user and terminal, keyboard-only cashier fixes and an offline admin recovery command.",
+      ],
+      bullets: [
+        "Works offline, with the shop's own server on the local network",
+        "ESC/POS receipt and barcode printing, and a customer display",
+        "Gift cards, loyalty, cheques, returns and day-end",
+        "Purchase orders and goods received notes",
+        "CD-key licensing tied to the machine",
+        "MSI installer",
+      ],
+    },
+  },
+  {
+    id: "kendara",
+    companyName: "Kendara",
+    type: "Personal Project",
+    category: ["Full Stack", "Next js", "Typescript"],
+    shortDescription:
+      "Builds a Vedic birth chart from birth details or from a photo of a Sri Lankan kendaraya, and writes a reading in Sinhala, English or Tamil.",
+    techStack: [
+      "Next.js",
+      "React",
+      "Typescript",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "Google Auth",
+      "Vercel AI SDK",
+    ],
+    startDate: new Date("2026-09-07"),
+    endDate: new Date("2026-09-09"),
+    websiteLink: "https://kendara.kalanadidulanga.com",
+    coverImg: "/experience/kendara/cover.png",
+    pagesInfoArr: [
+      {
+        title: "Home page",
+        description: "The home page in Sinhala.",
+        imgArr: ["/experience/kendara/cover.png"],
+      },
+    ],
+    featured: true,
+    caseStudy: {
+      problem:
+        "Reading a Sri Lankan kendaraya means calculating a sidereal chart correctly, including the time zone changes Sri Lanka went through, and then explaining it in the reader's own language.",
+      approach:
+        "The chart comes from the Swiss Ephemeris with the Lahiri ayanamsa and whole-sign houses, with the historical Sri Lankan time zone resolved for each birth instant. A photo of an existing chart can be read by AI into an editable table first. Readings come from Gemini models behind a fallback chain and an output guard, and marriage matching reports the checks it cannot compute as unknown rather than guessing them.",
+    },
+    descriptionDetails: {
+      paragraphs: [
+        "My own product. Enter birth details, or photograph an existing kendaraya, and Kendara builds the sidereal chart, then writes a reading and lets you ask questions about it, in Sinhala, English or Tamil.",
+      ],
+      bullets: [
+        "Chart calculation with the Swiss Ephemeris: dasha, varga, dignity and yoga rules",
+        "Historical Sri Lankan time zones resolved for each birth instant",
+        "Photo-to-chart extraction with an editable review table",
+        "Porondam matching: 12 of the 20 checks, the rest reported as unknown",
+        "AI readings and chat with the chart, behind a model fallback chain and an output guard",
+        "Sinhala, English and Tamil interface with a translation parity test",
+        "Saved charts with Google sign-in, read-only share links and a print view",
+        "Installable as a PWA",
+        "Unit, end-to-end and accessibility tests",
+      ],
+    },
+  },
+  {
+    id: "project-mouse",
+    companyName: "Project Mouse",
+    type: "Personal Project",
+    category: ["Desktop App", "Backend"],
+    shortDescription:
+      "A Windows tray app that keeps the PC awake only while a rule says so, using Windows power requests, with mouse movement only as an opt-in.",
+    githubLink: "https://github.com/kalanadidulanga/project-mouse",
+    techStack: ["Rust", "Tauri", "React", "Typescript"],
+    startDate: new Date("2026-08-22"),
+    endDate: new Date("2026-08-28"),
+    descriptionDetails: {
+      paragraphs: [
+        "A task-bound wake lock for Windows. It keeps the PC awake while a rule holds, such as a process running, a time window, AC power or a battery level, and lets go when the rule stops holding. It uses Windows power requests, with separate keep running and keep presenting modes.",
+        "The core is Rust on Tauri v2 with a React settings window. Releases ship as signed installers through GitHub Releases with auto-update, and CI blocks a merge on formatting, Clippy warnings, failing tests or an oversized executable.",
+      ],
+      bullets: [
+        "Rules engine: process, time window, expiry, AC power, battery, unlocked session and foreground app",
+        "A \"why is my PC awake?\" report",
+        "Optional input simulation, off by default",
+        "Command-line control",
+        "Imports Move Mouse settings",
+        "Signed auto-updates from GitHub Releases",
+      ],
+    },
+  },
+  {
+    id: "kayd-invoice-studio",
+    companyName: "KayD Invoice Studio",
+    type: "Personal Project",
+    category: ["Frontend", "Next js", "Typescript"],
+    shortDescription:
+      "A free invoicing app that runs entirely in the browser: no login, no backend, PDF export.",
+    techStack: ["Next.js", "React", "Typescript", "Tailwind CSS", "Shadcn UI"],
+    startDate: new Date("2025-03-16"),
+    endDate: new Date("2026-09-20"),
+    websiteLink: "https://kayd-invoice-generator.vercel.app",
+    coverImg: "/experience/kayd-invoice-studio/cover.png",
+    pagesInfoArr: [
+      {
+        title: "Invoice editor",
+        description: "The editor with its live A4 preview.",
+        imgArr: ["/experience/kayd-invoice-studio/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "Create, save and export invoices without an account. Everything stays in the browser's storage, with JSON backups to move it elsewhere.",
+        "Invoices support six currencies, item and invoice discounts, tax and part payments, and their status updates itself: unpaid, part paid, paid or overdue. PDFs are generated in the browser, with a print fallback for Sinhala and other non-Latin scripts.",
+      ],
+      bullets: [
+        "Multiple invoices with autosave, search, duplicate and undoable delete",
+        "Versioned local storage with migration and cross-tab conflict detection",
+        "JSON backup export and validated restore",
+        "A4 PDF with pagination and repeated headers",
+        "Logo upload with resizing",
+        "Playwright tests",
+      ],
+    },
+  },
+  {
+    id: "kaydrix-digital-cards",
+    companyName: "KayDrix Digital Business Cards",
+    type: "Personal Project",
+    category: ["Full Stack", "Backend"],
+    shortDescription:
+      "My NFC and QR digital business card platform: public profiles with vCard download, a dashboard for card owners and an admin panel for renewals.",
+    techStack: ["Laravel", "PHP", "Tailwind CSS"],
+    startDate: new Date("2025-10-11"),
+    endDate: new Date("2025-10-24"),
+    descriptionDetails: {
+      paragraphs: [
+        "Each card opens a public profile page where people can save the contact as a vCard. Card owners edit their profile, links and gallery from a dashboard, and an admin panel handles users, payments and renewals.",
+        "Built on Laravel with Breeze and Blade. Renewal reminder emails go out at set points before and after the due date.",
+      ],
+      bullets: [
+        "Public profile with vCard download, hidden when an account is inactive or suspended",
+        "Owner dashboard: profile, social links, photo and an ordered gallery",
+        "Personal and company profiles with business hours, services, map and video",
+        "Admin: users, payments and renewals (record payment, remind, suspend, reactivate)",
+        "Welcome, receipt and contact emails",
+        "One-time web installer for shared hosting",
+      ],
+    },
+  },
+  {
+    id: "pos-inventory-system",
+    companyName: "POS & Inventory System",
+    type: "Personal Project",
+    category: ["Desktop App", "Full Stack", "Typescript"],
+    shortDescription:
+      "A point of sale and inventory system with IMEI and warranty tracking, packaged as a Windows desktop app.",
+    techStack: [
+      "Next.js",
+      "React",
+      "Typescript",
+      "Electron",
+      "Prisma",
+      "SQLite",
+      "Tailwind CSS",
+    ],
+    startDate: new Date("2026-03-03"),
+    descriptionDetails: {
+      paragraphs: [
+        "A full point of sale for retail shops, built as a Next.js app and packaged with Electron as a Windows desktop app on a local SQLite database.",
+        "Phone and electronics stock is tracked down to the IMEI, from purchase through sale and return, together with warranties and their expiry.",
+      ],
+      bullets: [
+        "POS screen with variants, customers, payments and printable receipts",
+        "Products, variants, brands and categories, with barcode and SKU lookup and barcode labels",
+        "IMEI tracking across purchases, sales and returns",
+        "Purchases, purchase returns, sale returns and warranties",
+        "Coupons, gift cards and customer loyalty",
+        "JWT auth with refresh tokens, roles and per-user permissions",
+        "Data backup and purchase order PDFs",
+        "Windows installer build with electron-builder",
+      ],
+    },
+  },
+  {
+    id: "resumint",
+    companyName: "ResuMint",
+    type: "Personal Project",
+    category: ["Frontend", "Typescript", "UI/UX"],
+    shortDescription:
+      "A CV builder: fill in your details, pick a template, style it and download a PDF. Built with a developer on my team.",
+    websiteLink: "https://resumint-nine.vercel.app",
+    techStack: ["React", "Typescript", "Redux", "Tailwind CSS"],
+    startDate: new Date("2025-03-14"),
+    endDate: new Date("2025-06-25"),
+    coverImg: "/experience/resumint/cover.png",
+    pagesInfoArr: [
+      {
+        title: "Template picker",
+        description: "Choosing one of the three CV templates.",
+        imgArr: ["/experience/resumint/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "A browser-based CV builder. Fill in personal, professional, education, skills and reference sections, choose one of three templates, adjust colours and fonts, and download the result as a PDF.",
+        "A developer on my team built the original builder. I added the photo tools (upload, crop and filters) and redesigned the home page and navigation.",
+      ],
+      bullets: [
+        "Multi-section CV data",
+        "Three templates with colour palettes and font choice",
+        "PDF export",
+        "Photo upload, crop and filters",
+        "Drafts saved in the browser",
+      ],
+    },
+  },
+  {
+    id: "snake-game",
+    companyName: "Neon Snake",
+    type: "Personal Project",
+    category: ["Web Dev", "Frontend"],
+    shortDescription:
+      "Snake on an HTML5 canvas, with a neon look, synthesised sound effects and swipe controls on phones.",
+    websiteLink: "https://snake-game-kayd.vercel.app",
+    githubLink: "https://github.com/kalanadidulanga/snake-game",
+    techStack: ["Javascript", "HTML", "CSS"],
+    startDate: new Date("2026-01-03"),
+    endDate: new Date("2026-01-03"),
+    coverImg: "/experience/snake-game/cover.png",
+    pagesInfoArr: [
+      {
+        title: "Start screen",
+        description: "The game's start screen.",
+        imgArr: ["/experience/snake-game/cover.png"],
+      },
+    ],
+    descriptionDetails: {
+      paragraphs: [
+        "Snake drawn on an HTML5 canvas in plain JavaScript and bundled with Vite. The snake speeds up with every piece of food it eats, and the best score stays in the browser.",
+        "The sound effects are generated with the Web Audio API rather than loaded from files, and can be switched off. On a phone the snake follows swipes; on a desktop, the arrow keys.",
+      ],
+      bullets: [
+        "Arrow keys on desktop, swipe controls on mobile",
+        "Speeds up each time the snake eats",
+        "High score saved in local storage",
+        "Eat, move and game-over sounds from the Web Audio API, with a sound toggle",
+        "Wall and self collisions, and a neon glow on the snake and the food",
+      ],
+    },
+  },
   {
     id: "2048-game",
     companyName: "2048 Game",
@@ -440,6 +1044,60 @@ const experiences: ExperienceInterface[] = [
         "Fully Responsive Web Application uning React and Tailwind CSS.",
         "Modern and Interactive Web Application",
         "Built with React and Typescript.",
+      ],
+    },
+  },
+  {
+    id: "kings-town-hotel",
+    companyName: "Kings Town Hotel",
+    // Built at C-Lento ("Developed by C-Lento" in the site footer), so it
+    // counts under the C-Lento client. Year as Kalana stated it; the month
+    // is not known, so the date only orders the list.
+    client: "C-Lento",
+    type: "Professional",
+    category: ["Full Stack", "Web Dev"],
+    shortDescription:
+      "The website for a hotel in Anuradhapura: rooms with live availability, online booking, and an admin for the slides, photos and gallery.",
+    websiteLink: "https://kingstownhotel.com/",
+    techStack: ["React", "Tailwind CSS", "GSAP", "REST API"],
+    coverImg: "/experience/kings-town-hotel/cover.webp",
+    startDate: new Date("2025-01-01"),
+    descriptionDetails: {
+      paragraphs: [
+        "A hotel website I built end to end at C-Lento: the site, the booking flow and the admin behind it.",
+      ],
+      bullets: [
+        "Rooms and suites, each with its next available date",
+        "Online booking from a Book Now button on every page",
+        "An admin to change the hero slides, hotel photos and gallery without a developer",
+        "Scroll animations with GSAP",
+      ],
+    },
+  },
+  {
+    id: "salubrious-resort",
+    companyName: "Salubrious Resort",
+    // Built at C-Lento ("Developed by C-Lento" in the site footer), so it
+    // counts under the C-Lento client. Year as Kalana stated it; the month
+    // is not known, so the date only orders the list.
+    client: "C-Lento",
+    type: "Professional",
+    category: ["Full Stack", "Web Dev"],
+    shortDescription:
+      "The website for a boutique resort in Anuradhapura: rooms with live availability, online booking, trips, and an admin for all of it.",
+    websiteLink: "https://salubriousresort.com/",
+    techStack: ["React", "Tailwind CSS", "GSAP", "REST API"],
+    coverImg: "/experience/salubrious-resort/cover.webp",
+    startDate: new Date("2026-01-01"),
+    descriptionDetails: {
+      paragraphs: [
+        "A resort website I built end to end at C-Lento: the site, the booking flow and the admin behind it.",
+      ],
+      bullets: [
+        "Rooms and suites, each with its next available date",
+        "Online booking, and trips the resort runs, each with its own page",
+        "An admin for the hero slides, photos, gallery and trips",
+        "Scroll animations with GSAP",
       ],
     },
   },

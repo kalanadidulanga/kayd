@@ -1,44 +1,35 @@
-import { routesConfig } from "@/config/routes";
-import { MainNav } from "@/components/main-nav";
+import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ModeToggle } from "@/components/mode-toggle";
-import Link from "next/link";
-import { Icons } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { AccentPicker } from "@/components/accent-picker";
+import { BackToTop } from "@/components/back-to-top";
+import { MotionProviders } from "@/components/motion/providers";
+import { RevealObserver } from "@/components/motion/reveal-observer";
 
-interface MarketingLayoutProps {
-  children: React.ReactNode;
-}
-
-export default async function MarketingLayout({
+export default function MarketingLayout({
   children,
-}: MarketingLayoutProps) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="container z-50 bg-background">
-        <div className="flex h-20 items-center justify-between py-6">
-          <MainNav items={routesConfig.mainNav} />
-          <nav className="flex items-center gap-5">
-            <Link
-              href={"https://github.com/kalanadidulanga"}
-              target="_blank"
-              className={cn(
-                buttonVariants({
-                  variant: "ghost",
-                  size: "sm",
-                }),
-                "h-8 w-8 px-0"
-              )}
-            >
-              <Icons.gitHub className="w-5 h-5" />
-            </Link>
-            <ModeToggle />
-          </nav>
+    <MotionProviders>
+      <RevealObserver />
+      <div className="flex min-h-screen flex-col">
+        <a
+          href="#content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-20 focus:z-[60] focus:rounded-full focus:bg-background focus:px-4 focus:py-2"
+        >
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="content" tabIndex={-1} className="flex-1 outline-none">
+          {children}
+        </main>
+        <SiteFooter />
+        <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2">
+          <BackToTop />
+          <AccentPicker />
         </div>
-      </header>
-      <main className="container flex-1">{children}</main>
-      <SiteFooter />
-    </div>
+      </div>
+    </MotionProviders>
   );
 }

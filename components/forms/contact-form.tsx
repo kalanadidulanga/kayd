@@ -155,7 +155,7 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSending}>
+        <Button type="submit" size="lg" disabled={isSending}>
           {isSending ? "Sending..." : "Submit"}
         </Button>
       </form>

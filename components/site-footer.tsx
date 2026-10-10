@@ -1,36 +1,48 @@
-import * as React from "react";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
-import CustomTooltip from "@/components/custom-tooltip";
+import { Logo } from "@/components/logo";
 import { SocialLinks } from "@/config/socials";
-import { buttonVariants } from "@/components/ui/button";
+import { routesConfig } from "@/config/routes";
+import { profile } from "@/config/profile";
 
-export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
+export function SiteFooter() {
   return (
-    <footer className={cn(className)}>
-      <div className=" flex flex-col justify-center items-center gap-3 mb-5 mt-14">
-        <p className="text-center text-sm">
-          Copyright &copy; 2024 Kalana Didulanga | KayD
-        </p>
-        <div className="container flex items-center justify-center gap-8 ">
-          {SocialLinks.map((item, ind) => (
-            <CustomTooltip icon={item.icon} text={item.username} key={ind}>
-              <Link
-                href={item.link}
-                target="_blank"
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                    size: "sm",
-                  }),
-                  "h-10 w-10 p-2"
-                )}
-              >
-                <item.icon className="h-5 w-5" />
-              </Link>
-            </CustomTooltip>
-          ))}
+    <footer className="relative overflow-hidden border-t border-border bg-band">
+      <div className="container grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr] md:py-20">
+        <div>
+          <Logo className="text-5xl text-foreground" />
+          <p className="mt-5 max-w-xs text-sm text-muted-foreground">
+            {profile.name}, full stack engineer. Built with Next.js, Motion and Lenis.
+          </p>
+        </div>
+        <div>
+          <p className="eyebrow">Site</p>
+          <ul className="mt-5 space-y-3 text-sm">
+            {routesConfig.mainNav.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="text-muted-foreground transition-colors hover:text-foreground">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="eyebrow">Elsewhere</p>
+          <ul className="mt-5 space-y-3 text-sm">
+            {SocialLinks.map((item) => (
+              <li key={item.name}>
+                <Link
+                  href={item.link}
+                  {...(item.link.startsWith("mailto:") ? {} : { target: "_blank", rel: "noreferrer" })}
+                  className="inline-flex items-center gap-2.5 text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.name === "Gmail" ? "Email" : item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

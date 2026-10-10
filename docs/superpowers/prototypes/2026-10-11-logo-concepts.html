@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-accent="indigo">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KayD logo concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Ephesis&family=Damion&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #fafaf9; --band: #f4f4f2; --surface: #fff; --fg: #0a0a0b; --fg-2: #52525b; --fg-3: #6b6b74;
+    --line: rgba(10,10,11,.08); --line-2: rgba(10,10,11,.14); --glass: rgba(255,255,255,.82);
+    --accent: #5b4bd6;
+  }
+  .dark { --bg: #09090b; --band: #0e0e11; --surface: #121215; --fg: #fafafa; --fg-2: #a1a1aa; --fg-3: #85858f;
+    --line: rgba(255,255,255,.07); --line-2: rgba(255,255,255,.13); --glass: rgba(18,18,21,.8); --accent: #8b7cf6; }
+  [data-accent="emerald"] { --accent: #047857; } .dark[data-accent="emerald"] { --accent: #34d399; }
+  [data-accent="ember"] { --accent: #c2410c; } .dark[data-accent="ember"] { --accent: #ff8a4c; }
+
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: Geist, system-ui, sans-serif; -webkit-font-smoothing: antialiased; padding: 32px 16px 80px; transition: background .3s, color .3s; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  h1 { font-size: clamp(28px, 4vw, 44px); letter-spacing: -.04em; font-weight: 600; }
+  h1 em { font-family: "Instrument Serif"; font-weight: 400; color: var(--fg-2); }
+  .lead { color: var(--fg-2); margin-top: 10px; max-width: 640px; line-height: 1.6; }
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 36px; align-items: center; }
+  .bar button { font: 500 13px Geist; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); color: var(--fg); cursor: pointer; }
+  .bar button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
+  .card { border: 1px solid var(--line-2); border-radius: 22px; background: var(--band); overflow: hidden; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 20px 0; }
+  .num { font: 500 12px "Geist Mono"; color: var(--fg-3); letter-spacing: .08em; text-transform: uppercase; }
+  .name { font-weight: 600; letter-spacing: -.02em; }
+  .tag { font: 500 11px "Geist Mono"; color: var(--accent); }
+  .stage { padding: 22px 20px; display: grid; gap: 20px; }
+  .nav { display: flex; align-items: center; gap: 14px; width: fit-content; padding: 6px 6px 6px 16px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--glass); box-shadow: 0 20px 50px -24px rgba(0,0,0,.35); font-size: 13px; color: var(--fg-2); }
+  .nav .talk { background: var(--fg); color: var(--bg); padding: 7px 12px; border-radius: 999px; font-weight: 500; }
+  .foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .icons { display: flex; gap: 8px; align-items: flex-end; }
+  .tile { display: grid; place-items: center; border-radius: 9px; background: var(--fg); color: var(--bg); overflow: hidden; }
+  .t32 { width: 32px; height: 32px; } .t20 { width: 20px; height: 20px; border-radius: 5px; }
+  .note { padding: 0 20px 18px; color: var(--fg-2); font-size: 13.5px; line-height: 1.55; }
+
+  /* 1. current signature */
+  .sig { font-family: Ephesis; font-weight: 400; color: var(--fg); line-height: 1; position: relative; display: inline-block; padding-bottom: .12em; }
+  .sig::after { content: ""; position: absolute; left: 14%; right: 2%; bottom: .08em; height: .045em; background: var(--accent); border-radius: 50%; transform: rotate(-2deg); }
+  /* 2. sans + serif pair */
+  .pair { font-weight: 650; letter-spacing: -.055em; line-height: 1; color: var(--fg); }
+  .pair i { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; letter-spacing: -.02em; color: var(--accent); font-size: 1.22em; line-height: 0; padding-left: .01em; }
+  /* 3. all serif */
+  .serifmark { font-family: "Instrument Serif"; font-style: italic; letter-spacing: -.02em; line-height: 1; color: var(--fg); }
+  .serifmark b { color: var(--accent); font-weight: 400; }
+  /* 4. code tag */
+  .tagmark { font-family: "Geist Mono"; font-weight: 600; letter-spacing: -.04em; line-height: 1; color: var(--fg); white-space: nowrap; }
+  .tagmark span { color: var(--fg-3); font-weight: 500; }
+  .tagmark b { color: var(--accent); font-weight: 600; }
+  /* 5. prompt */
+  .prompt { font-family: "Geist Mono"; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: var(--fg); white-space: nowrap; }
+  .prompt span { color: var(--accent); }
+  .caret { display: inline-block; width: .55em; height: .16em; background: var(--accent); margin-left: .06em; vertical-align: baseline; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  /* 6. monogram */
+  .mono-row { display: inline-flex; align-items: center; gap: .4em; line-height: 1; }
+  .mono-badge { display: grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: .38em; background: var(--fg); color: var(--bg); font-weight: 700; letter-spacing: -.06em; position: relative; }
+  .mono-badge::after { content: ""; position: absolute; right: .2em; bottom: .2em; width: .2em; height: .2em; border-radius: 50%; background: var(--accent); }
+  .mono-word { font-weight: 650; letter-spacing: -.05em; color: var(--fg); }
+  /* 7. bolder script */
+  .bold-sig { font-family: Damion; line-height: 1; color: var(--fg); letter-spacing: .01em; }
+  .bold-sig b { font-weight: 400; color: var(--accent); }
+  .rec { outline: 2px solid var(--accent); outline-offset: -2px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Logo, <em>pick a direction.</em></h1>
+  <p class="lead">Each one is shown in the floating nav, in the footer, and as the browser tab icon. Switch the theme and accent to see how it behaves. Tell me the number you like, or two numbers to mix.</p>
+  <div class="bar" role="group" aria-label="Preview">
+    <button data-theme="light" aria-pressed="true">Light</button>
+    <button data-theme="dark" aria-pressed="false">Dark</button>
+    <span style="width:12px"></span>
+    <button data-acc="indigo" aria-pressed="true">Indigo</button>
+    <button data-acc="emerald" aria-pressed="false">Emerald</button>
+    <button data-acc="ember" aria-pressed="false">Ember</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+  const concepts = [
+    { n: 1, name: "Signature (now)", tag: "current",
+      mark: (s) => `<span class="sig" style="font-size:${s * 1.5}px">KayD</span>`,
+      icon: (s) => `<span class="sig" style="font-size:${s * .95}px;color:inherit">K</span>`,
+      note: "What the site uses today, for comparison. Thin and personal, but small sizes lose it." },
+    { n: 2, name: "Sans + serif", tag: "recommended",
+      mark: (s) => `<span class="pair" style="font-size:${s}px">Kay<i>D</i></span>`,
+      icon: (s) => `<span class="pair" style="font-size:${s * .56}px;color:inherit">K<i>D</i></span>`,
+      note: "The same pairing as every headline on the site (Geist bold, Instrument Serif italic in the accent), so the logo and the page speak one voice." },
+    { n: 3, name: "Serif italic", tag: "",
+      mark: (s) => `<span class="serifmark" style="font-size:${s * 1.35}px">KayD<b>.</b></span>`,
+      icon: (s) => `<span class="serifmark" style="font-size:${s * .8}px;color:inherit">K</span>`,
+      note: "Editorial and calm. Closest to the signature's feel, but crisp and readable at any size." },
+    { n: 4, name: "Code tag", tag: "engineer",
+      mark: (s) => `<span class="tagmark" style="font-size:${s * .9}px"><span>&lt;</span>Kay<b>D</b><span style="letter-spacing:-.18em">&nbsp;/&gt;</span></span>`,
+      icon: (s) => `<span class="tagmark" style="font-size:${s * .5}px;color:inherit;letter-spacing:-.08em">&lt;/&gt;</span>`,
+      note: "Reads as a React component. Says software engineer before anyone reads a word of the page." },
+    { n: 5, name: "Prompt", tag: "engineer",
+      mark: (s) => `<span class="prompt" style="font-size:${s * .95}px"><span>~/</span>kayd<i class="caret"></i></span>`,
+      icon: (s) => `<span class="prompt" style="font-size:${s * .5}px;color:inherit"><span>~/</span></span>`,
+      note: "A terminal path with a blinking caret, matching the code window and git log on the site." },
+    { n: 6, name: "Monogram", tag: "",
+      mark: (s) => `<span class="mono-row" style="font-size:${s * .9}px"><span class="mono-badge">K</span><span class="mono-word">KayD</span></span>`,
+      icon: (s) => `<span style="font-weight:700;letter-spacing:-.06em;font-size:${s * .6}px">K</span>`,
+      note: "A badge plus the name, like a product or app. The badge alone becomes the icon." },
+    { n: 7, name: "Bold script", tag: "",
+      mark: (s) => `<span class="bold-sig" style="font-size:${s * 1.4}px">Kay<b>D</b></span>`,
+      icon: (s) => `<span class="bold-sig" style="font-size:${s * .85}px;color:inherit">K</span>`,
+      note: "Still handwritten, but heavier and easier to read than the current signature." },
+  ];
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = concepts.map((c) => `
+    <article class="card${c.tag === "recommended" ? " rec" : ""}">
+      <div class="head"><span class="num">${String(c.n).padStart(2, "0")} &middot; <span class="name" style="text-transform:none;letter-spacing:-.02em;font-family:Geist;color:var(--fg)">${c.name}</span></span><span class="tag">${c.tag}</span></div>
+      <div class="stage">
+        <div class="nav">${c.mark(22)}<span>Work</span><span>Skills</span><span class="talk">Let's talk</span></div>
+        <div class="foot">${c.mark(40)}<div class="icons"><span class="tile t32">${c.icon(32)}</span><span class="tile t20">${c.icon(20)}</span></div></div>
+      </div>
+      <p class="note">${c.note}</p>
+    </article>`).join("");
+
+  const html = document.documentElement;
+  document.querySelectorAll("[data-theme]").forEach((b) => b.addEventListener("click", () => {
+    html.classList.toggle("dark", b.dataset.theme === "dark");
+    document.querySelectorAll("[data-theme]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  }));
+  document.querySelectorAll("[data-acc]").forEach((b) => b.addEventListener("click", () => {
+    html.dataset.accent = b.dataset.acc;
+    document.querySelectorAll("[data-acc]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  }));
+</script>
+</body>
+</html>
