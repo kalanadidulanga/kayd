@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "KayD",
   description:
-    "Hello! I'm a Full Stack Software Engineer, adept at crafting seamless digital experiences. Explore my portfolio to see how I combine creativity and technical skills to build innovative applications.",
+    "Kalana Didulanga is a full stack engineer building web platforms, mobile apps and Windows software. Software Engineer at TwinCoreTech, freelancing since 2023.",
   url: "https://kalanadidulanga.com",
   //   ogImage: "https://namanbarkiya.com/og.jpg",
   links: {

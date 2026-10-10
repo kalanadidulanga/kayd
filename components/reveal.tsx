@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
+
+export const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
- * Fade and rise on first scroll into view. IntersectionObserver rather than
- * an animation library, since that is the whole feature.
+ * Rises out of a soft blur the first time it scrolls into view.
+ * data-reveal lets the noscript rule in the root layout show it at once
+ * when JavaScript is off.
  */
 export function Reveal({
   children,
@@ -13,50 +15,20 @@ export function Reveal({
   className,
 }: {
   children: React.ReactNode;
+  /** milliseconds */
   delay?: number;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setShown(true);
-      return;
-    }
-
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={ref}
-      // The noscript rule in the root layout keys off this, so a page with no
-      // JavaScript shows the content instead of an empty gap.
+    <motion.div
       data-reveal=""
-      style={{ transitionDelay: `${delay}ms` }}
-      className={cn(
-        "transition-all duration-500 ease-out motion-reduce:transition-none",
-        shown ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0",
-        className
-      )}
+      className={className}
+      initial={{ opacity: 0, y: 28, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.9, delay: delay / 1000, ease: EASE }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

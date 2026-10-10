@@ -37,7 +37,7 @@ import {
   School,
   GraduationCap,
 } from "lucide-react";
-import { FaAws, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FaAws, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import {
   SiAngular,
   SiBootstrap,
@@ -78,6 +78,7 @@ export const Icons = {
   location: School,
   education: GraduationCap,
   facebook: FaFacebook,
+  instagram: FaInstagram,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,

@@ -13,10 +13,11 @@ test.describe("computed stats", () => {
   // and must be updated by hand when the config changes. The
   // no-hand-written-numbers rule binds the site, not this oracle.
   test("the numbers match the experience config, counted by hand", () => {
-    expect(siteStats.projects).toBe(9);
-    // Six professional entries, five clients: two of them are Lapel projects.
-    expect(siteStats.clients).toBe(5);
-    expect(siteStats.technologies).toBe(13);
+    expect(siteStats.projects).toBe(25);
+    // Fourteen professional entries, eight clients: five entries are one
+    // client (keyed "Uniguru"), two are Lapel and two are C-Lento.
+    expect(siteStats.clients).toBe(8);
+    expect(siteStats.technologies).toBe(34);
   });
 
   test("the rendered numbers match the computed ones", async ({ page }) => {
@@ -140,16 +141,17 @@ test.describe("home page structure", () => {
   });
 
   test("the unconditional sections are all present", async ({ page }) => {
-    // These five have no config gate (unlike now/selected-work/testimonials,
-    // which render null on empty config), so they must always be in the DOM.
-    // Without this, the order test below only checks relative order among
-    // whatever happens to exist, and a deleted section would pass silently.
+    // These have no config gate (unlike selected-work, clients and
+    // testimonials, which render null on empty config), so they must always
+    // be in the DOM. Without this, the order test below only checks relative
+    // order among whatever happens to exist, and a deleted section would pass
+    // silently.
     await page.goto("/");
     const ids = await page.locator("section[id]").evaluateAll((nodes) =>
       nodes.map((n) => n.id)
     );
     expect(ids).toEqual(
-      expect.arrayContaining(["experience", "about", "skills", "educations", "contributions"])
+      expect.arrayContaining(["hero", "what-i-do", "work", "experience", "skills", "contact"])
     );
   });
 
@@ -159,14 +161,15 @@ test.describe("home page structure", () => {
       nodes.map((n) => n.id)
     );
     const expectedOrder = [
-      "now",
+      "hero",
       "selected-work",
-      "experience",
-      "about",
-      "skills",
+      "what-i-do",
+      "clients",
+      "work",
       "testimonials",
-      "educations",
-      "contributions",
+      "experience",
+      "skills",
+      "contact",
     ];
     const present = expectedOrder.filter((id) => ids.includes(id));
     expect(ids.filter((id) => present.includes(id))).toEqual(present);
@@ -190,5 +193,7 @@ test.describe("home page with JavaScript disabled", () => {
     expect(opacities.every((o) => o === "1"), `reveal opacities: ${opacities}`).toBe(
       true
     );
+    // Counters animate up from zero, but the HTML must carry the real figure.
+    await expect(page.getByTestId("stats-strip")).toContainText(String(siteStats.projects));
   });
 });

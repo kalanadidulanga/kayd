@@ -1,20 +1,21 @@
 import { testimonials } from "@/config/testimonials";
-import { SectionHeader } from "@/components/section-header";
+import { Section, SectionHeading } from "@/components/section";
 import { Reveal } from "@/components/reveal";
 
+/** Real, attributed quotes only. An empty config renders nothing at all. */
 export function Testimonials() {
   if (testimonials.length === 0) return null;
 
   return (
-    <section id="testimonials" className="container py-16 md:py-24">
-      <SectionHeader index="06" label="Testimonials" title="What people say" />
-      <div className="mt-12 grid gap-8 md:grid-cols-2">
+    <Section id="testimonials">
+      <SectionHeading eyebrow="Testimonials" title="What people" serif="say." />
+      <div className="grid gap-6 md:grid-cols-2">
         {testimonials.map((t, i) => (
           <Reveal key={`${t.name}-${t.company}-${i}`} delay={i * 60}>
-            <figure className="border-l-2 border-brand pl-6">
-              <blockquote className="text-lg leading-relaxed">{t.quote}</blockquote>
-              <figcaption className="mt-4 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">{t.name}</span>
+            <figure className="h-full rounded-3xl border border-border-strong bg-surface p-8">
+              <blockquote className="serif-accent text-2xl leading-snug">{t.quote}</blockquote>
+              <figcaption className="mt-6 text-[0.9375rem] text-muted-foreground">
+                <span className="text-foreground">{t.name}</span>
                 {", "}
                 {t.role}, {t.company}
               </figcaption>
@@ -22,6 +23,6 @@ export function Testimonials() {
           </Reveal>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

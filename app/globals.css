@@ -1,44 +1,57 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 @plugin "tailwindcss-animate";
 
 /* next-themes sets `class="dark"` on <html> */
 @custom-variant dark (&:is(.dark *));
 
-/* Was tailwind.config.js before v4. The colours stay as `hsl(var(--x))` so the
-   :root / .dark blocks below keep driving them; `inline` is what lets that work. */
+/* Tokens are plain colour values, defined per theme and per accent below.
+   Neutrals are zinc; the one accent is the visitor's choice (data-accent). */
 @theme inline {
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-brand: hsl(var(--brand));
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-band: var(--band);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-glass: var(--glass);
+  --color-border-strong: var(--border-strong);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-link: var(--brand);
+  --color-glow: var(--glow);
 
-  /* next/font defines --font-inter and --font-cal in layout.tsx. They are not
-     named --font-sans / --font-heading because those are these theme keys, and
-     a key referencing itself resolves to nothing. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-heading: var(--font-cal), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* shadcn primitive names, mapped onto the same palette */
+  --color-border: var(--border);
+  --color-input: var(--border-strong);
+  --color-ring: var(--brand);
+  --color-primary: var(--foreground);
+  --color-primary-foreground: var(--background);
+  --color-secondary: var(--band);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--band);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--hover);
+  --color-accent-foreground: var(--foreground);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--foreground);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: #ffffff;
 
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  /* Fonts come from next/font in app/layout.tsx. These keys feed Tailwind's
+     font-* classes; `inline` means they are not CSS variables, so the custom
+     utilities below name the next/font variables directly. */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -54,126 +67,75 @@
   to { height: 0; }
 }
 
-/* v4 dropped theme.container.{center,padding,screens}; this is that config. */
 @utility container {
   width: 100%;
   margin-inline: auto;
-  padding-inline: 2rem;
-  /* v4 emits its own per-breakpoint max-widths for .container; the old config
-     set screens:{2xl:1400px}, i.e. a single cap. A flat max-width is the same
-     thing: below 1400px the width:100% governs, above it this does. */
-  max-width: 1400px;
-}
-
-/* Tailwind v4 changed the default border/divide color from gray-200 to
-   currentColor. This keeps the v3 appearance for the ~24 bare `border`
-   utilities in this codebase. */
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-}
-
-/* Scrollbar styling for modern browsers */
-.scrollable-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scrollable-content::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-  border-radius: 10px;
-}
-
-.scrollable-content::-webkit-scrollbar-track {
-  background-color: var(--scrollbar-track);
-}
-
-/* Firefox scrollbar styles */
-.scrollable-content {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  padding-inline: 1.25rem;
+  max-width: 1220px;
+  @media (width >= 768px) { padding-inline: 2rem; }
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
+    --background: #fafaf9;
+    --band: #f4f4f2;
+    --surface: #ffffff;
+    --foreground: #0a0a0b;
+    --muted-foreground: #52525b;
+    --subtle: #6b6b74;
+    --border: rgba(10, 10, 11, 0.08);
+    --border-strong: rgba(10, 10, 11, 0.14);
+    --glass: rgba(255, 255, 255, 0.82);
+    --hover: rgba(10, 10, 11, 0.05);
+    --destructive: #dc2626;
+    --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 20px 60px -20px rgba(10, 10, 11, 0.25);
+    --grain: 0.035;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 215 20.2% 65.1%;
-
-    /* deep blue accent, used sparingly for links, section numbers, hover */
-    --brand: 221 83% 53%;
-
-    --radius: 0.5rem;
-
-    --d: 700ms;
-    --e: cubic-bezier(0.19, 1, 0.22, 1);
+    --brand: #5b4bd6;
+    --brand-soft: rgba(109, 93, 232, 0.12);
+    --glow: rgba(109, 93, 232, 0.2);
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    --background: #09090b;
+    --band: #0e0e11;
+    --surface: #121215;
+    --foreground: #fafafa;
+    --muted-foreground: #a1a1aa;
+    --subtle: #85858f;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.13);
+    --glass: rgba(18, 18, 21, 0.8);
+    --hover: rgba(255, 255, 255, 0.06);
+    --destructive: #f87171;
+    --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+    --grain: 0.06;
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --brand: #8b7cf6;
+    --brand-soft: rgba(139, 124, 246, 0.14);
+    --glow: rgba(139, 124, 246, 0.26);
+  }
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
-
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 216 34% 17%;
-
-    /* lifted for contrast against the near black dark background */
-    --brand: 217 91% 60%;
-
-    --radius: 0.5rem;
-    --d: 700ms;
-    --e: cubic-bezier(0.19, 1, 0.22, 1);
+  /* The visitor's accent. Indigo is the default above. */
+  [data-accent="emerald"] {
+    --brand: #047857;
+    --brand-soft: rgba(5, 150, 105, 0.12);
+    --glow: rgba(5, 150, 105, 0.18);
+  }
+  .dark[data-accent="emerald"] {
+    --brand: #34d399;
+    --brand-soft: rgba(52, 211, 153, 0.14);
+    --glow: rgba(52, 211, 153, 0.22);
+  }
+  [data-accent="ember"] {
+    --brand: #c2410c;
+    --brand-soft: rgba(232, 89, 12, 0.11);
+    --glow: rgba(232, 89, 12, 0.18);
+  }
+  .dark[data-accent="ember"] {
+    --brand: #ff8a4c;
+    --brand-soft: rgba(255, 138, 76, 0.14);
+    --glow: rgba(255, 138, 76, 0.24);
   }
 }
 
@@ -182,176 +144,198 @@
     @apply border-border;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground font-sans;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--brand-soft);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+  }
+
+  /* A faint moving film grain over the whole page: the cinematic texture. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    z-index: 100;
+    pointer-events: none;
+    opacity: var(--grain);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation: grain 8s steps(10) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body::after { animation: none; }
+    /* Everything that animates in is simply there. A CSS rule rather than a
+       hook, because the hook reads differently on the server and the client
+       and the mismatch would leave inline styles half applied. */
+    [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      translate: none !important;
+      filter: none !important;
+    }
   }
 }
 
-
-.card {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-  /* padding: 1rem; */
-  width: 100%;
-  min-height: 200px;
-  text-align: center;
-  color: whitesmoke;
-  background-color: whitesmoke;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1);
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
 }
 
-@media (min-width: 600px) {
-  .card {
-    height: 300px;
-  }
+/* The theme switch draws the new theme as a circle (see theme-toggle.tsx). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 9999;
 }
 
-/* .card:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 110%;
-  background-size: cover;
-  background-position: 0 0;
-  transition: transform calc(var(--d) * 1.5) var(--e);
-  pointer-events: none;
-} */
-
-.card:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 105%;
-  height: 200%;
-  pointer-events: none;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.009) 11.7%, rgba(0, 0, 0, 0.034) 22.1%, rgba(0, 0, 0, 0.072) 31.2%, rgba(0, 0, 0, 0.123) 39.4%, rgba(0, 0, 0, 0.182) 46.6%, rgba(0, 0, 0, 0.249) 53.1%, rgba(0, 0, 0, 0.32) 58.9%, rgba(0, 0, 0, 0.394) 64.3%, rgba(0, 0, 0, 0.468) 69.3%, rgba(0, 0, 0, 0.54) 74.1%, rgba(0, 0, 0, 0.607) 78.8%, rgba(0, 0, 0, 0.668) 83.6%, rgba(0, 0, 0, 0.721) 88.7%, rgba(0, 0, 0, 0.762) 94.1%, rgba(0, 0, 0, 0.79) 100%);
-  transform: translateY(-50%);
-  transition: transform calc(var(--d) * 2) var(--e);
+/* ---------- type ---------- */
+@utility type-hero {
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.75rem, 7.4vw, 6.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
 
-/* .card:nth-child(1):before {
-  background-image: url(https://images.unsplash.com/photo-1517021897933-0e0319cfbc28?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
-} */
-
-/* .card:nth-child(2):before {
-  background-image: url(https://images.unsplash.com/photo-1533903345306-15d1c30952de?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
+@utility type-section {
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.125rem, 4.6vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
 }
 
-.card:nth-child(3):before {
-  background-image: url(https://images.unsplash.com/photo-1545243424-0ce743321e11?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
+@utility type-title {
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
 }
 
-.card:nth-child(4):before {
-  background-image: url(https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
-} */
-
-.content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 1rem;
-  transition: transform var(--d) var(--e);
-  z-index: 1;
-}
-
-.content>*+* {
-  margin-top: 1rem;
-}
-
-.title {
-  font-size: 1.3rem;
-  font-weight: bold;
+@utility type-card {
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.375rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-.copy {
-  font-family: var(--font-serif);
-  font-size: 1.125rem;
-  font-style: italic;
-  line-height: 1.35;
+@utility type-lead {
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  color: var(--muted-foreground);
 }
 
-.btn {
-  cursor: pointer;
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 0.65rem;
-  font-weight: bold;
-  letter-spacing: 0.025rem;
+/* A mono eyebrow with a short accent rule before it. */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: white;
-  background-color: black;
-  border: none;
-}
-
-.btn:hover {
-  background-color: #0d0d0d;
-}
-
-.btn:focus {
-  outline: 1px dashed yellow;
-  outline-offset: 3px;
-}
-
-@media (hover: hover) and (min-width: 600px) {
-  .card:after {
-    transform: translateY(0);
-  }
-
-  .content {
-    transform: translateY(calc(100% - 4.5rem));
-  }
-
-  .content>*:not(.title) {
-    opacity: 0;
-    transform: translateY(1rem);
-    transition: transform var(--d) var(--e), opacity var(--d) var(--e);
-  }
-
-  .card:hover,
-  .card:focus-within {
-    align-items: center;
-  }
-
-  .card:hover:before,
-  .card:focus-within:before {
-    transform: translateY(-4%);
-  }
-
-  .card:hover:after,
-  .card:focus-within:after {
-    transform: translateY(-50%);
-  }
-
-  .card:hover .content,
-  .card:focus-within .content {
-    transform: translateY(0);
-  }
-
-  .card:hover .content>*:not(.title),
-  .card:focus-within .content>*:not(.title) {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: calc(var(--d) / 8);
-  }
-
-  .card:focus-within:before,
-  .card:focus-within:after,
-  .card:focus-within .content,
-  .card:focus-within .content>*:not(.title) {
-    transition-duration: 0s;
+  color: var(--subtle);
+  &::before {
+    content: "";
+    width: 1.125rem;
+    height: 1px;
+    background: var(--brand);
   }
 }
 
+/* The italic serif phrase in a headline. */
+@utility serif-accent {
+  font-family: var(--font-instrument), ui-serif, Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-size: 1.08em;
+}
+
+/* The same, painted as a soft gradient from the text colour into the accent. */
+@utility serif-gradient {
+  background: linear-gradient(180deg, var(--foreground) 25%, var(--brand) 140%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.08em;
+}
+
+/* ---------- surfaces ---------- */
+@utility glass {
+  background-color: var(--glass);
+  /* Dense enough that big type passing underneath reads as frosted, not
+     as text competing with the nav. Unprefixed only: with both written,
+     the build keeps just the -webkit- one, which Chrome ignores. */
+  backdrop-filter: blur(24px) saturate(180%);
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--surface);
+    backdrop-filter: none;
+  }
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+/* A line grid that fades out from the centre. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+
+/* A soft accent light. */
+@utility glow {
+  background: radial-gradient(closest-side, var(--glow), transparent);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+/* Kept for screenshots elsewhere: one soft shadow. */
+@utility shot {
+  box-shadow: var(--shadow-soft);
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* The success tick drawn by Icons.successAnimated after a contact form send. */
 @supports (animation: grow .5s cubic-bezier(.25, .25, .25, 1) forwards) {
   .tick {
     stroke-opacity: 0;
@@ -396,37 +380,4 @@
   100% {
     stroke-dashoffset: 0;
   }
-}
-
-/* One type scale, declared once. Before this each heading picked its own
-   responsive sizes, which is most of why the page read as templated. */
-@utility type-display {
-  font-family: var(--font-heading);
-  font-size: 2.25rem;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  @media (width >= 640px) { font-size: 3.5rem; }
-  @media (width >= 1024px) { font-size: 4.5rem; }
-}
-
-@utility type-section {
-  font-family: var(--font-heading);
-  font-size: 1.875rem;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  @media (width >= 768px) { font-size: 2.75rem; }
-}
-
-@utility type-card {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-@utility type-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }

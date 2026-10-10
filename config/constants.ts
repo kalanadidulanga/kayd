@@ -26,7 +26,30 @@ export type ValidSkills =
   | "Prisma"
   | "JAVA"
   | "C++"
-  | "Python";
+  | "Python"
+  | "Supabase"
+  | "PostgreSQL"
+  | "Expo"
+  | "Shopify"
+  | "Go"
+  | "Redis"
+  | "Docker"
+  | "Rust"
+  | "Tauri"
+  | "Electron"
+  | "SQLite"
+  | "Laravel"
+  | "Vercel AI SDK"
+  | "C#"
+  | ".NET"
+  | "ASP.NET"
+  | "Java desktop"
+  | "Android"
+  | "Flutter"
+  | "Microservices"
+  | "Microfrontends"
+  | "Security"
+  | "GCP";
 
 export type ValidCategory =
   | "Full Stack"
@@ -40,7 +63,8 @@ export type ValidCategory =
   | "Mobile Dev"
   | "Intigration"
   | "REST API"
-  | "3D Modeling";
+  | "3D Modeling"
+  | "Desktop App";
 
 export type ValidExpType = "Personal Project" | "Professional";
 
