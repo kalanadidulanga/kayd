@@ -21,8 +21,8 @@ const instrument = Instrument_Serif({
 });
 
 // Runs before first paint so the remembered accent never flashes. Anything
-// unexpected in storage falls back to indigo. Mirrors components/accent-picker.
-const accentScript = `try{var a=localStorage.getItem("kayd-accent");document.documentElement.dataset.accent=["indigo","emerald","ember"].indexOf(a)>-1?a:"indigo"}catch(e){document.documentElement.dataset.accent="indigo"}`;
+// unexpected in storage falls back to emerald, the default. Mirrors components/accent-picker.
+const accentScript = `try{var a=localStorage.getItem("kayd-accent");document.documentElement.dataset.accent=["emerald","indigo","ember"].indexOf(a)>-1?a:"emerald"}catch(e){document.documentElement.dataset.accent="emerald"}`;
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -68,7 +68,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" data-accent="indigo" suppressHydrationWarning>
+    <html lang="en" data-accent="emerald" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: accentScript }} />
         {/* Reveal starts at opacity 0 and clears it on hydration, so without

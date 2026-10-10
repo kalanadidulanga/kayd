@@ -153,7 +153,7 @@ test("Instagram is linked on the contact page and in the footer", async ({ page 
 test.describe("hero output beam with reduced motion", () => {
   test.use({ contextOptions: { reducedMotion: "reduce" }, viewport: { width: 1440, height: 900 } });
 
-  test("is fully drawn at once, with no pulses", async ({ page }) => {
+  test("is fully drawn at once, with nothing moving", async ({ page }) => {
     await page.goto("/");
     const beam = page.getByTestId("output-beam");
     await expect(beam.locator("svg")).toBeVisible();
@@ -162,7 +162,7 @@ test.describe("hero output beam with reduced motion", () => {
       .evaluateAll((els) => els.map((el) => parseFloat(getComputedStyle(el).strokeDashoffset)));
     expect(offsets.length).toBe(6);
     expect(offsets.every((o) => o === 0), `offsets ${offsets}`).toBe(true);
-    await expect(beam.locator(".beam-pulse").first()).toBeHidden();
+    for (const moving of await beam.locator(".beam-motion").all()) await expect(moving).toBeHidden();
   });
 });
 
@@ -181,4 +181,38 @@ test("back to top appears once scrolled and takes you to the top", async ({ page
   await button.click();
   await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeLessThan(5);
   await expect(page.locator("#content")).toBeFocused();
+});
+
+test.describe("services index", () => {
+  test.use({ viewport: { width: 1440, height: 900 }, contextOptions: { reducedMotion: "reduce" } });
+
+  test("pointing at a service shows its detail and proof", async ({ page }) => {
+    await page.goto("/");
+    const panel = page.locator("#service-panel");
+    await page.getByRole("tab", { name: "POS systems" }).hover();
+    await expect(page.getByRole("tab", { name: "POS systems" })).toHaveAttribute("aria-selected", "true");
+    await expect(panel).toContainText("built and installed on site");
+    await expect(panel.getByRole("link", { name: /ZeroPos/ })).toBeVisible();
+  });
+
+  test("arrow keys move through the services", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("tab", { name: "Custom web applications" }).focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(page.getByRole("tab", { name: "Websites" })).toBeFocused();
+    await expect(page.locator("#service-panel")).toContainText("Fast, modern websites");
+    await page.keyboard.press("End");
+    await expect(page.getByRole("tab", { name: "Consulting and code review" })).toHaveAttribute("aria-selected", "true");
+  });
+});
+
+test("gradient serif words leave room for descenders", async ({ page }) => {
+  // background-clip: text only paints inside the box; the "g" in
+  // "something real." lost its tail when the box stopped at the line.
+  await page.goto("/");
+  const pad = await page
+    .locator("#contact .serif-gradient")
+    .first()
+    .evaluate((el) => parseFloat(getComputedStyle(el).paddingBottom) / parseFloat(getComputedStyle(el).fontSize));
+  expect(pad).toBeGreaterThanOrEqual(0.18);
 });

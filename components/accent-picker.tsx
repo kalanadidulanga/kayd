@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 // Keep in step with accentScript in app/layout.tsx and the data-accent
 // blocks in app/globals.css.
 const ACCENTS = [
-  { id: "indigo", label: "Indigo", swatch: "#8b7cf6" },
   { id: "emerald", label: "Emerald", swatch: "#34d399" },
+  { id: "indigo", label: "Indigo", swatch: "#8b7cf6" },
   { id: "ember", label: "Ember", swatch: "#ff8a4c" },
 ] as const;
 
@@ -16,7 +16,7 @@ type AccentId = (typeof ACCENTS)[number]["id"];
 
 /** Lets the visitor choose the one accent colour; remembered per browser. */
 export function AccentPicker({ className }: { className?: string }) {
-  const [accent, setAccent] = React.useState<AccentId>("indigo");
+  const [accent, setAccent] = React.useState<AccentId>("emerald");
 
   React.useEffect(() => {
     // The pre-paint script already applied the stored choice; mirror it.

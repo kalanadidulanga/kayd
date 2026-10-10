@@ -110,7 +110,7 @@ export function Hero() {
           </div>
         </Reveal>
 
-        <div className="relative mx-auto mt-16 max-w-3xl md:mt-24">
+        <div className="group/hero relative mx-auto mt-16 max-w-3xl md:mt-24">
           <OutputBeam />
           <Reveal delay={850}>
             <CodeWindow file="kalana.ts" lines={codeLines()} />

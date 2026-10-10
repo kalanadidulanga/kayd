@@ -287,6 +287,11 @@
   background-clip: text;
   color: transparent;
   padding-right: 0.08em;
+  /* The gradient only paints inside the box, and the tight hero line-height
+     ends the box above the descenders: the tail of a g or y vanished. Grow
+     the box down, and give the space back so nothing moves. */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 }
 
 /* ---------- surfaces ---------- */
@@ -396,16 +401,26 @@
 .beam-device {
   animation: beam-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 2.7s backwards;
 }
-.beam-pulse {
-  stroke-dasharray: 0.12 1;
-  stroke-dashoffset: 0.12;
-  animation: beam-pulse 3.2s linear infinite;
+/* Code tokens drift right along the line and into the code window, fading
+   in from the screen edge and settling onto the line as they arrive. */
+.beam-tokens {
+  mask-image: linear-gradient(to right, transparent, black 35%);
+  animation: beam-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.4s backwards;
+}
+.beam-token {
+  animation-name: beam-token;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 @keyframes beam-grow { from { transform: scaleX(0); } }
 @keyframes beam-draw { from { stroke-dashoffset: 1; } }
 @keyframes beam-in { from { opacity: 0; } }
-@keyframes beam-pulse { to { stroke-dashoffset: -1; } }
+@keyframes beam-token {
+  from { transform: translate(0, var(--dy, 0)); opacity: 0; }
+  20% { opacity: 0.75; }
+  to { transform: translate(50vw, 0); opacity: 0.75; }
+}
 @media (prefers-reduced-motion: reduce) {
   .beam-line, .beam-branch, .beam-device { animation: none; }
-  .beam-pulse { display: none; }
+  .beam-motion { display: none; }
 }

@@ -11,22 +11,24 @@ test("the theme toggle flips light and dark", async ({ page }) => {
   await expect(html).not.toHaveClass(/dark/);
 });
 
-test("the chosen accent survives a reload", async ({ page }) => {
+test("the accent defaults to emerald, and a chosen one survives a reload", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("radio", { name: "Emerald" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-accent", "emerald");
+  // Not the default, so the reload proves the choice was stored.
+  await page.getByRole("radio", { name: "Ember" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-accent", "ember");
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-accent", "emerald");
-  await expect(page.getByRole("radio", { name: "Emerald" })).toHaveAttribute(
+  await expect(page.locator("html")).toHaveAttribute("data-accent", "ember");
+  await expect(page.getByRole("radio", { name: "Ember" })).toHaveAttribute(
     "aria-checked",
     "true"
   );
 });
 
-test("a corrupt stored accent falls back to indigo", async ({ page }) => {
+test("a corrupt stored accent falls back to emerald, the default", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("kayd-accent", "<script>"));
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-accent", "indigo");
+  await expect(page.locator("html")).toHaveAttribute("data-accent", "emerald");
 });
 
 test("the theme still switches where View Transitions are missing", async ({ page }) => {
