@@ -118,6 +118,19 @@ test.describe("search engines", () => {
     const person = JSON.parse(raw!)["@graph"].find((n: { "@type": string }) => n["@type"] === "Person");
     expect(person.name).toBe("Kalana Didulanga Koralegedara");
     expect(person.sameAs).toContain("https://github.com/kalanadidulanga/");
+    expect(person.image).toBe("https://www.kalanadidulanga.com/Avatar.png");
+  });
+
+  test("an old /index.html link lands on the home page", async ({ request }) => {
+    const res = await request.get("/index.html", { maxRedirects: 0 });
+    expect(res.status()).toBe(308);
+    expect(res.headers()["location"]).toBe("/");
+  });
+
+  test("the photo named in the structured data is served", async ({ request }) => {
+    const res = await request.get("/Avatar.png");
+    expect(res.ok()).toBe(true);
+    expect(res.headers()["content-type"]).toContain("image/png");
   });
 
   test("sitemap, robots and the share image are served", async ({ request }) => {
