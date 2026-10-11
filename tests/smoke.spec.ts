@@ -166,3 +166,12 @@ test.describe("contact API", () => {
     }
   });
 });
+
+test("the GitHub profile banners are served as SVG", async ({ request }) => {
+  // docs/github-profile/README.md points GitHub at these URLs.
+  for (const theme of ["dark", "light"]) {
+    const res = await request.get(`/github/banner-${theme}.svg`);
+    expect(res.ok(), theme).toBe(true);
+    expect(res.headers()["content-type"]).toContain("image/svg+xml");
+  }
+});
