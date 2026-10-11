@@ -2,7 +2,9 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import Avatar from "@/public/avatar.svg";
+// A real PNG, not the SVG wrapper it used to sit in: next/image can resize
+// it (the SVG shipped 1.4 MB as is) and image search can read it.
+import Avatar from "@/public/Avatar.png";
 import { Section, SectionHeading } from "@/components/section";
 import { GitLog } from "@/components/git-log";
 import { Reveal } from "@/components/reveal";

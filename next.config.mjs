@@ -7,6 +7,8 @@ const nextConfig = {
       { source: "/experience/:id", destination: "/work/:id", permanent: true },
       { source: "/educations", destination: "/experience#education", permanent: true },
       { source: "/contributions", destination: "/experience#contributions", permanent: true },
+      // An old link Google still had on file.
+      { source: "/index.html", destination: "/", permanent: true },
     ];
   },
 };

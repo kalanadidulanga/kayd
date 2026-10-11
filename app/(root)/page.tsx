@@ -40,6 +40,7 @@ const structuredData = JSON.stringify({
       name: profile.name,
       alternateName: ["Kalana Didulanga", "KayD"],
       url: siteConfig.url,
+      image: `${siteConfig.url}/Avatar.png`,
       jobTitle: jobs[0]?.title,
       worksFor: jobs.map((r) => ({ "@type": "Organization", name: r.company })),
       sameAs: SocialLinks.filter((s) => !s.link.startsWith("mailto:")).map((s) => s.link),
