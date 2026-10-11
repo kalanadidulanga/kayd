@@ -143,3 +143,26 @@ test.describe("search engines", () => {
     expect(og.headers()["content-type"]).toContain("image/png");
   });
 });
+
+test.describe("contact API", () => {
+  // Only bad or bot-like requests here: with SMTP set in .env, a good one
+  // would send a real email.
+  const base = { name: "Ann Perera", email: "ann@example.com", mobile: "0771234567", message: "I would like a website for my shop." };
+
+  test("rejects a request that is not a valid form", async ({ request }) => {
+    const res = await request.post("/api/contact", { data: { name: "A" } });
+    expect(res.status()).toBe(400);
+  });
+
+  test("answers bots as if it worked, without trying to send", async ({ request }) => {
+    // 200 here, where a real send with no mail set up would be a 500, shows
+    // the request stopped before the mailer.
+    for (const data of [
+      { ...base, startedAt: Date.now() - 60_000, website: "http://spam.example" },
+      { ...base, startedAt: Date.now() },
+    ]) {
+      const res = await request.post("/api/contact", { data });
+      expect(res.status()).toBe(200);
+    }
+  });
+});

@@ -6,6 +6,7 @@ import { declaredSkills, skillGroups } from "../config/skills";
 import { skillUsage } from "../lib/skills";
 import { roles } from "../config/work-history";
 import { services } from "../config/services";
+import { isSpam } from "../lib/contact";
 
 // Pure data checks: no page is loaded. They pin the nothing-invented rule
 // for the skills and work history that the pages render.
@@ -83,4 +84,13 @@ test("each logo sits on its own company's projects", () => {
     expect(e.companyLogoImg, e.id).toBe("/experience/uniguru/logo.PNG");
     expect(e.brand, e.id).toBeUndefined();
   }
+});
+
+test("the contact spam checks catch bots and let people through", () => {
+  const now = 1_000_000;
+  const person = { name: "Ann Perera", email: "ann@example.com", mobile: "0771234567", message: "I would like a website for my shop.", startedAt: now - 60_000 };
+  expect(isSpam(person, now)).toBe(false);
+  expect(isSpam({ ...person, website: "http://spam.example" }, now)).toBe(true);
+  expect(isSpam({ ...person, startedAt: now - 1000 }, now)).toBe(true);
+  expect(isSpam({ ...person, message: "buy http://a.x http://b.x www.c.x https://d.x now" }, now)).toBe(true);
 });
