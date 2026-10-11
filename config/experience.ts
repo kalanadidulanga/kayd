@@ -58,8 +58,7 @@ const experiences: ExperienceInterface[] = [
     companyName: "Uniguru Operations Platform",
     // Same client as the "uniguru" entry below, so the client count dedupes.
     client: "Uniguru",
-    brand: "Langford College",
-    companyLogoImg: "/experience/college-lms/logo.png",
+    companyLogoImg: "/experience/uniguru/logo.PNG",
     type: "Professional",
     category: ["Full Stack", "Next js", "Typescript"],
     shortDescription:
@@ -114,6 +113,7 @@ const experiences: ExperienceInterface[] = [
     id: "student-partner-mobile-app",
     companyName: "Uniguru Mobile App",
     client: "Uniguru",
+    companyLogoImg: "/experience/uniguru/logo.PNG",
     type: "Professional",
     category: ["Mobile Dev", "Typescript"],
     shortDescription:
@@ -140,6 +140,7 @@ const experiences: ExperienceInterface[] = [
     id: "consultancy-website-v2",
     companyName: "Uniguru Website v2",
     client: "Uniguru",
+    companyLogoImg: "/experience/uniguru/logo.PNG",
     type: "Professional",
     category: ["Full Stack", "Next js", "Typescript"],
     shortDescription:
@@ -185,6 +186,8 @@ const experiences: ExperienceInterface[] = [
     // Langford College and Uniguru are two companies of one client (confirmed
     // by the site owner on 2026-10-09), so they count as one client.
     client: "Uniguru",
+    brand: "Langford College",
+    companyLogoImg: "/experience/college-lms/logo.png",
     type: "Professional",
     category: ["Full Stack", "Next js", "Typescript"],
     shortDescription:

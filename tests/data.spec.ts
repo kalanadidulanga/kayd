@@ -73,3 +73,14 @@ test("every service's proof is a real project", () => {
   const ids = new Set(Experiences.map((e) => e.id));
   for (const s of services) for (const id of s.proof ?? []) expect(ids.has(id), `${s.title}: ${id}`).toBe(true);
 });
+
+test("each logo sits on its own company's projects", () => {
+  // A Langford crest once landed on the Uniguru Operations Platform: an
+  // edit meant for the LMS matched the first Uniguru entry instead.
+  const langford = Experiences.filter((e) => e.companyLogoImg === "/experience/college-lms/logo.png").map((e) => e.id);
+  expect(langford).toEqual(["college-lms"]);
+  for (const e of Experiences.filter((x) => x.companyName.startsWith("Uniguru"))) {
+    expect(e.companyLogoImg, e.id).toBe("/experience/uniguru/logo.PNG");
+    expect(e.brand, e.id).toBeUndefined();
+  }
+});
