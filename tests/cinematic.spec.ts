@@ -216,3 +216,13 @@ test("gradient serif words leave room for descenders", async ({ page }) => {
     .evaluate((el) => parseFloat(getComputedStyle(el).paddingBottom) / parseFloat(getComputedStyle(el).fontSize));
   expect(pad).toBeGreaterThanOrEqual(0.18);
 });
+
+test("what I do names each stack and draws each tile", async ({ page }) => {
+  await page.goto("/");
+  const section = page.locator("#what-i-do");
+  // Chip names are screen-reader text, so the icons are not the only label.
+  for (const name of ["Next.js", "Supabase", "Expo", "React Native", "Rust", "Tauri", "Electron", ".NET"]) {
+    await expect(section.getByRole("listitem").filter({ hasText: name }).first()).toBeAttached();
+  }
+  await expect(section.locator("svg[viewBox] > defs")).toHaveCount(5);
+});

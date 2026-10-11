@@ -468,4 +468,16 @@ html.js [data-rise="load"] {
 @media (prefers-reduced-motion: reduce) {
   .beam-line, .beam-branch, .beam-device { animation: none; }
   .beam-motion { display: none; }
+  .iso-float, .iso-blink { animation: none; }
 }
+
+/* "What I do" isometric art (components/home/iso-art.tsx): panels bob, and
+   server lights blink. */
+.iso-float {
+  animation: iso-float 5s ease-in-out infinite;
+}
+.iso-blink {
+  animation: iso-blink 2.4s steps(1) infinite;
+}
+@keyframes iso-float { 50% { transform: translateY(-5px); } }
+@keyframes iso-blink { 50% { opacity: 0.25; } }
