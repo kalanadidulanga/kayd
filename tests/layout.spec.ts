@@ -123,6 +123,10 @@ test("the scroll rail stands in for the scrollbar and steps through the page", a
   await page.goto("/");
   // The browser's own bar is hidden; the rail is there instead.
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarWidth)).toBe("none");
+  // Nor inside: the search results scroll without a bar of their own.
+  await page.keyboard.press("Control+k");
+  expect(await page.locator("#palette-list").evaluate((el) => getComputedStyle(el).scrollbarWidth)).toBe("none");
+  await page.keyboard.press("Escape");
   const up = page.getByRole("button", { name: "Scroll up" });
   const down = page.getByRole("button", { name: "Scroll down" });
   await expect(up).toBeDisabled();

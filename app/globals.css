@@ -112,20 +112,21 @@
 @layer base {
   * {
     @apply border-border;
+    /* No scrollbar anywhere: the ScrollRail stands in for the page's, and
+       inner areas (search results, code) still scroll by wheel, touch and keys. */
+    scrollbar-width: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
   }
 
   html {
     -webkit-text-size-adjust: 100%;
-    /* The ScrollRail (components/scroll-rail.tsx) stands in for the bar. */
-    scrollbar-width: none;
     text-rendering: optimizeLegibility;
     color-scheme: light;
   }
   html.dark {
     color-scheme: dark;
-  }
-  html::-webkit-scrollbar {
-    display: none;
   }
 
   body {
