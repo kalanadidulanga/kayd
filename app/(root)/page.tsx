@@ -10,7 +10,6 @@ import { GitHubField } from "@/components/home/github-field";
 import { PixelField } from "@/components/lab/pixel-field";
 import { Words } from "@/components/motion/words";
 import { ScrubText } from "@/components/motion/scrub-text";
-import { SceneRail } from "@/components/home/scene-rail";
 import { Experiences } from "@/config/experience";
 import { lab } from "@/config/lab";
 import { now } from "@/config/now";
@@ -32,7 +31,10 @@ const structuredData = JSON.stringify({
       "@type": "Person",
       "@id": `${siteConfig.url}/#person`,
       name: profile.name,
-      alternateName: ["Kalana Didulanga", "KayD"],
+      alternateName: profile.alternateNames,
+      givenName: "Kalana",
+      additionalName: "Didulanga",
+      familyName: "Koralegedara",
       url: siteConfig.url,
       image: `${siteConfig.url}/Avatar.png`,
       jobTitle: jobs[0]?.title,
@@ -61,11 +63,11 @@ const btnPrimary =
 function Hero() {
   const job = jobs[0];
   return (
-    <Scene as="section" id="hero" edge="fog" light={[78, 40]} className="flex min-h-[100dvh] flex-col justify-center overflow-x-clip pb-16 pt-28 md:pb-24 md:pt-32">
+    <Scene as="section" id="hero" data-rail-label="Start" edge="fog" light={[78, 40]} className="flex min-h-[100dvh] flex-col justify-center overflow-x-clip pb-16 pt-28 md:pb-24 md:pt-32">
       <div className="container pointer-events-none relative z-10">
         <div className="hero-copy pointer-events-auto max-w-[min(100%,46rem)] lg:max-w-[52%]">
           <p data-rise="load" className="text-[15px] text-muted-foreground">
-            {profile.name}
+            {profile.displayName}
           </p>
           <h1 className="type-hero mt-6 lg:whitespace-nowrap">
             <Words text="I build software" delay={0.1} />
@@ -98,7 +100,7 @@ function Hero() {
           </div>
         </div>
       </div>
-      <div className="relative mt-14 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:flex lg:w-[64vw] lg:items-center">
+      <div className="relative mt-14 lg:absolute lg:inset-y-0 lg:right-[3vw] lg:mt-0 lg:flex lg:w-[62vw] lg:items-center">
         <Atlas className="w-full" />
       </div>
       <div className="container relative mt-10 lg:hidden">
@@ -113,7 +115,7 @@ function LabSignal() {
     .filter((l) => l.kind === "experiment")
     .flatMap((l) => Experiences.filter((e) => e.id === l.project));
   return (
-    <Scene id="lab-signal" light={[80, 50]} overlap>
+    <Scene id="lab-signal" data-rail-label="Lab" light={[80, 50]} overlap>
       <div className="container grid items-center gap-12 lg:grid-cols-12">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border lg:col-span-7">
           <Image src="/lab/lab-poster.webp" alt="" fill sizes="(min-width: 1024px) 55vw, 100vw" className="art object-cover opacity-40" />
@@ -144,7 +146,7 @@ function LabSignal() {
 
 function PersonalNote() {
   return (
-    <Scene id="personal" tone="deep" light={[15, 50]} edge="fog">
+    <Scene id="personal" data-rail-label="A note" tone="deep" light={[15, 50]} edge="fog">
       <div className="container grid items-center gap-12 md:grid-cols-12">
         <div data-rise="" className="mx-auto w-56 md:col-span-4 md:w-full lg:col-span-3 lg:col-start-2">
           <Image
@@ -176,7 +178,7 @@ function PersonalNote() {
 
 function Closing() {
   return (
-    <Scene id="contact" light={[50, 100]} className="pb-10 text-center md:pb-16">
+    <Scene id="contact" data-rail-label="Contact" light={[50, 100]} className="pb-10 text-center md:pb-16">
       <div aria-hidden="true" className="glow absolute inset-x-0 bottom-0 mx-auto h-[80%] max-w-5xl" />
       <div className="container relative">
         <h2 className="type-display mx-auto max-w-4xl">
@@ -201,16 +203,6 @@ function Closing() {
   );
 }
 
-const RAIL = [
-  { id: "hero", label: "Start" },
-  { id: "github", label: "On GitHub" },
-  { id: "how-i-think", label: "How I think" },
-  { id: "range", label: "Range" },
-  { id: "lab-signal", label: "Lab" },
-  { id: "personal", label: "A note" },
-  { id: "contact", label: "Contact" },
-];
-
 export default function IndexPage() {
   return (
     <>
@@ -222,7 +214,6 @@ export default function IndexPage() {
       <LabSignal />
       <PersonalNote />
       <Closing />
-      <SceneRail scenes={RAIL} />
     </>
   );
 }

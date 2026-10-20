@@ -71,12 +71,12 @@ export function SiteHeader() {
         data-nav="top"
         data-open={open || undefined}
         className={cn(
-          "group/nav pointer-events-auto mx-auto mt-0 flex max-w-[1400px] flex-wrap items-center border border-transparent px-5 transition-[max-width,margin,padding,background-color,border-color,border-radius,opacity,transform,box-shadow] duration-[550ms] ease-cine md:px-8 xl:px-16",
-          "h-auto min-h-20",
+          "group/nav pointer-events-auto mx-auto mt-0 grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center border border-transparent px-5 transition-[max-width,margin,padding,background-color,border-color,border-radius,opacity,transform,box-shadow] duration-[550ms] ease-cine md:px-8 xl:px-16",
+          "h-auto min-h-16 md:min-h-[4.5rem]",
           // compact and receded: a floating glass rail
           "data-[nav=compact]:glass data-[nav=receded]:glass data-[nav=compact]:shadow-soft",
-          "data-[nav=compact]:mt-3 data-[nav=receded]:mt-2 data-[nav=compact]:min-h-14 data-[nav=receded]:min-h-12",
-          "data-[nav=compact]:max-w-[calc(100%-1.5rem)] data-[nav=receded]:max-w-[calc(100%-1.5rem)] md:data-[nav=compact]:max-w-[46rem] md:data-[nav=receded]:max-w-[44rem]",
+          "data-[nav=compact]:mt-3 data-[nav=receded]:mt-3 data-[nav=compact]:min-h-14 md:data-[nav=compact]:min-h-14 data-[nav=receded]:min-h-12 md:data-[nav=receded]:min-h-12",
+          "data-[nav=compact]:max-w-[calc(100%-1.5rem)] data-[nav=receded]:max-w-[calc(100%-1.5rem)] md:data-[nav=compact]:max-w-[50rem] md:data-[nav=receded]:max-w-[48rem]",
           "data-[nav=compact]:rounded-[40px] data-[nav=receded]:rounded-[40px] data-[nav=compact]:border-border-strong data-[nav=receded]:border-border",
           "data-[nav=compact]:px-4 data-[nav=receded]:px-4 md:data-[nav=compact]:px-5 md:data-[nav=receded]:px-5",
           "data-[nav=receded]:opacity-[0.88]",
@@ -84,14 +84,13 @@ export function SiteHeader() {
           "data-[open]:glass data-[open]:mt-3 data-[open]:max-w-[calc(100%-1.5rem)] data-[open]:rounded-[28px]! data-[open]:border-border-strong data-[open]:px-4 data-[open]:shadow-soft"
         )}
       >
-        <Link href="/" aria-label="KayD, home" className="mr-auto py-3 text-foreground">
+        <Link href="/" aria-label="KayD, home" className="col-start-1 justify-self-start py-2 text-foreground">
           <Logo
-            className="text-[1.75rem] transition-[font-size] duration-[550ms] ease-cine group-data-[nav=receded]/nav:text-2xl"
-            tailClassName="max-w-[3em] transition-[max-width,opacity] duration-[550ms] ease-cine group-data-[nav=compact]/nav:max-w-0 group-data-[nav=compact]/nav:opacity-0 group-data-[nav=receded]/nav:max-w-0 group-data-[nav=receded]/nav:opacity-0"
+            className="text-[1.6rem] transition-[font-size] duration-[550ms] ease-cine group-data-[nav=receded]/nav:text-2xl"
           />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center md:flex">
+        <nav aria-label="Main" className="col-start-2 hidden items-center md:flex">
           <ul className="flex items-center gap-7 transition-[gap] duration-[550ms] ease-cine group-data-[nav=compact]/nav:gap-5 group-data-[nav=receded]/nav:gap-5">
             {pages.map((item) => {
               const active = isActive(pathname, item.href);
@@ -120,7 +119,7 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="ml-2 flex items-center gap-1 md:ml-7">
+        <div className="col-start-3 flex items-center gap-1 justify-self-end">
           <button
             type="button"
             onClick={openPalette}
@@ -158,7 +157,7 @@ export function SiteHeader() {
           id="mobile-menu"
           aria-label="Main"
           hidden={!open}
-          className="w-full pb-4 pt-2 md:hidden"
+          className="col-span-3 pb-4 pt-2 md:hidden"
         >
           <ul className="border-t border-border pt-2">
             {items.map((item) => {

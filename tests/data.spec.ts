@@ -8,7 +8,7 @@ import { roles } from "../config/work-history";
 import { services } from "../config/services";
 import { isSpam } from "../lib/contact";
 import { lab } from "../config/lab";
-import { longestStreak } from "../lib/github";
+import { currentStreak, longestStreak, privateContributions } from "../lib/github";
 import { ownerEmail, visitorEmail } from "../lib/email";
 import { notes } from "../config/notes";
 
@@ -153,4 +153,17 @@ test("contact emails escape whatever the visitor typed", () => {
     // The plain-text part keeps the message as typed.
     expect(mail.text).toContain("<script>alert(1)</script>");
   }
+});
+
+test("streaks and the private share count what GitHub counts", () => {
+  const counts = (xs: number[]) => xs.map((count) => ({ count }));
+  // Today has nothing yet: the streak still runs through yesterday.
+  expect(currentStreak(counts([3, 0, 1, 2, 0]))).toBe(2);
+  expect(currentStreak(counts([1, 1, 1]))).toBe(3);
+  expect(currentStreak(counts([1, 0, 0]))).toBe(0);
+  // Private is restricted plus visible private, whatever the token can read.
+  const repo = (isPrivate: boolean, totalCount: number) => ({ repository: { isPrivate }, contributions: { totalCount } });
+  expect(
+    privateContributions({ restrictedContributionsCount: 10, byRepository: [[repo(true, 5), repo(false, 7)], [repo(true, 2)]], createdRepositories: [{ isPrivate: true }, { isPrivate: false }] })
+  ).toBe(18);
 });

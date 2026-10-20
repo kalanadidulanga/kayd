@@ -8,6 +8,10 @@
  */
 export const profile = {
   name: "Kalana Didulanga Koralegedara",
+  /** How the site signs itself, as he chose on 2026-10-21. The full name stays for formal places. */
+  displayName: "Kalana D. Koralegedara",
+  /** Every way people search for him, for search engines (structured data and keywords). */
+  alternateNames: ["Kalana D. Koralegedara", "Kalana Didulanga", "Kalana Koralegedara", "Kalana", "KayD", "kalanadidulanga"],
   headline: "Full stack engineer. Web, mobile and desktop.",
   yearsOfExperience: 3,
   experienceSince: 2023,

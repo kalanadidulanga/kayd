@@ -19,6 +19,22 @@ The original prompts are preserved in [AI asset generation prompts](./10-ai-asse
 | Contact clearing | [`contact-clearing.png`](./assets/generated/contact-clearing.png) | 1122 x 1402 | No | Contact page atmosphere behind the form |
 | Disconnected node | [`disconnected-node-404.png`](./assets/generated/disconnected-node-404.png) | 1536 x 1024 | Yes | 404 illustration |
 
+## Work domain specimen series
+
+These seven files were generated on 2026-10-21 for the redesigned Work page. The six square plates share one mineral-organic specimen language, identical forest-black fields, mint rim lighting, centered scale, and reserved lower space.
+
+| Asset | File | Dimensions | Intended use |
+| --- | --- | ---: | --- |
+| Operations specimen | [`domain-operations.png`](./assets/generated/domain-operations.png) | 1024 x 1024 | Operations domain plate and project-row glyph source |
+| Hospitality specimen | [`domain-hospitality.png`](./assets/generated/domain-hospitality.png) | 1024 x 1024 | Hospitality domain plate and project-row glyph source |
+| Education specimen | [`domain-education.png`](./assets/generated/domain-education.png) | 1024 x 1024 | Education domain plate and project-row glyph source |
+| Commerce specimen | [`domain-commerce.png`](./assets/generated/domain-commerce.png) | 1024 x 1024 | Commerce domain plate and project-row glyph source |
+| Tools specimen | [`domain-tools.png`](./assets/generated/domain-tools.png) | 1024 x 1024 | Tools domain plate and project-row glyph source |
+| Experiments specimen | [`domain-experiments.png`](./assets/generated/domain-experiments.png) | 1024 x 1024 | Experiments domain plate and project-row glyph source |
+| Work field | [`work-field.png`](./assets/generated/work-field.png) | 2400 x 1100 | Wide Work header background with left-side copy space |
+
+The plates are conceptual category artwork. They should not be described as project screenshots. When small row glyphs are needed, derive them from these same files rather than introducing a second icon style. Preserve the source files here and create runtime derivatives under `public/` during implementation.
+
 ## Selection notes
 
 ### Living Systems Atlas

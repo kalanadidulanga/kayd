@@ -1,6 +1,6 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { BackToTop } from "@/components/back-to-top";
+import { ScrollRail } from "@/components/scroll-rail";
 import { CommandPalette, type PaletteItem } from "@/components/command-palette";
 import { MotionProviders } from "@/components/motion/providers";
 import { RevealObserver } from "@/components/motion/reveal-observer";
@@ -58,9 +58,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         </main>
       </div>
       <SiteFooter />
-      <div className="no-print fixed bottom-4 right-4 z-40">
-        <BackToTop />
-      </div>
+      <ScrollRail />
     </MotionProviders>
   );
 }

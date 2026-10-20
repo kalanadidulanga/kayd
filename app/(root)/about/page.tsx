@@ -57,7 +57,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <Scene as="header" id="about" light={[85, 30]} edge="fog" className="pb-16 pt-36 md:pt-44">
+      <Scene as="header" id="about" data-rail-label="About" light={[85, 30]} edge="fog" className="pb-16 pt-36 md:pt-44">
         <div className="container grid items-end gap-12 md:grid-cols-12">
           <div className="md:col-span-7">
             <h1 data-rise="load" className="type-display">
@@ -84,7 +84,7 @@ export default function AboutPage() {
         </div>
       </Scene>
 
-      <Scene id="path" tone="deep" light={[10, 40]}>
+      <Scene id="path" data-rail-label="The path" tone="deep" light={[10, 40]}>
         <div className="container">
           <SceneHeading title="The path" lead="Several of these run at the same time." />
           <ol id="roles" className="relative max-w-3xl">
@@ -167,7 +167,7 @@ export default function AboutPage() {
         </div>
       </Scene>
 
-      <Scene id="how-i-work" texture="contour" light={[70, 30]}>
+      <Scene id="how-i-work" data-rail-label="How I work" texture="contour" light={[70, 30]}>
         <div className="container">
           <SceneHeading title="How I work" lead="Five stages, each shown by something on a real project." />
           <ol className="relative grid gap-x-12 gap-y-14 md:grid-cols-2 lg:grid-cols-[repeat(5,minmax(0,1fr))]">
@@ -190,7 +190,7 @@ export default function AboutPage() {
         </div>
       </Scene>
 
-      <Scene id="skills" tone="deep" light={[30, 20]} edge="fog">
+      <Scene id="skills" data-rail-label="Platforms" tone="deep" light={[30, 20]} edge="fog">
         <div className="container">
           <SceneHeading title="Across platforms" lead="How the pieces fit, and every technology with the projects that use it. No ratings." />
           <ul className="grid gap-x-10 gap-y-10 md:grid-cols-2 lg:grid-cols-5">
@@ -240,7 +240,7 @@ export default function AboutPage() {
         </div>
       </Scene>
 
-      <Scene id="beyond" light={[75, 50]}>
+      <Scene id="beyond" data-rail-label="Beyond" light={[75, 50]}>
         <div className="container grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5" data-rise="">
             <h2 className="type-section">Beyond client work</h2>
@@ -269,7 +269,7 @@ export default function AboutPage() {
 
       <Testimonials />
 
-      <Scene id="resume-actions" light={[50, 80]} className="text-center">
+      <Scene id="resume-actions" data-rail-label="Resume" light={[50, 80]} className="text-center">
         <div className="container" data-rise="">
           <h2 className="type-section">The short version</h2>
           <p className="type-lead mx-auto mt-5 max-w-md">The same facts on one printable page.</p>
