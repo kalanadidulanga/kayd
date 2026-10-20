@@ -518,7 +518,7 @@ html.js .mask-reveal[data-rise=""][data-in] {
 @keyframes draw-in { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes fade-in { from { opacity: 0; } }
 
-/* Print: the résumé (and any page) on white paper, in ink. */
+/* Print: the resume (and any page) on white paper, in ink. */
 @media print {
   :root,
   .dark {

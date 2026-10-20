@@ -52,7 +52,7 @@ export function SiteFooter() {
               ))}
               <li>
                 <Link href="/resume" className="text-muted-foreground transition-colors hover:text-foreground">
-                  Résumé
+                  Resume
                 </Link>
               </li>
             </ul>

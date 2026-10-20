@@ -110,7 +110,7 @@ test("each skill shows the number of projects that use it", async ({ page }) => 
   }
 });
 
-test("the résumé carries every role and prints", async ({ page }) => {
+test("the resume carries every role and prints", async ({ page }) => {
   await page.goto("/resume");
   for (const r of roles) await expect(page.locator("main")).toContainText(r.company);
   await expect(page.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();

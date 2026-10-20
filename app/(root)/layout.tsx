@@ -16,7 +16,7 @@ const email = SocialLinks.find((s) => s.link.startsWith("mailto:"))!.link.replac
 const paletteItems: PaletteItem[] = [
   { group: "Pages", label: "Home", href: "/" },
   ...routesConfig.mainNav.map((n) => ({ group: "Pages", label: n.title, href: n.href })),
-  { group: "Pages", label: "Résumé", hint: "view or print", href: "/resume" },
+  { group: "Pages", label: "Resume", hint: "view or print", href: "/resume" },
   ...Object.entries(PLATFORMS).map(([key, label]) => ({
     group: "Filter work",
     label: `${label} projects`,

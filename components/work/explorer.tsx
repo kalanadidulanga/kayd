@@ -4,9 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { ChevronDown, Search, X } from "lucide-react";
+import { BedDouble, ChevronDown, FlaskConical, GraduationCap, Search, ShoppingBag, Workflow, Wrench, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import type { Domain } from "@/config/experience";
 import { DEPTHS, DOMAINS, OWNERSHIP, PLATFORMS, type ProjectSummary } from "@/lib/work";
 
 type Filters = {
@@ -22,20 +23,19 @@ const KEYS = ["q", "ownership", "platform", "domain", "tech", "year", "depth"] a
 const EMPTY: Filters = { q: "", ownership: "", platform: "", domain: "", tech: "", year: "", depth: "" };
 
 const OWNERSHIP_CHIPS: Record<string, string> = { ...OWNERSHIP, team: "Team" };
+const DOMAIN_ICONS: Record<Domain, typeof Workflow> = {
+  operations: Workflow,
+  hospitality: BedDouble,
+  education: GraduationCap,
+  commerce: ShoppingBag,
+  tools: Wrench,
+  experiments: FlaskConical,
+};
+
+type Art = Partial<Record<Domain, string>>;
 
 function haystack(p: ProjectSummary) {
-  return [
-    p.title,
-    p.summary,
-    DOMAINS[p.domain],
-    PLATFORMS[p.platform],
-    OWNERSHIP[p.ownership],
-    p.team ? "team" : "",
-    p.role ?? "",
-    p.years,
-    DEPTHS[p.depth],
-    ...p.stack,
-  ]
+  return [p.title, p.summary, DOMAINS[p.domain], PLATFORMS[p.platform], OWNERSHIP[p.ownership], p.team ? "team" : "", p.role ?? "", p.years, DEPTHS[p.depth], ...p.stack]
     .join(" ")
     .toLowerCase();
 }
@@ -54,19 +54,24 @@ function apply(projects: ProjectSummary[], f: Filters) {
   });
 }
 
-function Chips({
-  label,
-  options,
-  value,
-  onChange,
-}: {
-  label: string;
-  options: Record<string, string>;
-  value: string;
-  onChange: (v: string) => void;
-}) {
+/** A domain's mark: its generated specimen when there is one, else its icon. */
+function Glyph({ domain, art, className }: { domain: Domain; art: Art; className?: string }) {
+  const Icon = DOMAIN_ICONS[domain];
   return (
-    <div role="group" aria-label={label} className="flex flex-wrap items-center gap-1.5">
+    <span className={cn("relative grid shrink-0 place-items-center overflow-hidden bg-field text-brand", className)}>
+      {art[domain] ? (
+        <Image src={art[domain]!} alt="" fill sizes="160px" className="art object-cover" />
+      ) : (
+        <Icon aria-hidden="true" className="h-[40%] w-[40%]" />
+      )}
+    </span>
+  );
+}
+
+/** A segmented control: one choice or none, inside the instrument bar. */
+function Segment({ label, options, value, onChange }: { label: string; options: Record<string, string>; value: string; onChange: (v: string) => void }) {
+  return (
+    <div role="group" aria-label={label} className="flex shrink-0 items-center rounded-full bg-background/60 p-1">
       {Object.entries(options).map(([key, text]) => (
         <button
           key={key}
@@ -74,10 +79,8 @@ function Chips({
           aria-pressed={value === key}
           onClick={() => onChange(value === key ? "" : key)}
           className={cn(
-            "rounded-full border px-3.5 py-1.5 text-[14px] transition-[background-color,border-color,color,transform] duration-300 ease-cine active:scale-[0.98]",
-            value === key
-              ? "border-brand bg-brand text-on-brand"
-              : "border-border-strong text-muted-foreground hover:border-brand hover:text-foreground"
+            "rounded-full px-3.5 py-1.5 text-[14px] transition-[background-color,color] duration-300 ease-cine",
+            value === key ? "bg-brand text-on-brand" : "text-muted-foreground hover:text-foreground"
           )}
         >
           {text}
@@ -87,28 +90,28 @@ function Chips({
   );
 }
 
-function Row({ p }: { p: ProjectSummary }) {
+function Row({ p, art }: { p: ProjectSummary; art: Art }) {
   return (
     <li>
       <Link
         href={`/work/${p.id}`}
-        className="group relative grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-4 gap-y-2 border-b border-border py-6 transition-colors duration-300 md:grid-cols-[4.5rem_minmax(0,1fr)_13rem] md:gap-x-8 md:px-3 md:hover:bg-brand-soft"
+        className="group relative grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-x-5 gap-y-2 rounded-2xl px-2 py-5 transition-colors duration-300 hover:bg-brand-soft md:grid-cols-[3.5rem_minmax(0,1fr)_12rem] md:gap-x-7 md:px-4"
       >
-        <span className="meta pt-1 tabular-nums">{p.year}</span>
+        <Glyph domain={p.domain} art={art} className="h-12 w-12 rounded-xl md:h-14 md:w-14" />
         <span className="min-w-0">
-          <span className="type-card block transition-transform duration-500 ease-cine md:group-hover:translate-x-1.5">{p.title}</span>
+          <span className="type-card block transition-transform duration-500 ease-cine md:group-hover:translate-x-1">{p.title}</span>
           <span className="mt-1.5 block text-[15px] leading-snug text-muted-foreground">{p.summary}</span>
           {p.role ? <span className="mt-2 block text-[14px]">{p.role}</span> : null}
         </span>
-        <span className="meta col-start-2 flex flex-wrap gap-x-4 md:col-start-auto md:block md:space-y-1 md:pt-1">
-          <span className="block">{PLATFORMS[p.platform]}, {DOMAINS[p.domain].toLowerCase()}</span>
+        <span className="meta col-start-2 flex flex-wrap gap-x-4 md:col-start-auto md:block md:space-y-1 md:text-right">
+          <span className="block tabular-nums text-foreground">{p.years}</span>
+          <span className="block">{PLATFORMS[p.platform]}</span>
           <span className="block">{DEPTHS[p.depth]}</span>
-          <span className="block truncate">{p.stack.slice(0, 3).join(", ")}</span>
         </span>
         {p.cover ? (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute right-60 top-1/2 z-10 hidden w-72 -translate-y-1/2 scale-95 opacity-0 transition-[opacity,scale] duration-500 ease-cine group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100 xl:block"
+            className="pointer-events-none absolute right-56 top-1/2 z-10 hidden w-72 -translate-y-1/2 scale-95 opacity-0 transition-[opacity,scale] duration-500 ease-cine group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100 xl:block"
           >
             <Image
               src={p.cover}
@@ -116,7 +119,7 @@ function Row({ p }: { p: ProjectSummary }) {
               width={1440}
               height={900}
               sizes="288px"
-              className="shadow-soft aspect-[16/10] w-full rounded-lg border border-border-strong object-cover object-top"
+              className="shadow-soft aspect-[16/10] w-full rounded-lg object-cover object-top"
             />
           </span>
         ) : null}
@@ -126,7 +129,7 @@ function Row({ p }: { p: ProjectSummary }) {
 }
 
 /** The explorer, its state read from and written back to the URL. */
-export function ExplorerView({ projects, initial }: { projects: ProjectSummary[]; initial: Partial<Filters> }) {
+export function ExplorerView({ projects, initial, art = {} }: { projects: ProjectSummary[]; initial: Partial<Filters>; art?: Art }) {
   const [f, setF] = React.useState<Filters>({ ...EMPTY, ...initial });
   const results = apply(projects, f);
 
@@ -149,65 +152,84 @@ export function ExplorerView({ projects, initial }: { projects: ProjectSummary[]
 
   return (
     <div>
-      <div className="space-y-5">
-        <label className="relative block max-w-2xl">
+      {/* The instrument bar: search, then who it was for and where it runs. */}
+      <div className="glass flex flex-col gap-2 rounded-[28px] border border-border p-2 lg:flex-row lg:items-center lg:rounded-full">
+        <label className="relative flex-1">
           <span className="sr-only">Search projects</span>
-          <Search aria-hidden="true" className="absolute left-5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search aria-hidden="true" className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="search"
             value={f.q}
             onChange={(e) => update({ q: e.target.value })}
-            placeholder="Search by name, technology, domain, role or year"
-            className="h-14 w-full rounded-full border border-border-strong bg-transparent pl-12 pr-5 text-[16px] outline-none transition-colors placeholder:text-muted-foreground focus:border-brand"
+            placeholder="Search by name, technology, role or year"
+            className="h-12 w-full rounded-full bg-transparent pl-11 pr-4 text-[16px] outline-none placeholder:text-muted-foreground focus-visible:shadow-[0_0_0_2px_var(--brand)]"
           />
         </label>
-        <div className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-8">
-          <Chips label="Ownership" options={OWNERSHIP_CHIPS} value={f.ownership} onChange={(v) => update({ ownership: v })} />
-          <Chips label="Platform" options={PLATFORMS} value={f.platform} onChange={(v) => update({ platform: v })} />
-          <Chips label="Domain" options={DOMAINS} value={f.domain} onChange={(v) => update({ domain: v })} />
+        <div className="flex flex-wrap gap-2 overflow-x-auto">
+          <Segment label="Ownership" options={OWNERSHIP_CHIPS} value={f.ownership} onChange={(v) => update({ ownership: v })} />
+          <Segment label="Platform" options={PLATFORMS} value={f.platform} onChange={(v) => update({ platform: v })} />
         </div>
-        <details open={advanced || undefined} className="group/adv">
-          <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-[15px] text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
-            More filters
-            <ChevronDown aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-open/adv:rotate-180" />
-          </summary>
-          <div className="mt-4 flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:gap-8">
-            <label className="flex items-center gap-3 text-[15px]">
-              Technology
-              <select
-                value={f.tech}
-                onChange={(e) => update({ tech: e.target.value })}
-                className="h-10 rounded-full border border-border-strong bg-background px-4 text-[15px]"
-              >
-                <option value="">Any</option>
-                {techs.map(([t, n]) => (
-                  <option key={t} value={t}>
-                    {t} ({n})
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="flex items-center gap-3 text-[15px]">
-              Year
-              <select
-                value={f.year}
-                onChange={(e) => update({ year: e.target.value })}
-                className="h-10 rounded-full border border-border-strong bg-background px-4 text-[15px]"
-              >
-                <option value="">Any</option>
-                {years.map((y) => (
-                  <option key={y} value={String(y)}>
-                    {y}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <Chips label="Depth" options={DEPTHS} value={f.depth} onChange={(v) => update({ depth: v })} />
-          </div>
-        </details>
       </div>
 
-      <div className="mt-12 flex items-center justify-between gap-4 border-b border-border pb-4">
+      {/* Domains as specimens: one plate each, a filter when chosen. */}
+      <div role="group" aria-label="Domain" className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {(Object.keys(DOMAINS) as Domain[]).map((d) => {
+          const on = f.domain === d;
+          const n = projects.filter((p) => p.domain === d).length;
+          return (
+            <button
+              key={d}
+              type="button"
+              aria-pressed={on}
+              onClick={() => update({ domain: on ? "" : d })}
+              className={cn(
+                "group/d relative overflow-hidden rounded-2xl text-left transition-[box-shadow,transform] duration-300 ease-cine active:scale-[0.98]",
+                on ? "shadow-[0_0_0_2px_var(--brand)]" : "shadow-[0_0_0_1px_var(--border)] hover:shadow-[0_0_0_1px_var(--brand)]"
+              )}
+            >
+              <Glyph domain={d} art={art} className={cn("aspect-[4/3] w-full transition-transform duration-700 ease-cine group-hover/d:scale-[1.04]", !art[d] && "pb-9 [&>svg]:h-[30%] [&>svg]:w-[30%]")} />
+              <span className="absolute inset-x-0 bottom-0 flex items-baseline justify-between gap-2 bg-gradient-to-t from-background via-background/70 to-transparent px-3 pb-2.5 pt-8">
+                <span className={cn("text-[14px] font-medium", on ? "text-brand" : "text-foreground")}>{DOMAINS[d]}</span>
+                <span className="meta">{n}</span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <details open={advanced || undefined} className="group/adv mt-5">
+        <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-[15px] text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
+          More filters
+          <ChevronDown aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-open/adv:rotate-180" />
+        </summary>
+        <div className="mt-4 flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:gap-8">
+          <label className="flex items-center gap-3 text-[15px]">
+            Technology
+            <select value={f.tech} onChange={(e) => update({ tech: e.target.value })} className="h-10 rounded-full bg-field px-4 text-[15px]">
+              <option value="">Any</option>
+              {techs.map(([t, n]) => (
+                <option key={t} value={t}>
+                  {t} ({n})
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-3 text-[15px]">
+            Year
+            <select value={f.year} onChange={(e) => update({ year: e.target.value })} className="h-10 rounded-full bg-field px-4 text-[15px]">
+              <option value="">Any</option>
+              {years.map((y) => (
+                <option key={y} value={String(y)}>
+                  {y}
+                </option>
+              ))}
+            </select>
+          </label>
+          <Segment label="Depth" options={DEPTHS} value={f.depth} onChange={(v) => update({ depth: v })} />
+        </div>
+      </details>
+
+      <div className="mt-12 flex items-center justify-between gap-4 pb-2">
         <p aria-live="polite" className="meta">
           {results.length === projects.length ? `All ${projects.length} projects` : `${results.length} of ${projects.length} projects`}
         </p>
@@ -220,9 +242,9 @@ export function ExplorerView({ projects, initial }: { projects: ProjectSummary[]
       </div>
 
       {results.length ? (
-        <ul data-testid="work-index">
+        <ul data-testid="work-index" className="-mx-2 md:-mx-4">
           {results.map((p) => (
-            <Row key={p.id} p={p} />
+            <Row key={p.id} p={p} art={art} />
           ))}
         </ul>
       ) : (
@@ -276,11 +298,11 @@ let written: string | null = null;
  * fallback lists everything. A new query from elsewhere, such as the command
  * palette, starts the explorer afresh; its own edits to the URL do not.
  */
-export function Explorer({ projects }: { projects: ProjectSummary[] }) {
+export function Explorer({ projects, art }: { projects: ProjectSummary[]; art?: Art }) {
   const params = useSearchParams();
   const qs = params.toString();
   const [key, setKey] = React.useState(qs);
   if (qs !== key && qs !== written) setKey(qs);
   const initial = Object.fromEntries(KEYS.map((k) => [k, params.get(k) ?? ""]));
-  return <ExplorerView key={key} projects={projects} initial={initial} />;
+  return <ExplorerView key={key} projects={projects} initial={initial} art={art} />;
 }

@@ -13,13 +13,13 @@ import { skillLabel, skillUsage } from "@/lib/skills";
 import { projectYears } from "@/lib/work";
 
 export const metadata: Metadata = {
-  title: "Résumé",
+  title: "Resume",
   description: `${profile.name}: roles, selected work, skills with proof, and education, on one printable page.`,
   alternates: { canonical: "/resume" },
 };
 
 /**
- * The résumé, built only from the verified config the rest of the site
+ * The resume, built only from the verified config the rest of the site
  * uses, laid out to print cleanly on A4 or Letter. "Save as PDF" in the
  * print dialog makes the file; a hosted PDF is linked too when one is set.
  */

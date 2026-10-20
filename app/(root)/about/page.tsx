@@ -275,7 +275,7 @@ export default function AboutPage() {
           <p className="type-lead mx-auto mt-5 max-w-md">The same facts on one printable page.</p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
             <Link href="/resume" className="inline-flex h-12 items-center rounded-full bg-brand px-6 text-[15px] font-medium text-on-brand transition-transform active:scale-[0.98]">
-              View résumé
+              View resume
             </Link>
             {resumePdf ? (
               <a href={resumePdf} className="text-foreground hover:text-brand">
