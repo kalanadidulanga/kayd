@@ -16,6 +16,7 @@ const SHADES = [
 const PHONE_WEEKS = 26;
 
 const n = (v: number) => v.toLocaleString("en-US");
+const days = (v: number) => `${v} ${v === 1 ? "day" : "days"}`;
 
 /**
  * The year on GitHub, as a field of green squares: one per day, brighter
@@ -37,8 +38,8 @@ export async function GitHubField() {
   const stats: [string, string][] = [
     [n(activity.total), "contributions in the last year"],
     [`${share}%`, "of them in private repositories"],
-    [`${activity.longestStreak} days`, "longest streak"],
-    [n(activity.publicRepos), "public repositories"],
+    [days(activity.currentStreak), "current streak"],
+    [days(activity.longestStreak), "longest streak in the last year"],
   ];
 
   return (

@@ -119,7 +119,7 @@ export function ownerEmail(m: ContactMessage) {
     subject: `[KayD] ${m.intent ? INTENT_LABELS[m.intent] : "New message"} from ${m.name}`,
     text: textOf(m),
     html: layout({
-      preheader: `${m.name} sent ${about} through ${site}.`,
+      preheader: `${safe.name} sent ${escapeHtml(about)} through ${site}.`,
       kicker: "New message",
       title: `${safe.name} wrote in.`,
       accent: m.intent ? `About ${escapeHtml(about)}.` : "Through the contact form.",

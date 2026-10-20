@@ -11,11 +11,23 @@ export type Activity = {
   total: number;
   /** Contributions to private repositories, which the public cannot open. */
   privateCount: number;
-  publicRepos: number;
+  currentStreak: number;
   longestStreak: number;
 };
 
 const LEVELS = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 } as const;
+
+/**
+ * Days in a row with a contribution, ending on the last day of the calendar,
+ * or on the day before it when that last day (today) has none yet.
+ */
+export function currentStreak(days: Pick<Day, "count">[]): number {
+  let i = days.length - 1;
+  if (i >= 0 && days[i].count === 0) i--;
+  let run = 0;
+  for (; i >= 0 && days[i].count > 0; i--) run++;
+  return run;
+}
 
 /** The longest run of consecutive days with at least one contribution. */
 export function longestStreak(days: Pick<Day, "count">[]): number {
@@ -28,11 +40,34 @@ export function longestStreak(days: Pick<Day, "count">[]): number {
   return best;
 }
 
+type ByRepo = { repository: { isPrivate: boolean }; contributions: { totalCount: number } }[];
+
+/**
+ * Private contributions are the ones the token cannot see (restricted) plus
+ * the ones it can see in private repositories, so the share comes out the
+ * same whatever the token is allowed to read.
+ */
+export function privateContributions(c: {
+  restrictedContributionsCount: number;
+  byRepository: ByRepo[];
+  createdRepositories: { isPrivate: boolean }[];
+}): number {
+  const visible = c.byRepository.flat().reduce((n, r) => n + (r.repository.isPrivate ? r.contributions.totalCount : 0), 0);
+  return c.restrictedContributionsCount + visible + c.createdRepositories.filter((r) => r.isPrivate).length;
+}
+
+// ponytail: GitHub lists at most 100 repositories per kind; past that the
+// private share undercounts. Page through the connections if it ever matters.
+const BY_REPO = "(maxRepositories: 100) { repository { isPrivate } contributions { totalCount } }";
 const QUERY = `query($login: String!) {
   user(login: $login) {
-    repositories(privacy: PUBLIC, ownerAffiliations: OWNER) { totalCount }
     contributionsCollection {
       restrictedContributionsCount
+      commitContributionsByRepository${BY_REPO}
+      issueContributionsByRepository${BY_REPO}
+      pullRequestContributionsByRepository${BY_REPO}
+      pullRequestReviewContributionsByRepository${BY_REPO}
+      repositoryContributions(first: 100) { nodes { repository { isPrivate } } }
       contributionCalendar {
         totalContributions
         weeks { contributionDays { date contributionCount contributionLevel } }
@@ -52,17 +87,27 @@ export async function getActivity(login: string): Promise<Activity | null> {
       next: { revalidate: 86400 },
     });
     if (!res.ok) return null;
-    const user = (await res.json())?.data?.user;
-    if (!user) return null;
-    const cal = user.contributionsCollection.contributionCalendar;
+    const col = (await res.json())?.data?.user?.contributionsCollection;
+    if (!col) return null;
+    const cal = col.contributionCalendar;
     const days: Day[] = cal.weeks.flatMap((w: { contributionDays: { date: string; contributionCount: number; contributionLevel: keyof typeof LEVELS }[] }) =>
       w.contributionDays.map((d) => ({ date: d.date, count: d.contributionCount, level: LEVELS[d.contributionLevel] ?? 0 }))
     );
+    const privateCount = privateContributions({
+      restrictedContributionsCount: col.restrictedContributionsCount,
+      byRepository: [
+        col.commitContributionsByRepository,
+        col.issueContributionsByRepository,
+        col.pullRequestContributionsByRepository,
+        col.pullRequestReviewContributionsByRepository,
+      ],
+      createdRepositories: col.repositoryContributions.nodes.map((n: { repository: { isPrivate: boolean } }) => n.repository),
+    });
     return {
       days,
       total: cal.totalContributions,
-      privateCount: user.contributionsCollection.restrictedContributionsCount,
-      publicRepos: user.repositories.totalCount,
+      privateCount: Math.min(privateCount, cal.totalContributions),
+      currentStreak: currentStreak(days),
       longestStreak: longestStreak(days),
     };
   } catch {
