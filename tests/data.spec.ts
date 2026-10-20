@@ -9,6 +9,7 @@ import { services } from "../config/services";
 import { isSpam } from "../lib/contact";
 import { lab } from "../config/lab";
 import { longestStreak } from "../lib/github";
+import { ownerEmail, visitorEmail } from "../lib/email";
 import { notes } from "../config/notes";
 
 // Pure data checks: no page is loaded. They pin the nothing-invented rule
@@ -140,4 +141,16 @@ test("the longest GitHub streak counts consecutive active days only", () => {
   expect(longestStreak(days)).toBe(3);
   expect(longestStreak([])).toBe(0);
   expect(longestStreak([{ count: 0 }])).toBe(0);
+});
+
+test("contact emails escape whatever the visitor typed", () => {
+  const m = { name: '<img src=x onerror="alert(1)">', email: "a@b.co", message: "<script>alert(1)</script>", intent: "role" as const };
+  for (const mail of [ownerEmail(m), visitorEmail(m)]) {
+    expect(mail.html).not.toContain("<script>");
+    expect(mail.html).not.toContain("<img src=x");
+    expect(mail.html).toContain("&lt;script&gt;");
+    expect(mail.html).toContain("A role");
+    // The plain-text part keeps the message as typed.
+    expect(mail.text).toContain("<script>alert(1)</script>");
+  }
 });

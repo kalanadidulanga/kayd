@@ -63,7 +63,7 @@ export async function GitHubField() {
           </dl>
         </div>
 
-        <figure data-rise="" className="mt-14">
+        <figure className="heat mt-14">
           <div
             role="img"
             aria-label={`Contribution calendar: ${n(activity.total)} contributions in the last year, ${share}% of them in private repositories.`}
@@ -73,8 +73,8 @@ export async function GitHubField() {
               <span
                 key={i}
                 title={d ? `${d.count} on ${d.date}` : undefined}
-                className={i < cut ? "hidden aspect-square rounded-[3px] md:block" : "aspect-square rounded-[3px]"}
-                style={{ background: d ? SHADES[d.level] : "transparent" }}
+                className={i < cut ? "heat-cell hidden aspect-square rounded-[3px] md:block" : "heat-cell aspect-square rounded-[3px]"}
+                style={{ background: d ? SHADES[d.level] : "transparent", "--c": Math.floor(i / 7) } as React.CSSProperties}
               />
             ))}
           </div>

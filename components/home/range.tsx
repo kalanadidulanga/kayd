@@ -48,11 +48,13 @@ function plant() {
     x: Math.round((C + radius(i) * Math.cos(i * GOLDEN)) * 10) / 10,
     y: Math.round((C + radius(i) * Math.sin(i * GOLDEN)) * 10) / 10,
     in: DISCIPLINES.flatMap((d, j) => (d.test(e) ? [j] : [])),
+    ring: 0,
   }));
   const rings: FieldRing[] = [];
   byAge.forEach((e, i) => {
     const year = e.startDate?.getUTCFullYear();
     const next = byAge[i + 1]?.startDate?.getUTCFullYear();
+    nodes[i].ring = rings.length;
     if (year && year !== next) rings.push({ year, r: Math.round(radius(i) + 12) });
   });
   return { nodes, rings };

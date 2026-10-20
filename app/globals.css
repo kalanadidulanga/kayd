@@ -431,16 +431,26 @@ html.js [data-rise="load"] {
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
     /* Scrolling away compresses the Atlas a little as Selected work arrives. */
+    /* Scrolling dives into the Atlas: it grows, softens and lets go, while
+       the headline lifts away a little faster than the page. */
     .atlas-compress {
-      transform-origin: 70% 60%;
-      animation: atlas-compress linear both;
+      transform-origin: 68% 55%;
+      animation: atlas-dive linear both;
       animation-timeline: scroll(root);
-      animation-range: 0 90vh;
+      animation-range: 0 100vh;
+    }
+    .hero-copy {
+      animation: hero-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
     }
   }
 }
-@keyframes atlas-compress {
-  to { transform: scale(0.94) translateY(4%); opacity: 0.55; }
+@keyframes atlas-dive {
+  to { transform: scale(1.35) translateY(-6%); opacity: 0.12; filter: blur(6px); }
+}
+@keyframes hero-lift {
+  to { transform: translateY(-14vh); opacity: 0; }
 }
 
 /* A local light under the pointer (components/motion/pointer-light.tsx).
@@ -588,4 +598,122 @@ body {
 }
 @media print {
   .curtain { box-shadow: none; border-radius: 0; }
+}
+
+/* ---------- immersive scroll (home) ---------- */
+/* The world: one light that drifts across the whole page as it scrolls,
+   with a faint drift of spores, behind every scene. A sticky layer inside
+   the curtain, so it never shows over the footer. */
+.world {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.world::before,
+.world::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+}
+.world::before {
+  background: radial-gradient(32% 30% at 50% 50%, var(--fog-strong), transparent 70%);
+  transform: translate(22%, -18%);
+}
+.world::after {
+  background-image:
+    radial-gradient(circle, var(--brand) 0.8px, transparent 1.4px),
+    radial-gradient(circle, var(--brand) 0.6px, transparent 1.2px);
+  background-size: 173px 151px, 97px 113px;
+  background-position: 0 0, 41px 67px;
+  opacity: 0.14;
+  mask-image: radial-gradient(60% 55% at 50% 50%, #000, transparent 75%);
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .world::before {
+      animation: world-light linear both;
+      animation-timeline: scroll(root);
+    }
+    .world::after {
+      animation: world-spores linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes world-light {
+  0% { transform: translate(22%, -18%); }
+  30% { transform: translate(-24%, 4%); }
+  60% { transform: translate(20%, 14%) scale(1.15); }
+  100% { transform: translate(0, 26%) scale(1.35); }
+}
+@keyframes world-spores {
+  to { background-position: 0 -900px, 41px -1300px; }
+}
+
+/* Words that light up line by line as they pass up the screen. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scrub-word {
+      animation: scrub-word linear both;
+      animation-timeline: view();
+      animation-range: cover 12% cover 42%;
+    }
+  }
+}
+@keyframes scrub-word {
+  from { opacity: 0.16; }
+}
+
+/* The GitHub year sweeps in column by column, left to right. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .heat {
+      view-timeline: --heat block;
+    }
+    .heat-cell {
+      animation: heat-cell linear both;
+      animation-timeline: --heat;
+      animation-range: cover calc(4% + var(--c) * 0.6%) cover calc(14% + var(--c) * 0.6%);
+    }
+  }
+}
+@keyframes heat-cell {
+  from { opacity: 0.08; scale: 0.4; }
+}
+
+/* Range blooms from the oldest ring outward as the field arrives. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bloom-field {
+      view-timeline: --bloom block;
+    }
+    .bloom {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: bloom linear both;
+      animation-timeline: --bloom;
+      animation-range: entry calc(var(--ring) * 18%) entry calc(30% + var(--ring) * 18%);
+    }
+  }
+}
+@keyframes bloom {
+  from { opacity: 0; scale: 0.2; }
+}
+
+/* The scene rail: how far down the page you are, and where. */
+.rail-fill {
+  transform-origin: top;
+}
+@supports (animation-timeline: scroll()) {
+  .rail-fill {
+    animation: rail-fill linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes rail-fill {
+  from { transform: scaleY(0); }
 }

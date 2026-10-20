@@ -188,3 +188,13 @@ test("the footer waits under the page, and its name fills with the scroll", asyn
   await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
   await expect.poll(() => lit.evaluate((el) => getComputedStyle(el).clipPath)).toMatch(/^(none|inset\(0px( 0(%|px) 0px 0px)?\))$/);
 });
+
+test("the scene rail marks where you are and takes you to a scene", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const rail = page.getByRole("navigation", { name: "Sections" });
+  const scenes = await page.locator("main [data-scene]").count();
+  await expect(rail.locator("a:not([hidden])")).toHaveCount(scenes);
+  await rail.locator('a[href="#range"]').click();
+  await expect(rail.locator('a[href="#range"]')).toHaveAttribute("aria-current", "");
+});

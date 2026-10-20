@@ -9,6 +9,8 @@ import { Range } from "@/components/home/range";
 import { GitHubField } from "@/components/home/github-field";
 import { PixelField } from "@/components/lab/pixel-field";
 import { Words } from "@/components/motion/words";
+import { ScrubText } from "@/components/motion/scrub-text";
+import { SceneRail } from "@/components/home/scene-rail";
 import { Experiences } from "@/config/experience";
 import { lab } from "@/config/lab";
 import { now } from "@/config/now";
@@ -61,7 +63,7 @@ function Hero() {
   return (
     <Scene as="section" id="hero" edge="fog" light={[78, 40]} className="flex min-h-[100dvh] flex-col justify-center overflow-x-clip pb-16 pt-28 md:pb-24 md:pt-32">
       <div className="container pointer-events-none relative z-10">
-        <div className="pointer-events-auto max-w-[min(100%,46rem)] lg:max-w-[52%]">
+        <div className="hero-copy pointer-events-auto max-w-[min(100%,46rem)] lg:max-w-[52%]">
           <p data-rise="load" className="text-[15px] text-muted-foreground">
             {profile.name}
           </p>
@@ -158,7 +160,9 @@ function PersonalNote() {
           <h2 className="type-title">A note from me</h2>
           <div className="mt-6 space-y-5 text-[clamp(1.0625rem,1.5vw,1.3125rem)] leading-relaxed">
             {profile.about.map((p) => (
-              <p key={p}>{p}</p>
+              <p key={p}>
+                <ScrubText text={p} />
+              </p>
             ))}
           </div>
           <Link href="/about" className="mt-8 inline-block text-brand">
@@ -197,6 +201,16 @@ function Closing() {
   );
 }
 
+const RAIL = [
+  { id: "hero", label: "Start" },
+  { id: "github", label: "On GitHub" },
+  { id: "how-i-think", label: "How I think" },
+  { id: "range", label: "Range" },
+  { id: "lab-signal", label: "Lab" },
+  { id: "personal", label: "A note" },
+  { id: "contact", label: "Contact" },
+];
+
 export default function IndexPage() {
   return (
     <>
@@ -208,6 +222,7 @@ export default function IndexPage() {
       <LabSignal />
       <PersonalNote />
       <Closing />
+      <SceneRail scenes={RAIL} />
     </>
   );
 }

@@ -9,7 +9,7 @@ import { PointerLight } from "@/components/motion/pointer-light";
 
 const ICONS = { web: Globe, mobile: Smartphone, desktop: Monitor, commerce: ShoppingBag, team: Users };
 
-export type FieldNode = { id: string; title: string; x: number; y: number; in: number[] };
+export type FieldNode = { id: string; title: string; x: number; y: number; in: number[]; ring: number };
 export type FieldDiscipline = {
   key: keyof typeof ICONS;
   title: string;
@@ -68,7 +68,7 @@ export function RangeField({ nodes, disciplines, rings }: { nodes: FieldNode[]; 
       </ul>
 
       <div className="lg:col-span-7">
-        <PointerLight className="relative mx-auto aspect-square w-full max-w-[640px]">
+        <PointerLight className="bloom-field relative mx-auto aspect-square w-full max-w-[640px]">
           <svg viewBox="0 0 600 600" className="h-full w-full" role="img" aria-label={`${d.title}: ${d.count} of ${nodes.length} projects lit.`}>
             {rings.map((ring, i) => {
               // Each year's label sits at its own angle, so close rings stay readable.
@@ -95,8 +95,8 @@ export function RangeField({ nodes, disciplines, rings }: { nodes: FieldNode[]; 
                 y2={n.y}
                 stroke="var(--brand)"
                 strokeWidth="1"
-                className="transition-opacity duration-500"
-                style={{ opacity: n.in.includes(active) ? 0.28 : 0 }}
+                className="bloom transition-opacity duration-500"
+                style={{ opacity: n.in.includes(active) ? 0.28 : 0, "--ring": n.ring } as React.CSSProperties}
               />
             ))}
             <circle cx={C} cy={C} r="26" fill="var(--fog-strong)" />
@@ -105,7 +105,7 @@ export function RangeField({ nodes, disciplines, rings }: { nodes: FieldNode[]; 
               const lit = n.in.includes(active);
               const named = proof.has(n.id);
               return (
-                <a key={n.id} href={`/work/${n.id}`} tabIndex={-1} aria-hidden="true" className="group/node">
+                <a key={n.id} href={`/work/${n.id}`} tabIndex={-1} aria-hidden="true" className="group/node bloom" style={{ "--ring": n.ring } as React.CSSProperties}>
                   <circle cx={n.x} cy={n.y} r="16" fill="transparent" />
                   <circle
                     cx={n.x}
