@@ -34,7 +34,7 @@ export default async function OpengraphImage() {
             <div style={{ fontSize: 80, letterSpacing: -3, lineHeight: 1.0, maxWidth: 700, fontWeight: 600 }}>
               I build software for the real world.
             </div>
-            <div style={{ marginTop: 32, fontSize: 30, color: "#67e39b" }}>{profile.name}</div>
+            <div style={{ marginTop: 32, fontSize: 30, color: "#67e39b" }}>{profile.displayName}</div>
             <div style={{ marginTop: 6, fontSize: 24, color: "#a0b6a8" }}>Web platforms, mobile apps and Windows software</div>
           </div>
         </div>

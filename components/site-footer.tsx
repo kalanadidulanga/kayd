@@ -4,14 +4,17 @@ import { SocialLinks } from "@/config/socials";
 import { routesConfig } from "@/config/routes";
 import { profile } from "@/config/profile";
 
-const SHORT_NAME = "Kalana Didulanga";
+
+// Width of the name at 148px, about 62.5 units a character, so stretching
+// it to the full width keeps the letters close to their own proportions.
+const NAME_WIDTH = Math.round(profile.displayName.length * 62.5);
 
 /** The name, set as SVG text stretched to exactly the width it is given. */
 function Name({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 1000 150" aria-hidden="true" className={className}>
-      <text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs" className="font-sans text-[148px] font-semibold tracking-tight">
-        {SHORT_NAME}
+    <svg viewBox={`0 0 ${NAME_WIDTH} 150`} aria-hidden="true" className={className}>
+      <text x="0" y="122" textLength={NAME_WIDTH} lengthAdjust="spacingAndGlyphs" className="font-sans text-[148px] font-semibold tracking-tight">
+        {profile.displayName}
       </text>
     </svg>
   );
@@ -79,7 +82,7 @@ export function SiteFooter() {
           <Name className="footer-name-lit absolute inset-0 w-full" />
         </div>
 
-        <p className="meta border-t border-border py-6">© {new Date().getFullYear()} {profile.name}</p>
+        <p className="meta border-t border-border py-6">© {new Date().getFullYear()} {profile.displayName}</p>
       </div>
     </footer>
   );

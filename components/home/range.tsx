@@ -73,7 +73,7 @@ export function Range() {
   }));
 
   return (
-    <Scene id="range" light={[70, 50]}>
+    <Scene id="range" data-rail-label="Range" light={[70, 50]}>
       <div className="container">
         <SceneHeading
           title="Range"

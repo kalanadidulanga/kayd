@@ -43,7 +43,7 @@ export async function GitHubField() {
   ];
 
   return (
-    <Scene id="github" light={[30, 60]} className="pt-12 md:pt-24">
+    <Scene id="github" data-rail-label="On GitHub" light={[30, 60]} className="pt-12 md:pt-24">
       <div className="container">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div data-rise="" className="lg:col-span-6">

@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 
 import { contactRequestSchema, isSpam } from "@/lib/contact";
 import { ownerEmail, visitorEmail } from "@/lib/email";
+import { profile } from "@/config/profile";
 
 const WINDOW_MS = 10 * 60 * 1000;
 const PER_WINDOW = 5;
@@ -79,7 +80,7 @@ export async function POST(req: Request) {
   // The visitor's copy is a courtesy: if it fails, the message still arrived.
   try {
     await transporter.sendMail({
-      from: { name: "Kalana Didulanga", address: SMTP_USER },
+      from: { name: profile.displayName, address: SMTP_USER },
       to: { name: message.name, address: message.email },
       replyTo: CONTACT_TO,
       ...visitorEmail(message),

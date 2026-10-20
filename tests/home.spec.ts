@@ -151,10 +151,13 @@ test.describe("home page with JavaScript disabled", () => {
   });
 });
 
-test("the full name is on the page and in the title", async ({ page }) => {
-  // Literal on purpose: the owner gave his full name on 2026-10-11.
+test("the name reads as he signs it, and the full name stays where search looks", async ({ page }) => {
+  // Literals on purpose: the full name came on 2026-10-11, the signed form on 2026-10-21.
   await page.goto("/");
-  await expect(page.locator("#hero")).toContainText("Kalana Didulanga Koralegedara");
+  await expect(page.locator("#hero")).toContainText("Kalana D. Koralegedara");
+  const raw = await page.locator('script[type="application/ld+json"]').textContent();
+  const person = JSON.parse(raw!)["@graph"][0];
+  for (const n of ["Kalana D. Koralegedara", "Kalana Didulanga", "Kalana Koralegedara", "KayD"]) expect(person.alternateName).toContain(n);
   await expect(page.locator("footer")).toContainText("Kalana Didulanga Koralegedara");
   await expect(page).toHaveTitle(/Kalana Didulanga Koralegedara/);
 });
@@ -194,7 +197,7 @@ test("the scene rail marks where you are and takes you to a scene", async ({ pag
   await page.goto("/");
   const rail = page.getByRole("navigation", { name: "Sections" });
   const scenes = await page.locator("main [data-scene]").count();
-  await expect(rail.locator("a:not([hidden])")).toHaveCount(scenes);
+  await expect(rail.locator("a")).toHaveCount(scenes);
   await rail.locator('a[href="#range"]').click();
-  await expect(rail.locator('a[href="#range"]')).toHaveAttribute("aria-current", "");
+  await expect(rail.locator('a[href="#range"]')).toHaveAttribute("aria-current", "true");
 });

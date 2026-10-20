@@ -119,13 +119,17 @@ test("Instagram is linked on the contact page and in the footer", async ({ page 
   await expect(page.locator("a[href='https://www.instagram.com/i_m_kayd']")).toHaveCount(2);
 });
 
-test("back to top appears once scrolled and takes you to the top", async ({ page }) => {
+test("the scroll rail stands in for the scrollbar and steps through the page", async ({ page }) => {
   await page.goto("/");
-  const button = page.getByRole("button", { name: "Back to top" });
-  await expect(button).toHaveCount(0);
-  await page.mouse.wheel(0, 2500);
-  await expect(button).toBeVisible();
-  await button.click();
+  // The browser's own bar is hidden; the rail is there instead.
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarWidth)).toBe("none");
+  const up = page.getByRole("button", { name: "Scroll up" });
+  const down = page.getByRole("button", { name: "Scroll down" });
+  await expect(up).toBeDisabled();
+  await down.click();
+  await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeGreaterThan(200);
+  await expect(up).toBeEnabled();
+  await up.click();
   await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeLessThan(5);
   await expect(page.locator("#content")).toBeFocused();
 });

@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { siteConfig } from "@/config/site";
+import { profile } from "@/config/profile";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@/components/analytics";
@@ -24,13 +25,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: "Kalana Didulanga Koralegedara | " + siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
+    // Every page title carries the name, so a search for him finds any page.
+    template: `%s | ${profile.displayName}`,
   },
   description: siteConfig.description,
   keywords: [
-    "Kalana Didulanga Koralegedara",
-    "Kalana Didulanga",
-    "KayD",
+    profile.name,
+    ...profile.alternateNames,
     "Full Stack Software Engineer",
     "Next.js Developer",
     "React Native Developer",

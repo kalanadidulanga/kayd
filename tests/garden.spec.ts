@@ -168,7 +168,8 @@ test.describe("atlas", () => {
         expect(values.every((o) => o === "1" || o === "0.28" || o === "0"), `${sel}: ${values.slice(0, 5)}`).toBe(true);
         expect(values.filter((o) => o === "1").length, sel).toBeGreaterThan(0);
       }
-      // The hero copy does not lift away.
+      // The root pulses are off, and the hero copy does not lift away.
+      await expect(page.locator(".atlas-pulses")).toBeHidden();
       expect(await page.locator(".hero-copy").evaluate((el) => getComputedStyle(el).animationName)).toBe("none");
     });
 

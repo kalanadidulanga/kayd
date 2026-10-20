@@ -70,7 +70,7 @@
     --muted-foreground: #50675a;
     --border: rgba(16, 64, 39, 0.13);
     --border-strong: rgba(16, 64, 39, 0.24);
-    --glass: rgba(244, 248, 245, 0.86);
+    --glass: rgba(244, 248, 245, 0.9);
     --destructive: #b42318;
     --brand: #087a46;
     --brand-bright: #0b9255;
@@ -94,7 +94,7 @@
     --muted-foreground: #a0b6a8;
     --border: rgba(189, 232, 205, 0.13);
     --border-strong: rgba(189, 232, 205, 0.24);
-    --glass: rgba(10, 23, 18, 0.84);
+    --glass: rgba(10, 23, 18, 0.88);
     --destructive: #ff8f84;
     --brand: #67e39b;
     --brand-bright: #a3f6c1;
@@ -116,11 +116,16 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    /* The ScrollRail (components/scroll-rail.tsx) stands in for the bar. */
+    scrollbar-width: none;
     text-rendering: optimizeLegibility;
     color-scheme: light;
   }
   html.dark {
     color-scheme: dark;
+  }
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   body {
@@ -297,7 +302,7 @@ html.js [data-rise="load"] {
   background-color: var(--glass);
   /* Unprefixed only: with both written, the build keeps just the -webkit-
      one, which Chrome ignores. */
-  backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(40px) saturate(180%);
   @media (prefers-reduced-transparency: reduce) {
     background-color: var(--surface);
     backdrop-filter: none;
@@ -551,9 +556,6 @@ html.js .mask-reveal[data-rise=""][data-in] {
 /* ---------- curtain footer (components/site-footer.tsx) ---------- */
 /* The page lifts like a curtain off the footer, which waits underneath.
    Sticky only where the footer fits on screen, or its top would never show. */
-body {
-  timeline-scope: --curtain;
-}
 .curtain {
   position: relative;
   z-index: 1;
@@ -562,7 +564,6 @@ body {
   border-bottom-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   box-shadow: 0 1px 0 var(--border-strong), 0 50px 90px -40px rgba(0, 0, 0, 0.55);
-  view-timeline: --curtain block;
 }
 .site-footer {
   position: relative;
@@ -587,8 +588,10 @@ body {
   @media (prefers-reduced-motion: no-preference) {
     .footer-name-lit {
       animation: name-fill linear both;
-      animation-timeline: --curtain;
-      animation-range: exit 0% exit 65%;
+      /* Tied to the end of the page itself, so the last pixel of scroll is
+         always the last letter, whatever the footer and screen heights. */
+      animation-timeline: scroll(root);
+      animation-range: calc(100% - 70vh) 100%;
     }
   }
 }
@@ -704,16 +707,9 @@ body {
   from { opacity: 0; scale: 0.2; }
 }
 
-/* The scene rail: how far down the page you are, and where. */
-.rail-fill {
-  transform-origin: top;
-}
-@supports (animation-timeline: scroll()) {
-  .rail-fill {
-    animation: rail-fill linear both;
-    animation-timeline: scroll(root);
-  }
-}
-@keyframes rail-fill {
-  from { transform: scaleY(0); }
+
+/* Root pulses (components/home/atlas.tsx) are motion for its own sake: off
+   under reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .atlas-pulses { display: none; }
 }

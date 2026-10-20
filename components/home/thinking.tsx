@@ -22,7 +22,7 @@ const PRINCIPLES = [
  */
 export function Thinking() {
   return (
-    <Scene id="how-i-think" tone="deep" light={[25, 40]} edge="fog">
+    <Scene id="how-i-think" data-rail-label="How I think" tone="deep" light={[25, 40]} edge="fog">
       <div className="container">
         <SceneHeading title="How I think" lead="Four habits, each shown by a decision on a real project." />
         <ul className="border-t border-border">

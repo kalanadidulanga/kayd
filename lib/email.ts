@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { profile } from "@/config/profile";
 import type { INTENTS } from "@/lib/contact";
 
 /**
@@ -88,7 +89,7 @@ function layout({ preheader, kicker, title, accent, greeting, heading, paragraph
         </tr></table>
       </td></tr>
       <tr><td style="background:${C.canvas};padding:22px 36px;">
-        <p style="margin:0;font:400 12px/1.6 ${FONT};color:#a0b6a8;"><span style="color:#ecf7f0;font-weight:600;">Kalana Didulanga</span>&nbsp; Full stack engineer. Web, mobile and desktop.</p>
+        <p style="margin:0;font:400 12px/1.6 ${FONT};color:#a0b6a8;"><span style="color:#ecf7f0;font-weight:600;">${profile.displayName}</span>&nbsp; Full stack engineer. Web, mobile and desktop.</p>
         <p style="margin:4px 0 0;font:400 12px/1.6 ${FONT};"><a href="${siteConfig.url}" style="color:${C.mint};text-decoration:none;">${site}</a></p>
       </td></tr>
     </table>
@@ -136,7 +137,7 @@ export function ownerEmail(m: ContactMessage) {
 export function visitorEmail(m: ContactMessage) {
   const safe = { name: escapeHtml(m.name), email: escapeHtml(m.email), message: escapeHtml(m.message) };
   return {
-    subject: "Your message to Kalana Didulanga",
+    subject: `Your message to ${profile.displayName}`,
     text: [
       `Hi ${m.name},`,
       "",
@@ -145,7 +146,7 @@ export function visitorEmail(m: ContactMessage) {
       "",
       textOf(m),
       "",
-      `Kalana Didulanga, ${siteConfig.url}`,
+      `${profile.displayName}, ${siteConfig.url}`,
     ].join("\n"),
     html: layout({
       preheader: "Your message is in my inbox. Here is a copy.",
