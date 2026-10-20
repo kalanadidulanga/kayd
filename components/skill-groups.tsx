@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { Icons } from "@/components/icons";
+import { ChevronDown } from "lucide-react";
+
 import { skillId, skillLabel, skillUsage } from "@/lib/skills";
 
 function groupId(title: string) {
@@ -22,9 +23,9 @@ export function SkillTable() {
     <div className="grid gap-x-16 gap-y-14 lg:grid-cols-2">
       {skillUsage().map((group) => (
         <section key={group.title} aria-labelledby={groupId(group.title)}>
-          <h2 id={groupId(group.title)} className="type-card">
+          <h3 id={groupId(group.title)} className="type-card">
             {group.title}
-          </h2>
+          </h3>
           <ul className="mt-4 border-t border-border">
             {group.skills.map((s) => (
               <li key={s.name}>
@@ -34,12 +35,12 @@ export function SkillTable() {
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 transition-colors hover:text-brand [&::-webkit-details-marker]:hidden">
                     <span>{skillLabel(s.name)}</span>
-                    <span className="flex items-center gap-3 font-mono text-xs text-subtle">
+                    <span className="meta flex items-center gap-3">
                       <span>
                         <span data-count>{s.projects.length}</span>{" "}
                         {plural(s.projects.length)}
                       </span>
-                      <Icons.chevronDown
+                      <ChevronDown
                         aria-hidden="true"
                         className="h-4 w-4 transition-transform duration-300 ease-cine group-open:rotate-180 motion-reduce:transition-none"
                       />
@@ -68,47 +69,11 @@ export function SkillTable() {
                 className="flex scroll-mt-28 items-center justify-between gap-4 border-b border-border py-4 transition-colors target:bg-brand-soft"
               >
                 <span>{skillLabel(s)}</span>
-                <span className="font-mono text-xs text-subtle">work not listed</span>
+                <span className="meta">work not listed</span>
               </li>
             ))}
           </ul>
         </section>
-      ))}
-    </div>
-  );
-}
-
-/** The home page version: chips with counts, each linking to its row. */
-export function SkillChips() {
-  return (
-    <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
-      {skillUsage().map((group) => (
-        <div key={group.title}>
-          <h3 className="eyebrow">{group.title}</h3>
-          <ul className="mt-5 flex flex-wrap gap-2">
-            {group.skills.map((s) => (
-              <li key={s.name}>
-                <Link
-                  href={`/skills#${skillId(s.name)}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface px-3.5 py-1.5 text-[13px] transition-all duration-300 ease-cine hover:-translate-y-0.5 hover:border-brand"
-                >
-                  {skillLabel(s.name)}
-                  <span className="font-mono text-[11px] text-brand">{s.projects.length}</span>
-                </Link>
-              </li>
-            ))}
-            {group.stated.map((s) => (
-              <li key={s}>
-                <Link
-                  href={`/skills#${skillId(s)}`}
-                  className="inline-flex items-center rounded-full border border-border-strong bg-surface px-3.5 py-1.5 text-[13px] transition-all duration-300 ease-cine hover:-translate-y-0.5 hover:border-brand"
-                >
-                  {skillLabel(s)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       ))}
     </div>
   );

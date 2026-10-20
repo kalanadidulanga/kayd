@@ -29,4 +29,3 @@ export const educations: educationsInterface[] = [
   },
 ];
 
-export const featuredEducations: educationsInterface[] = educations.slice(0, 3);

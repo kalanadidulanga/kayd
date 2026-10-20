@@ -1,12 +1,14 @@
 import * as z from "zod";
 
+/** What a message is about. Optional: a plain hello needs no label. */
+export const INTENTS = ["project", "role", "collaboration", "question"] as const;
+
 /** What a visitor types. Shared by the form and the API, so both enforce the same limits. */
 export const contactSchema = z.object({
   name: z.string().trim().min(3, "Name must contain at least 3 characters.").max(100),
   email: z.string().trim().email("Please enter a valid email.").max(200),
-  mobile: z.string().trim().min(10, "Please enter a valid phone number.").max(30),
   message: z.string().trim().min(10, "Please write something more descriptive.").max(5000),
-  social: z.string().trim().url().max(300).optional().or(z.literal("")),
+  intent: z.enum(INTENTS).optional().or(z.literal("")),
 });
 
 /** What the form posts: the fields, plus what the spam checks need. */

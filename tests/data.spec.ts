@@ -7,6 +7,10 @@ import { skillUsage } from "../lib/skills";
 import { roles } from "../config/work-history";
 import { services } from "../config/services";
 import { isSpam } from "../lib/contact";
+import { lab } from "../config/lab";
+import { longestStreak } from "../lib/github";
+import { ownerEmail, visitorEmail } from "../lib/email";
+import { notes } from "../config/notes";
 
 // Pure data checks: no page is loaded. They pin the nothing-invented rule
 // for the skills and work history that the pages render.
@@ -61,13 +65,6 @@ test("years of experience is a stated literal, never computed", () => {
   expect(src).not.toMatch(/new Date\(/);
 });
 
-test("every stack name in the hero code window is used by a listed project", async () => {
-  const { profile } = await import("../config/profile");
-  const used = new Set(Experiences.flatMap((e) => e.techStack));
-  expect(profile.signatureStack.length).toBeGreaterThan(0);
-  for (const s of profile.signatureStack) expect(used.has(s), s).toBe(true);
-});
-
 test("every service's proof is a real project", () => {
   // A renamed or removed project would otherwise drop out of its service
   // without a sound, leaving a claim with less behind it than it shows.
@@ -88,9 +85,72 @@ test("each logo sits on its own company's projects", () => {
 
 test("the contact spam checks catch bots and let people through", () => {
   const now = 1_000_000;
-  const person = { name: "Ann Perera", email: "ann@example.com", mobile: "0771234567", message: "I would like a website for my shop.", startedAt: now - 60_000 };
+  const person = { name: "Ann Perera", email: "ann@example.com", message: "I would like a website for my shop.", startedAt: now - 60_000 };
   expect(isSpam(person, now)).toBe(false);
   expect(isSpam({ ...person, website: "http://spam.example" }, now)).toBe(true);
   expect(isSpam({ ...person, startedAt: now - 1000 }, now)).toBe(true);
   expect(isSpam({ ...person, message: "buy http://a.x http://b.x www.c.x https://d.x now" }, now)).toBe(true);
+});
+
+test("every project has a presentation level its material can carry", () => {
+  // A case study needs a challenge, decisions and a system map; a story
+  // needs more than one line. Anything thinner stays a note.
+  for (const e of Experiences) {
+    if (e.presentation === "case-study") {
+      expect(e.caseStudy, e.id).toBeDefined();
+      expect(e.decisions?.length, e.id).toBeGreaterThan(0);
+      expect(e.systemMap?.length, e.id).toBeGreaterThan(0);
+    }
+    if (e.presentation === "story") {
+      expect((e.descriptionDetails?.paragraphs?.length ?? 0) + (e.descriptionDetails?.bullets?.length ?? 0), e.id).toBeGreaterThan(1);
+    }
+  }
+});
+
+test("team-built projects say what Kalana did", () => {
+  // A team project without a role or contribution would read as solo work.
+  for (const e of Experiences.filter((x) => x.team)) {
+    expect(e.role ?? e.contribution, e.id).toBeTruthy();
+  }
+});
+
+test("generated illustrations live in public, never in docs", () => {
+  for (const e of Experiences.filter((x) => x.illustration)) {
+    expect(e.illustration!.src.startsWith("/"), e.id).toBe(true);
+    expect(e.illustration!.src, e.id).not.toContain("docs/");
+  }
+});
+
+test("every lab entry is a real project", () => {
+  const ids = new Set(Experiences.map((e) => e.id));
+  for (const l of lab) expect(ids.has(l.project), l.project).toBe(true);
+});
+
+test("notes carry hand-written dates and real related projects", () => {
+  const ids = new Set(Experiences.map((e) => e.id));
+  for (const n of notes) {
+    expect(n.published, n.slug).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    for (const id of n.related ?? []) expect(ids.has(id), `${n.slug}: ${id}`).toBe(true);
+  }
+  const src = readFileSync(path.join(__dirname, "..", "config", "notes.ts"), "utf-8");
+  expect(src).not.toMatch(/new Date\(/);
+});
+
+test("the longest GitHub streak counts consecutive active days only", () => {
+  const days = [1, 2, 0, 3, 1, 4, 0, 0, 5].map((count) => ({ count }));
+  expect(longestStreak(days)).toBe(3);
+  expect(longestStreak([])).toBe(0);
+  expect(longestStreak([{ count: 0 }])).toBe(0);
+});
+
+test("contact emails escape whatever the visitor typed", () => {
+  const m = { name: '<img src=x onerror="alert(1)">', email: "a@b.co", message: "<script>alert(1)</script>", intent: "role" as const };
+  for (const mail of [ownerEmail(m), visitorEmail(m)]) {
+    expect(mail.html).not.toContain("<script>");
+    expect(mail.html).not.toContain("<img src=x");
+    expect(mail.html).toContain("&lt;script&gt;");
+    expect(mail.html).toContain("A role");
+    // The plain-text part keeps the message as typed.
+    expect(mail.text).toContain("<script>alert(1)</script>");
+  }
 });

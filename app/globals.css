@@ -5,20 +5,22 @@
 /* next-themes sets `class="dark"` on <html> */
 @custom-variant dark (&:is(.dark *));
 
-/* Tokens are plain colour values, defined per theme and per accent below.
-   Neutrals are zinc; the one accent is the visitor's choice (data-accent). */
+/* Living Emerald (docs/portfolio-vision/02-design-system-and-continuity.md).
+   One green family, defined per theme below. Green is the identity, not a
+   visitor setting, so there is no accent switch. */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-band: var(--band);
+  --color-field: var(--field);
   --color-surface: var(--surface);
-  --color-subtle: var(--subtle);
+  --color-subtle: var(--muted-foreground);
   --color-glass: var(--glass);
   --color-border-strong: var(--border-strong);
   --color-brand: var(--brand);
+  --color-brand-bright: var(--brand-bright);
   --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
   --color-link: var(--brand);
-  --color-glow: var(--glow);
 
   /* shadcn primitive names, mapped onto the same palette */
   --color-border: var(--border);
@@ -26,11 +28,11 @@
   --color-ring: var(--brand);
   --color-primary: var(--foreground);
   --color-primary-foreground: var(--background);
-  --color-secondary: var(--band);
+  --color-secondary: var(--field);
   --color-secondary-foreground: var(--foreground);
-  --color-muted: var(--band);
+  --color-muted: var(--field);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--hover);
+  --color-accent: var(--brand-soft);
   --color-accent-foreground: var(--foreground);
   --color-popover: var(--surface);
   --color-popover-foreground: var(--foreground);
@@ -39,103 +41,71 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: #ffffff;
 
-  /* Fonts come from next/font in app/layout.tsx. These keys feed Tailwind's
-     font-* classes; `inline` means they are not CSS variables, so the custom
-     utilities below name the next/font variables directly. */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
 
   --radius-lg: 1rem;
   --radius-md: 0.75rem;
   --radius-sm: 0.5rem;
 
   --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
-
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-}
-
-@keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
-}
-
-@keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
 }
 
 @utility container {
   width: 100%;
   margin-inline: auto;
   padding-inline: 1.25rem;
-  max-width: 1220px;
+  max-width: 1400px;
   @media (width >= 768px) { padding-inline: 2rem; }
+  @media (width >= 1280px) { padding-inline: 4rem; }
 }
 
 @layer base {
   :root {
-    --background: #fafaf9;
-    --band: #f4f4f2;
+    --background: #f4f8f5;
+    --field: #eaf2ed;
     --surface: #ffffff;
-    --foreground: #0a0a0b;
-    --muted-foreground: #52525b;
-    --subtle: #6b6b74;
-    --border: rgba(10, 10, 11, 0.08);
-    --border-strong: rgba(10, 10, 11, 0.14);
-    --glass: rgba(255, 255, 255, 0.82);
-    --hover: rgba(10, 10, 11, 0.05);
-    --destructive: #dc2626;
-    --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 20px 60px -20px rgba(10, 10, 11, 0.25);
-    --grain: 0.035;
-
-    --brand: #5b4bd6;
-    --brand-soft: rgba(109, 93, 232, 0.12);
-    --glow: rgba(109, 93, 232, 0.2);
+    --foreground: #102018;
+    --muted-foreground: #50675a;
+    --border: rgba(16, 64, 39, 0.13);
+    --border-strong: rgba(16, 64, 39, 0.24);
+    --glass: rgba(244, 248, 245, 0.86);
+    --destructive: #b42318;
+    --brand: #087a46;
+    --brand-bright: #0b9255;
+    --brand-soft: rgba(8, 122, 70, 0.1);
+    --on-brand: #ffffff;
+    --fog: rgba(40, 128, 76, 0.07);
+    --fog-strong: rgba(40, 128, 76, 0.13);
+    --shadow-soft: 0 30px 80px -40px rgba(10, 40, 24, 0.35);
+    --grain: 0.03;
+    /* Generated art is drawn on dark green. On the light field it is turned
+       to its light negative, hue kept, and multiplied into the page. */
+    --art-filter: invert(1) hue-rotate(180deg) saturate(0.8);
+    --art-blend: multiply;
   }
 
   .dark {
-    --background: #09090b;
-    --band: #0e0e11;
-    --surface: #121215;
-    --foreground: #fafafa;
-    --muted-foreground: #a1a1aa;
-    --subtle: #85858f;
-    --border: rgba(255, 255, 255, 0.07);
-    --border-strong: rgba(255, 255, 255, 0.13);
-    --glass: rgba(18, 18, 21, 0.8);
-    --hover: rgba(255, 255, 255, 0.06);
-    --destructive: #f87171;
-    --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 30px 80px -30px rgba(0, 0, 0, 0.8);
-    --grain: 0.06;
-
-    --brand: #8b7cf6;
-    --brand-soft: rgba(139, 124, 246, 0.14);
-    --glow: rgba(139, 124, 246, 0.26);
-  }
-
-  /* The visitor's accent. Indigo is the default above. */
-  [data-accent="emerald"] {
-    --brand: #047857;
-    --brand-soft: rgba(5, 150, 105, 0.12);
-    --glow: rgba(5, 150, 105, 0.18);
-  }
-  .dark[data-accent="emerald"] {
-    --brand: #34d399;
-    --brand-soft: rgba(52, 211, 153, 0.14);
-    --glow: rgba(52, 211, 153, 0.22);
-  }
-  [data-accent="ember"] {
-    --brand: #c2410c;
-    --brand-soft: rgba(232, 89, 12, 0.11);
-    --glow: rgba(232, 89, 12, 0.18);
-  }
-  .dark[data-accent="ember"] {
-    --brand: #ff8a4c;
-    --brand-soft: rgba(255, 138, 76, 0.14);
-    --glow: rgba(255, 138, 76, 0.24);
+    --background: #07100d;
+    --field: #0a1712;
+    --surface: #0f2119;
+    --foreground: #ecf7f0;
+    --muted-foreground: #a0b6a8;
+    --border: rgba(189, 232, 205, 0.13);
+    --border-strong: rgba(189, 232, 205, 0.24);
+    --glass: rgba(10, 23, 18, 0.84);
+    --destructive: #ff8f84;
+    --brand: #67e39b;
+    --brand-bright: #a3f6c1;
+    --brand-soft: rgba(103, 227, 155, 0.12);
+    --on-brand: #07100d;
+    --fog: rgba(126, 214, 159, 0.07);
+    --fog-strong: rgba(126, 214, 159, 0.14);
+    --shadow-soft: 0 40px 100px -40px rgba(0, 8, 4, 0.9);
+    --grain: 0.05;
+    --art-filter: none;
+    --art-blend: normal;
   }
 }
 
@@ -155,10 +125,10 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    font-size: 1rem;
+    font-size: 1.0625rem;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   ::selection {
@@ -170,23 +140,19 @@
     outline-offset: 3px;
   }
 
-  /* A faint moving film grain over the whole page: the cinematic texture. */
+  /* A faint still grain over the whole page: texture, not motion. */
   body::after {
     content: "";
     position: fixed;
-    inset: -50%;
+    inset: 0;
     z-index: 100;
     pointer-events: none;
     opacity: var(--grain);
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    animation: grain 8s steps(10) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    body::after { animation: none; }
-    /* Everything that animates in is simply there. A CSS rule rather than a
-       hook, because the hook reads differently on the server and the client
-       and the mismatch would leave inline styles half applied. */
+    /* Everything that animates in is simply there. */
     [data-reveal],
     [data-rise] {
       opacity: 1 !important;
@@ -196,6 +162,19 @@
       transition: none !important;
       animation: none !important;
     }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      transition-delay: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  @media print {
+    body::after { display: none; }
   }
 }
 
@@ -204,14 +183,14 @@
    only under html.js, which the pre-paint script sets, so pages read fine
    with JavaScript off. */
 [data-rise] {
-  --rise-y: 28px;
-  --rise-blur: 8px;
-  --rise-dur: 0.9s;
+  --rise-y: 24px;
+  --rise-blur: 6px;
+  --rise-dur: 0.8s;
 }
 [data-rise][data-word] {
-  --rise-y: 40px;
-  --rise-blur: 14px;
-  --rise-dur: 1.1s;
+  --rise-y: 28px;
+  --rise-blur: 10px;
+  --rise-dur: 0.9s;
 }
 html.js [data-rise=""] {
   opacity: 0;
@@ -232,21 +211,12 @@ html.js [data-rise="load"] {
 }
 @keyframes rise {
   /* 0.01, not 0: on-load content is the page's largest paint, and Chrome
-     only records it once it is visible, which a busy main thread can push
-     back by seconds. Looks the same. */
+     only records it once it is visible. Looks the same. */
   from {
     opacity: 0.01;
     transform: translateY(var(--rise-y));
     filter: blur(var(--rise-blur));
   }
-}
-
-@keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -3%); }
-  60% { transform: translate(-2%, -1%); }
-  80% { transform: translate(3%, 3%); }
 }
 
 /* The theme switch draws the new theme as a circle (see theme-toggle.tsx). */
@@ -263,23 +233,32 @@ html.js [data-rise="load"] {
 @utility type-hero {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
-  font-size: clamp(2.75rem, 7.4vw, 6.5rem);
+  /* Two lines at most beside the Atlas on wide screens. */
+  font-size: clamp(3rem, 5.4vw, 5.75rem);
   line-height: 0.98;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.05em;
+}
+
+@utility type-display {
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.6rem, 5.6vw, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.048em;
 }
 
 @utility type-section {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
-  font-size: clamp(2.125rem, 4.6vw, 4rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.2rem, 5vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
 }
 
 @utility type-title {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.75rem, 3vw, 2.625rem);
   line-height: 1.05;
   letter-spacing: -0.035em;
 }
@@ -293,59 +272,32 @@ html.js [data-rise="load"] {
 }
 
 @utility type-lead {
-  font-size: 1.1875rem;
-  line-height: 1.55;
+  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
   color: var(--muted-foreground);
 }
 
-/* A mono eyebrow with a short accent rule before it. */
-@utility eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
+/* Emphasis from the same family: lighter and in the supporting ink. */
+@utility type-soft {
+  font-weight: 300;
+  color: var(--muted-foreground);
+}
+
+/* Small technical metadata: a year, a stack, a state. Sentence case. */
+@utility meta {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--subtle);
-  &::before {
-    content: "";
-    width: 1.125rem;
-    height: 1px;
-    background: var(--brand);
-  }
-}
-
-/* The italic serif phrase in a headline. */
-@utility serif-accent {
-  font-family: var(--font-instrument), ui-serif, Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  font-size: 1.08em;
-}
-
-/* The same, painted as a soft gradient from the text colour into the accent. */
-@utility serif-gradient {
-  background: linear-gradient(180deg, var(--foreground) 25%, var(--brand) 140%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  padding-right: 0.08em;
-  /* The gradient only paints inside the box, and the tight hero line-height
-     ends the box above the descenders: the tail of a g or y vanished. Grow
-     the box down, and give the space back so nothing moves. */
-  padding-bottom: 0.2em;
-  margin-bottom: -0.2em;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--muted-foreground);
 }
 
 /* ---------- surfaces ---------- */
 @utility glass {
   background-color: var(--glass);
-  /* Dense enough that big type passing underneath reads as frosted, not
-     as text competing with the nav. Unprefixed only: with both written,
-     the build keeps just the -webkit- one, which Chrome ignores. */
-  backdrop-filter: blur(24px) saturate(180%);
+  /* Unprefixed only: with both written, the build keeps just the -webkit-
+     one, which Chrome ignores. */
+  backdrop-filter: blur(28px) saturate(180%);
   @media (prefers-reduced-transparency: reduce) {
     background-color: var(--surface);
     backdrop-filter: none;
@@ -356,128 +308,412 @@ html.js [data-rise="load"] {
   box-shadow: var(--shadow-soft);
 }
 
-/* A line grid that fades out from the centre. */
-@utility bg-grid {
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+/* Generated artwork, adapted to the light field (see --art-filter). */
+@utility art {
+  filter: var(--art-filter);
+  mix-blend-mode: var(--art-blend);
 }
 
-/* A soft accent light. */
+/* A soft green light. */
 @utility glow {
-  background: radial-gradient(closest-side, var(--glow), transparent);
-  filter: blur(30px);
+  background: radial-gradient(closest-side, var(--fog-strong), transparent);
   pointer-events: none;
 }
 
-/* Kept for screenshots elsewhere: one soft shadow. */
-@utility shot {
-  box-shadow: var(--shadow-soft);
+/* ---------- scenes (components/scene.tsx) ---------- */
+/* A scene never paints a hard rectangle. Its light is a large radial field
+   at --lx/--ly; its edges fade that light out over a 20 to 35vh bridge, so
+   the next scene picks up the same canvas. */
+.scene {
+  position: relative;
+  isolation: isolate;
+}
+.scene-atmos {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  /* Every scene's light and texture fade out before its edges, so no seam
+     shows where one scene ends and the next begins. */
+  --edge-fade: min(18vh, 180px);
+  mask-image: linear-gradient(to bottom, transparent, #000 var(--edge-fade), #000 calc(100% - var(--edge-fade)), transparent);
+}
+.scene-atmos::before {
+  content: "";
+  position: absolute;
+  inset: -20vh 0;
+  background:
+    radial-gradient(60% 55% at var(--lx, 70%) var(--ly, 30%), var(--fog-strong), transparent 70%),
+    radial-gradient(40% 40% at calc(100% - var(--lx, 70%)) 85%, var(--fog), transparent 70%);
+}
+.scene[data-tone="deep"] .scene-atmos {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--field) clamp(120px, 25vh, 320px),
+    var(--field) calc(100% - clamp(120px, 25vh, 320px)),
+    transparent
+  );
+}
+.scene[data-tone="clear"] .scene-atmos::before {
+  opacity: 0.45;
+}
+.scene[data-edge="fog"] .scene-atmos {
+  --edge-fade: min(30vh, 300px);
+}
+.scene[data-overlap="true"] {
+  margin-top: clamp(-9rem, -12vh, -4rem);
+}
+.scene-texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mask-image: radial-gradient(70% 60% at var(--lx, 70%) var(--ly, 40%), #000, transparent 75%);
+}
+.scene-texture[data-texture="field"] {
+  background: url("/visuals/textures/technical-field.webp") center / 1100px auto;
+  opacity: 0.55;
+  filter: var(--art-filter);
+  mix-blend-mode: var(--art-blend);
+}
+.scene-texture[data-texture="grid"] {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.scene-texture[data-texture="contour"] {
+  background-image: repeating-radial-gradient(
+    circle at var(--lx, 70%) var(--ly, 40%),
+    transparent 0 46px,
+    var(--border) 46px 47px
+  );
+}
+@media (max-width: 767px) {
+  /* Phones get simpler vertical shading, and no overlaps that could clip. */
+  .scene[data-overlap="true"] { margin-top: 0; }
+  .scene-texture { opacity: 0.35; }
 }
 
-@keyframes marquee {
-  to { transform: translateX(-50%); }
+/* The thread: one fine line carried from scene to scene (object handoff). */
+.thread {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--brand) 18%, var(--brand) 82%, transparent);
+  opacity: 0.35;
 }
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-/* The success tick drawn by Icons.successAnimated after a contact form send. */
-@supports (animation: grow .5s cubic-bezier(.25, .25, .25, 1) forwards) {
-  .tick {
-    stroke-opacity: 0;
-    stroke-dasharray: 29px;
-    stroke-dashoffset: 29px;
-    animation: draw .5s cubic-bezier(.25, .25, .25, 1) forwards;
-    animation-delay: .6s;
-  }
-
-  .circle {
-    fill-opacity: 0;
-    stroke: #16A349;
-    stroke-width: 16px;
-    transform-origin: center;
-    transform: scale(0);
-    animation: grow 1s cubic-bezier(.25, .25, .25, 1.25) forwards;
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .thread {
+      transform-origin: top;
+      animation: thread-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
   }
 }
+@keyframes thread-grow {
+  from { transform: scaleY(0); }
+}
 
-@keyframes grow {
-  60% {
-    transform: scale(.8);
-    stroke-width: 4px;
-    fill-opacity: 0;
+/* ---------- atlas (components/home/atlas.tsx) ---------- */
+.atlas-node {
+  animation: atlas-wake 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--wake, 900ms) backwards;
+}
+@keyframes atlas-wake {
+  /* `scale`, not transform: Tailwind centres the node with `translate`. */
+  from { opacity: 0; scale: 0.6; }
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+    /* Scrolling away compresses the Atlas a little as Selected work arrives. */
+    /* Scrolling dives into the Atlas: it grows, softens and lets go, while
+       the headline lifts away a little faster than the page. */
+    .atlas-compress {
+      transform-origin: 68% 55%;
+      animation: atlas-dive linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .hero-copy {
+      animation: hero-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
   }
+}
+@keyframes atlas-dive {
+  to { transform: scale(1.35) translateY(-6%); opacity: 0.12; filter: blur(6px); }
+}
+@keyframes hero-lift {
+  to { transform: translateY(-14vh); opacity: 0; }
+}
 
-  100% {
-    transform: scale(.9);
-    stroke-width: 8px;
-    fill-opacity: 1;
-    fill: #16A349;
+/* A local light under the pointer (components/motion/pointer-light.tsx).
+   Only where there is a fine pointer and motion is welcome. */
+.pointer-light {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .pointer-light {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--pl-on, 0);
+    transition: opacity 400ms ease;
+    background: radial-gradient(130px circle at var(--px, 50%) var(--py, 50%), var(--fog-strong), transparent 70%);
   }
 }
 
-@keyframes draw {
-
-  0%,
-  100% {
-    stroke-opacity: 1;
-  }
-
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Hero output beam (components/home/output-beam.tsx). The resting state is
-   fully drawn and each animation only runs in from hidden, so with reduced
-   motion, or before it starts, nothing is left half drawn. */
-.beam-line {
+/* The route line: a short green line across the top on navigation. */
+.route-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--brand), var(--brand-bright), transparent);
   transform-origin: left;
-  animation: beam-grow 1.1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s backwards;
+  animation: route-line 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-.beam-branch {
-  stroke-dasharray: 1;
-  animation: beam-draw 1.3s cubic-bezier(0.22, 1, 0.36, 1) 2s backwards;
-}
-.beam-device {
-  animation: beam-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 2.7s backwards;
-}
-/* Code tokens drift right along the line and into the code window, fading
-   in from the screen edge and settling onto the line as they arrive. */
-.beam-tokens {
-  mask-image: linear-gradient(to right, transparent, black 35%);
-  animation: beam-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 1.4s backwards;
-}
-.beam-token {
-  animation-name: beam-token;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-@keyframes beam-grow { from { transform: scaleX(0); } }
-@keyframes beam-draw { from { stroke-dashoffset: 1; } }
-@keyframes beam-in { from { opacity: 0; } }
-@keyframes beam-token {
-  from { transform: translate(0, var(--dy, 0)); opacity: 0; }
-  20% { opacity: 0.75; }
-  to { transform: translate(50vw, 0); opacity: 0.75; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .beam-line, .beam-branch, .beam-device { animation: none; }
-  .beam-motion { display: none; }
-  .iso-float, .iso-blink { animation: none; }
+@keyframes route-line {
+  0% { transform: scaleX(0); opacity: 1; }
+  70% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
 }
 
-/* "What I do" isometric art (components/home/iso-art.tsx): panels bob, and
-   server lights blink. */
-.iso-float {
-  animation: iso-float 5s ease-in-out infinite;
+/* A drawn line: strokes with pathLength="1" draw in from nothing. */
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.iso-blink {
-  animation: iso-blink 2.4s steps(1) infinite;
+
+@media print {
+  .no-print { display: none !important; }
 }
-@keyframes iso-float { 50% { transform: translateY(-5px); } }
-@keyframes iso-blink { 50% { opacity: 0.25; } }
+
+/* A screenshot arrives through a widening mask, not a floating card. */
+html.js .mask-reveal[data-rise=""] {
+  clip-path: inset(0 0 0 22%);
+  transition-property: opacity, transform, filter, clip-path;
+  transition-duration: 1.1s;
+}
+html.js .mask-reveal[data-rise=""][data-in] {
+  clip-path: inset(-12%);
+}
+
+/* The real portrait, kept true to the person but pulled into the green
+   field: monochrome with a faint green cast. */
+.portrait {
+  filter: grayscale(1) sepia(0.25) hue-rotate(85deg) saturate(1.2) contrast(1.05) brightness(0.88);
+  mask-image: radial-gradient(120% 95% at 50% 35%, #000 55%, transparent 100%);
+}
+
+/* Contact success: the path completes, then the source lights. */
+.sent-line {
+  stroke-dasharray: 1;
+  animation: draw-in 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.sent-dot {
+  animation: fade-in 400ms ease 700ms both;
+}
+@keyframes draw-in { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* Print: the resume (and any page) on white paper, in ink. */
+@media print {
+  :root,
+  .dark {
+    --background: #ffffff;
+    --field: #ffffff;
+    --surface: #ffffff;
+    --foreground: #0b140f;
+    --muted-foreground: #3d4f44;
+    --border: rgba(0, 0, 0, 0.15);
+    --border-strong: rgba(0, 0, 0, 0.3);
+    --brand: #06603a;
+    --fog: transparent;
+    --fog-strong: transparent;
+  }
+  html { color-scheme: light; }
+  .scene-atmos, .thread { display: none; }
+  a { text-decoration: none; }
+}
+
+/* ---------- curtain footer (components/site-footer.tsx) ---------- */
+/* The page lifts like a curtain off the footer, which waits underneath.
+   Sticky only where the footer fits on screen, or its top would never show. */
+body {
+  timeline-scope: --curtain;
+}
+.curtain {
+  position: relative;
+  z-index: 1;
+  background: var(--background);
+  overflow: clip;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  box-shadow: 0 1px 0 var(--border-strong), 0 50px 90px -40px rgba(0, 0, 0, 0.55);
+  view-timeline: --curtain block;
+}
+.site-footer {
+  position: relative;
+  z-index: 0;
+  background:
+    radial-gradient(60% 80% at 20% 100%, var(--fog-strong), transparent 70%),
+    var(--field);
+}
+@media (min-width: 768px) and (min-height: 760px) {
+  .site-footer {
+    position: sticky;
+    bottom: 0;
+  }
+}
+.footer-name-base {
+  fill: var(--border-strong);
+}
+.footer-name-lit {
+  fill: var(--brand);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .footer-name-lit {
+      animation: name-fill linear both;
+      animation-timeline: --curtain;
+      animation-range: exit 0% exit 65%;
+    }
+  }
+}
+@keyframes name-fill {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@media print {
+  .curtain { box-shadow: none; border-radius: 0; }
+}
+
+/* ---------- immersive scroll (home) ---------- */
+/* The world: one light that drifts across the whole page as it scrolls,
+   with a faint drift of spores, behind every scene. A sticky layer inside
+   the curtain, so it never shows over the footer. */
+.world {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.world::before,
+.world::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+}
+.world::before {
+  background: radial-gradient(32% 30% at 50% 50%, var(--fog-strong), transparent 70%);
+  transform: translate(22%, -18%);
+}
+.world::after {
+  background-image:
+    radial-gradient(circle, var(--brand) 0.8px, transparent 1.4px),
+    radial-gradient(circle, var(--brand) 0.6px, transparent 1.2px);
+  background-size: 173px 151px, 97px 113px;
+  background-position: 0 0, 41px 67px;
+  opacity: 0.14;
+  mask-image: radial-gradient(60% 55% at 50% 50%, #000, transparent 75%);
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .world::before {
+      animation: world-light linear both;
+      animation-timeline: scroll(root);
+    }
+    .world::after {
+      animation: world-spores linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes world-light {
+  0% { transform: translate(22%, -18%); }
+  30% { transform: translate(-24%, 4%); }
+  60% { transform: translate(20%, 14%) scale(1.15); }
+  100% { transform: translate(0, 26%) scale(1.35); }
+}
+@keyframes world-spores {
+  to { background-position: 0 -900px, 41px -1300px; }
+}
+
+/* Words that light up line by line as they pass up the screen. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scrub-word {
+      animation: scrub-word linear both;
+      animation-timeline: view();
+      animation-range: cover 12% cover 42%;
+    }
+  }
+}
+@keyframes scrub-word {
+  from { opacity: 0.16; }
+}
+
+/* The GitHub year sweeps in column by column, left to right. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .heat {
+      view-timeline: --heat block;
+    }
+    .heat-cell {
+      animation: heat-cell linear both;
+      animation-timeline: --heat;
+      animation-range: cover calc(4% + var(--c) * 0.6%) cover calc(14% + var(--c) * 0.6%);
+    }
+  }
+}
+@keyframes heat-cell {
+  from { opacity: 0.08; scale: 0.4; }
+}
+
+/* Range blooms from the oldest ring outward as the field arrives. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bloom-field {
+      view-timeline: --bloom block;
+    }
+    .bloom {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: bloom linear both;
+      animation-timeline: --bloom;
+      animation-range: entry calc(var(--ring) * 18%) entry calc(30% + var(--ring) * 18%);
+    }
+  }
+}
+@keyframes bloom {
+  from { opacity: 0; scale: 0.2; }
+}
+
+/* The scene rail: how far down the page you are, and where. */
+.rail-fill {
+  transform-origin: top;
+}
+@supports (animation-timeline: scroll()) {
+  .rail-fill {
+    animation: rail-fill linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes rail-fill {
+  from { transform: scaleY(0); }
+}

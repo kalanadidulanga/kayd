@@ -44,7 +44,30 @@ export interface ExperienceInterface {
     /** Omitted rather than invented. "Shipped and in production" is valid. */
     outcome?: string;
   };
+  /**
+   * How deep the project page goes, and no deeper than the verified
+   * material allows. Omitted means "note".
+   */
+  presentation?: Presentation;
+  domain: Domain;
+  /** Kalana's part, in a few words, as the entry states it. Omitted when not stated. */
+  role?: string;
+  /** Built with others: "led" when Kalana led the developers, "member" when he was one of them. */
+  team?: "led" | "member";
+  /** Exactly what Kalana owned and what others did, for work built with others. */
+  contribution?: string;
+  /** Heading for the bullet list when it lists Kalana's own work rather than the whole system. */
+  focusTitle?: string;
+  /** Decisions the entry already documents, one sentence each. */
+  decisions?: string[];
+  /** Who and what the system connects, layer by layer, from the documented facts. */
+  systemMap?: { layer: string; items: string[] }[];
+  /** Generated, conceptual artwork. Always captioned as an illustration, never shown as a screen. */
+  illustration?: { src: string; alt: string; width: number; height: number };
 }
+
+export type Presentation = "case-study" | "story" | "note";
+export type Domain = "operations" | "hospitality" | "education" | "commerce" | "tools" | "experiments";
 
 const experiences: ExperienceInterface[] = [
   // The entries from here to "2048-game" were written on 2026-10-08 from a
@@ -55,6 +78,29 @@ const experiences: ExperienceInterface[] = [
   // system's clients are not named. Team-built work says so.
   {
     id: "operations-crm-platform",
+    presentation: "case-study",
+    domain: "operations",
+    role: "Main developer",
+    contribution:
+      "I am the main developer of the operations platform of Uniguru, a UK study-abroad consultancy.",
+    decisions: [
+      "Access is permission based: every user has a system role, roles map to permission groups, and each route and server action checks the permissions it needs.",
+      "SLA clocks run as scheduled jobs on Vercel and record breaches, with a GitHub Actions fallback for the clock.",
+      "A public lead API feeds the platform from the marketing site, with spam protection and deduplication.",
+      "A versioned mobile API serves the student and partner app.",
+    ],
+    systemMap: [
+      { layer: "People", items: ["Staff", "Leadership", "Students", "Partner agents"] },
+      { layer: "Interfaces", items: ["Staff workspace", "Leadership dashboards", "Student portal", "Partner portal", "Companion mobile app"] },
+      { layer: "Services", items: ["Permission checks on every route and server action", "Public lead-capture API", "Versioned mobile API with push notifications", "Scheduled SLA jobs, GitHub Actions fallback"] },
+      { layer: "Data", items: ["Supabase Postgres with row-level security", "Supabase Auth", "Supabase Storage"] },
+    ],
+    illustration: {
+      src: "/work/operations-crm-platform/system-illustration.webp",
+      alt: "Abstract illustration of leads, documents, roles and scheduled checks flowing through one connected system",
+      width: 1586,
+      height: 992,
+    },
     companyName: "Uniguru Operations Platform",
     // Same client as the "uniguru" entry below, so the client count dedupes.
     client: "Uniguru",
@@ -92,7 +138,7 @@ const experiences: ExperienceInterface[] = [
     ],
     descriptionDetails: {
       paragraphs: [
-        "I am the main developer of the operations platform of Uniguru, a UK study-abroad consultancy. Staff work their leads, students and partners from one place, leadership has its own dashboards, and students and partner agents each get a portal.",
+        "Staff work their leads, students and partners from one place, leadership has its own dashboards, and students and partner agents each get a portal.",
         "It is a Next.js App Router application on Supabase: Postgres with row-level security, Auth and Storage. Every user has a system role, roles map to permission groups, and each route and server action checks the permissions it needs.",
         "Background work runs as scheduled jobs on Vercel, with a GitHub Actions fallback for the SLA clock. The codebase is covered by Vitest unit tests and Playwright end-to-end tests.",
       ],
@@ -111,6 +157,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "student-partner-mobile-app",
+    presentation: "story",
+    domain: "operations",
     companyName: "Uniguru Mobile App",
     client: "Uniguru",
     companyLogoImg: "/experience/uniguru/logo.PNG",
@@ -138,6 +186,13 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "consultancy-website-v2",
+    presentation: "story",
+    domain: "education",
+    team: "led",
+    role: "Integration and content, with a developer on my team",
+    contribution:
+      "A developer on my team did most of the page restyling; my part was the integration and content work.",
+    focusTitle: "What I built",
     companyName: "Uniguru Website v2",
     client: "Uniguru",
     companyLogoImg: "/experience/uniguru/logo.PNG",
@@ -166,7 +221,7 @@ const experiences: ExperienceInterface[] = [
     ],
     descriptionDetails: {
       paragraphs: [
-        "A redesign of Uniguru's public site, built as a team. A developer on my team did most of the page restyling; my part was the integration and content work below.",
+        "A redesign of Uniguru's public site, built as a team.",
         "Every enquiry form posts into the operations platform's lead API, with live intake options and campaign attribution on each lead: UTM tags, partner code, referrer and landing page.",
       ],
       bullets: [
@@ -182,6 +237,12 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "college-lms",
+    presentation: "story",
+    domain: "education",
+    team: "led",
+    role: "Lead, built by a developer on my team",
+    contribution:
+      "I took this project on for my client and assigned a developer on my team to build it under my supervision. The code is his.",
     companyName: "Langford College LMS",
     // Langford College and Uniguru are two companies of one client (confirmed
     // by the site owner on 2026-10-09), so they count as one client.
@@ -203,7 +264,6 @@ const experiences: ExperienceInterface[] = [
     startDate: new Date("2026-03-04"),
     descriptionDetails: {
       paragraphs: [
-        "I took this project on for my client and assigned a developer on my team to build it under my supervision. The code is his.",
         "Students move through courses, cohorts, assignments, quizzes and live lectures. Assessed work follows a regulated chain: the student submits, an assessor marks, an internal quality assurer signs off, the result is released, and the certificate is issued with two-key approval.",
       ],
       bullets: [
@@ -220,6 +280,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "headless-shopify-store",
+    presentation: "story",
+    domain: "commerce",
     companyName: "YANA23 Online Store",
     type: "Professional",
     category: ["Frontend", "Next js", "Typescript"],
@@ -263,6 +325,13 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "online-pharmacy",
+    presentation: "story",
+    domain: "commerce",
+    role: "Built alone, end to end",
+    contribution: "I built the whole system on my own: the storefront, the admin panel and the REST API behind them.",
+    decisions: [
+      "The API generates the iPay payment form checksum, and a webhook verifies the payment notification before an order is marked paid.",
+    ],
     companyName: "PNM Online Pharmacy",
     type: "Professional",
     category: ["Full Stack", "REST API", "Typescript"],
@@ -291,7 +360,6 @@ const experiences: ExperienceInterface[] = [
     ],
     descriptionDetails: {
       paragraphs: [
-        "I built the whole system on my own: the storefront, the admin panel and the REST API behind them.",
         "Customers order for delivery or pick up at a branch, and pay by card or at the branch. Card payments go through iPay: the API generates the payment form checksum, and a webhook verifies the payment notification before it marks the order paid.",
       ],
       bullets: [
@@ -307,6 +375,31 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "hotel-management-system",
+    presentation: "case-study",
+    domain: "hospitality",
+    team: "member",
+    role: "Largest single contributor",
+    contribution:
+      "I am the largest single contributor. My work is mostly in accounting, reports and reservations.",
+    focusTitle: "What I built",
+    decisions: [
+      "The general ledger became the single source for revenue reports, with tests.",
+      "Reconciliation scripts for debtors, agents and creditors run as a dry run first, with a trial balance check.",
+      "Opening balances link to ledger entities, and journal entries sit under vouchers.",
+      "Inventory cost is recognised when stock is issued rather than when it is bought.",
+    ],
+    systemMap: [
+      { layer: "Operations", items: ["Rooms and reservations", "Front office", "Restaurant, cafe and bar POS with kitchen order tickets", "Inventory, HR, assets, banquets and laundry"] },
+      { layer: "Accounting core", items: ["Vouchers and journal entries", "General ledger", "Night audit", "Trial balance check"] },
+      { layer: "Reports", items: ["Revenue, sales and stock movement", "Daily sheet", "Long forecast"] },
+      { layer: "Platform", items: ["Next.js and React", "Prisma on MySQL", "Socket.io", "Docker"] },
+    ],
+    illustration: {
+      src: "/work/hotel-management-system/system-illustration.webp",
+      alt: "Abstract illustration of a hotel cut away to show reception, rooms, restaurant, stores and offices joined by one green path",
+      width: 1586,
+      height: 992,
+    },
     companyName: "Hotel Management System",
     // The two C-Lento projects count as one client.
     client: "C-Lento",
@@ -336,7 +429,6 @@ const experiences: ExperienceInterface[] = [
     descriptionDetails: {
       paragraphs: [
         "A team-built hotel system, now running live at several hotels. It covers rooms and reservations, the front office, restaurant, cafe and bar point of sale with kitchen order tickets, inventory, HR, assets, banquets, laundry and full double-entry accounting with a night audit.",
-        "I am the largest single contributor. My work is mostly in accounting, reports and reservations, listed below.",
       ],
       bullets: [
         "General ledger as the single source for revenue reports, with tests",
@@ -351,6 +443,16 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "cloud-erp-pos",
+    presentation: "story",
+    domain: "commerce",
+    team: "led",
+    role: "Project manager and full-stack lead",
+    contribution:
+      "I am the project manager and the full-stack lead for the POS, the dashboard, the front-end design system and the marketplace.",
+    decisions: [
+      "Contract-first: one OpenAPI spec generates both the Go server stubs and the TypeScript types.",
+      "Each customer company is provisioned from a business-type template and moves through an enforced lifecycle, with plans, entitlements and an audit log.",
+    ],
     companyName: "Hyda ERP",
     client: "C-Lento",
     type: "Professional",
@@ -370,7 +472,7 @@ const experiences: ExperienceInterface[] = [
     startDate: new Date("2026-06-04"),
     descriptionDetails: {
       paragraphs: [
-        "A cloud ERP and point of sale for retail businesses, built by a small team. I am the project manager and the full-stack lead for the POS, the dashboard, the front-end design system and the marketplace.",
+        "A cloud ERP and point of sale for retail businesses, built by a small team.",
         "It is contract-first: one OpenAPI spec generates both the Go server stubs and the TypeScript types. Each customer company is provisioned from a business-type template and moves through an enforced lifecycle, with plans, entitlements, platform payments and an audit log.",
       ],
       bullets: [
@@ -385,6 +487,12 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "zeropos",
+    presentation: "story",
+    domain: "commerce",
+    team: "member",
+    role: "Co-builder, with a friend",
+    contribution:
+      "A friend and I build it together, and most of the code is his. My parts include per-batch pricing with a batch picker at the till, an owner-only audit of price overrides, weight presets for scale items, stock adjustments with inline approval, stock history by user and terminal, keyboard-only cashier fixes and an offline admin recovery command.",
     companyName: "ZeroPos",
     type: "Personal Project",
     category: ["Desktop App", "Backend"],
@@ -396,7 +504,6 @@ const experiences: ExperienceInterface[] = [
       paragraphs: [
         "Our own product: a point of sale for small Sri Lankan retail shops that keeps working without the internet. A friend and I build it together and install it at shops. Most of the code is his.",
         "Each shop runs an ASP.NET Core API on SQLite, cashiers use a WPF desktop client, and terminals find the shop's server on the local network over mDNS. It has setups for bakeries, electronics, grocery, PC and pharmacy shops.",
-        "My parts include per-batch pricing with a batch picker at the till, an owner-only audit of price overrides, weight presets for scale items, stock adjustments with inline approval, stock history by user and terminal, keyboard-only cashier fixes and an offline admin recovery command.",
       ],
       bullets: [
         "Works offline, with the shop's own server on the local network",
@@ -410,6 +517,22 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "kendara",
+    presentation: "case-study",
+    domain: "tools",
+    role: "My own product",
+    decisions: [
+      "The chart comes from the Swiss Ephemeris with the Lahiri ayanamsa and whole-sign houses.",
+      "The historical Sri Lankan time zone is resolved for each birth instant.",
+      "A photo of an existing chart can be read by AI into an editable table first.",
+      "Readings come from Gemini models behind a fallback chain and an output guard.",
+      "Marriage matching reports the checks it cannot compute as unknown rather than guessing them.",
+    ],
+    systemMap: [
+      { layer: "Input", items: ["Birth details", "Photo of a kendaraya, read into an editable table"] },
+      { layer: "Calculation", items: ["Swiss Ephemeris", "Lahiri ayanamsa, whole-sign houses", "Historical Sri Lankan time zones"] },
+      { layer: "Interpretation", items: ["Gemini models behind a fallback chain", "Output guard", "Porondam matching, unknown checks reported as unknown"] },
+      { layer: "Output", items: ["Readings and chat in Sinhala, English and Tamil", "Saved charts with Google sign-in and share links", "Print view and installable PWA"] },
+    ],
     companyName: "Kendara",
     type: "Personal Project",
     category: ["Full Stack", "Next js", "Typescript"],
@@ -461,6 +584,12 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "project-mouse",
+    presentation: "story",
+    domain: "tools",
+    decisions: [
+      "It keeps the PC awake with Windows power requests, and moves the mouse only as an opt-in.",
+      "CI blocks a merge on formatting, Clippy warnings, failing tests or an oversized executable.",
+    ],
     companyName: "Project Mouse",
     type: "Personal Project",
     category: ["Desktop App", "Backend"],
@@ -487,6 +616,12 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "kayd-invoice-studio",
+    presentation: "story",
+    domain: "tools",
+    decisions: [
+      "Everything stays in the browser's storage, with JSON backups to move it elsewhere.",
+      "PDFs are generated in the browser, with a print fallback for Sinhala and other non-Latin scripts.",
+    ],
     companyName: "KayD Invoice Studio",
     type: "Personal Project",
     category: ["Frontend", "Next js", "Typescript"],
@@ -521,6 +656,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "kaydrix-digital-cards",
+    presentation: "story",
+    domain: "commerce",
     companyName: "KayDrix Digital Business Cards",
     type: "Personal Project",
     category: ["Full Stack", "Backend"],
@@ -546,6 +683,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "pos-inventory-system",
+    presentation: "story",
+    domain: "commerce",
     companyName: "POS & Inventory System",
     type: "Personal Project",
     category: ["Desktop App", "Full Stack", "Typescript"],
@@ -580,6 +719,12 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "resumint",
+    presentation: "story",
+    domain: "tools",
+    team: "led",
+    role: "Photo tools and home page, with a developer on my team",
+    contribution:
+      "A developer on my team built the original builder. I added the photo tools (upload, crop and filters) and redesigned the home page and navigation.",
     companyName: "ResuMint",
     type: "Personal Project",
     category: ["Frontend", "Typescript", "UI/UX"],
@@ -600,7 +745,6 @@ const experiences: ExperienceInterface[] = [
     descriptionDetails: {
       paragraphs: [
         "A browser-based CV builder. Fill in personal, professional, education, skills and reference sections, choose one of three templates, adjust colours and fonts, and download the result as a PDF.",
-        "A developer on my team built the original builder. I added the photo tools (upload, crop and filters) and redesigned the home page and navigation.",
       ],
       bullets: [
         "Multi-section CV data",
@@ -613,6 +757,7 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "snake-game",
+    domain: "experiments",
     companyName: "Neon Snake",
     type: "Personal Project",
     category: ["Web Dev", "Frontend"],
@@ -647,6 +792,7 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "2048-game",
+    domain: "experiments",
     companyName: "2048 Game",
     type: "Personal Project",
     category: ["Web Dev"],
@@ -692,6 +838,7 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "ascii-donut-animation",
+    domain: "experiments",
     companyName: "ASCII Donut Animation",
     type: "Personal Project",
     category: ["Web Dev"],
@@ -727,6 +874,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "uniguru",
+    domain: "education",
+    role: "Full-stack developer",
     companyName: "Uniguru",
     type: "Professional",
     category: ["Full Stack", "Next js", "Typescript"],
@@ -781,6 +930,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "lapelcreatecustom",
+    domain: "commerce",
+    role: "Client-side developer",
     companyName: "Lapel Create Custom",
     // Both Lapel projects are counted as one client, inferred from the
     // project names. The shared client should be confirmed by the site owner.
@@ -829,6 +980,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "jobhereadminpannel",
+    domain: "operations",
+    role: "Admin panel developer",
     companyName: "JobHere admin pannel",
     type: "Professional",
     category: ["Frontend", "REST API", "Intigration"],
@@ -873,6 +1026,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "lapelcustomconfig",
+    domain: "commerce",
+    role: "Admin panel developer",
     companyName: "Lapel  Custom Config",
     // Both Lapel projects are counted as one client, inferred from the
     // project names. The shared client should be confirmed by the site owner.
@@ -931,6 +1086,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "slpersonalchauffeurs",
+    domain: "hospitality",
+    role: "Design and development",
     companyName: "SL Personal Chauffeurs",
     type: "Professional",
     category: ["Web Dev", "Frontend", "UI/UX"],
@@ -978,6 +1135,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "bestbirdersl",
+    domain: "hospitality",
+    role: "Interface design and development",
     companyName: "Best Birder SL",
     type: "Professional",
     category: ["Web Dev", "Full Stack", "UI/UX"],
@@ -1024,6 +1183,7 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "hilink",
+    domain: "experiments",
     companyName: "Hilink",
     type: "Personal Project",
     category: ["UI/UX", "Frontend"],
@@ -1052,6 +1212,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "kings-town-hotel",
+    domain: "hospitality",
+    role: "Site, booking and admin, end to end",
     companyName: "Kings Town Hotel",
     // Built at C-Lento ("Developed by C-Lento" in the site footer), so it
     // counts under the C-Lento client. Year as Kalana stated it; the month
@@ -1079,6 +1241,8 @@ const experiences: ExperienceInterface[] = [
   },
   {
     id: "salubrious-resort",
+    domain: "hospitality",
+    role: "Site, booking and admin, end to end",
     companyName: "Salubrious Resort",
     // Built at C-Lento ("Developed by C-Lento" in the site footer), so it
     // counts under the C-Lento client. Year as Kalana stated it; the month
@@ -1107,10 +1271,6 @@ const experiences: ExperienceInterface[] = [
 ];
 
 export const Experiences = experiences.sort(
-  (a, b) => (b?.startDate?.getTime() ?? 0) - (a?.startDate?.getTime() ?? 0)
-);
-
-export const featuredExperiences = Experiences.slice(0, 3).sort(
   (a, b) => (b?.startDate?.getTime() ?? 0) - (a?.startDate?.getTime() ?? 0)
 );
 

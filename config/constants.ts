@@ -68,11 +68,3 @@ export type ValidCategory =
   | "Desktop App";
 
 export type ValidExpType = "Personal Project" | "Professional";
-
-export type ValidPages =
-  | "skills"
-  | "experience"
-  | "contact"
-  | "contributions"
-  | "educations"
-  | "aboutme";

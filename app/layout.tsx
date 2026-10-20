@@ -2,29 +2,19 @@ import "./globals.css";
 
 import type { Metadata, Viewport } from "next";
 
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModalProvider } from "@/providers/modal-provider";
 import { Analytics } from "@/components/analytics";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", style: ["normal", "italic"] });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
-const instrument = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["italic"],
-  variable: "--font-instrument",
-});
 
-// Runs before first paint so the remembered accent never flashes. Anything
-// unexpected in storage falls back to emerald, the default. Mirrors
-// components/accent-picker. The js class arms the scroll reveals (see
+// Runs before first paint. The js class arms the scroll reveals (see
 // [data-rise] in globals.css); without it, content just shows.
-const accentScript = `document.documentElement.classList.add("js");try{var a=localStorage.getItem("kayd-accent");document.documentElement.dataset.accent=["emerald","indigo","ember"].indexOf(a)>-1?a:"emerald"}catch(e){document.documentElement.dataset.accent="emerald"}`;
+const jsScript = `document.documentElement.classList.add("js")`;
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -65,45 +55,35 @@ export const metadata: Metadata = {
     title: "Kalana Didulanga Koralegedara | " + siteConfig.name,
     description: siteConfig.description,
   },
-  // manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f8f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#07100d" },
   ],
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" data-accent="emerald" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: accentScript }} />
+        <script dangerouslySetInnerHTML={{ __html: jsScript }} />
         {/* Reveal starts at opacity 0 and clears it on hydration, so without
-            JavaScript the wrapped content would never appear. noscript rather
-            than @media (scripting: none), which has a narrower browser floor
-            than the fallback it is standing in for. */}
+            JavaScript the wrapped content would never appear. */}
         <noscript
           dangerouslySetInnerHTML={{
             __html:
-              "<style>[data-reveal]{opacity:1!important;transform:none!important;translate:none!important;filter:none!important}</style>",
+              "<style>[data-reveal],[data-rise]{opacity:1!important;transform:none!important;translate:none!important;filter:none!important;animation:none!important}</style>",
           }}
         />
       </head>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          geist.variable,
-          geistMono.variable,
-          instrument.variable
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <body className={cn("min-h-[100dvh] bg-background font-sans antialiased", geist.variable, geistMono.variable)}>
+        {/* The garden is a dark world first. Light stays one click away and
+            keeps the same green. */}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}
           <Analytics />
-          <Toaster />
-          <ModalProvider />
         </ThemeProvider>
       </body>
     </html>

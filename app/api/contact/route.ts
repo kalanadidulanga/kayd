@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 import { contactRequestSchema, isSpam } from "@/lib/contact";
+import { ownerEmail, visitorEmail } from "@/lib/email";
 
 const WINDOW_MS = 10 * 60 * 1000;
 const PER_WINDOW = 5;
@@ -60,26 +61,31 @@ export async function POST(req: Request) {
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
 
-  const name = form.name.replace(/\s+/g, " ");
+  const message = { ...form, name: form.name.replace(/\s+/g, " ") };
+  const owner = ownerEmail(message);
   try {
     await transporter.sendMail({
       from: { name: "KayD contact form", address: SMTP_USER },
       to: CONTACT_TO,
       // Reply in the mail app and it goes to the visitor.
-      replyTo: { name, address: form.email },
-      subject: `[KayD] New message from ${name}`,
-      text: [
-        `Name: ${name}`,
-        `Email: ${form.email}`,
-        `Mobile: ${form.mobile}`,
-        `Social: ${form.social || "-"}`,
-        "",
-        form.message,
-      ].join("\n"),
+      replyTo: { name: message.name, address: message.email },
+      ...owner,
     });
-    return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Error sending email:", error);
     return NextResponse.json({ error: "Error sending email" }, { status: 500 });
   }
+
+  // The visitor's copy is a courtesy: if it fails, the message still arrived.
+  try {
+    await transporter.sendMail({
+      from: { name: "Kalana Didulanga", address: SMTP_USER },
+      to: { name: message.name, address: message.email },
+      replyTo: CONTACT_TO,
+      ...visitorEmail(message),
+    });
+  } catch (error) {
+    console.error("Error sending the visitor's copy:", error);
+  }
+  return NextResponse.json({ ok: true });
 }

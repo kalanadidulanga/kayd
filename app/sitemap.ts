@@ -2,10 +2,12 @@ import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
 import { Experiences } from "@/config/experience";
+import { publishedNotes } from "@/config/notes";
 
-/** Every indexable page; /resume only redirects to a file, so it is left out. */
+/** Every indexable page. Notes join once there is a note to index. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/work", "/experience", "/skills", "/contact"].map((path) => ({
+  const paths = ["", "/work", "/about", "/lab", "/contact", "/resume", ...(publishedNotes.length ? ["/notes"] : [])];
+  const pages = paths.map((path) => ({
     url: `${siteConfig.url}${path}`,
     changeFrequency: "monthly" as const,
     priority: path ? 0.8 : 1,
@@ -15,5 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "yearly" as const,
     priority: 0.6,
   }));
-  return [...pages, ...work];
+  const notes = publishedNotes.map((n) => ({
+    url: `${siteConfig.url}/notes/${n.slug}`,
+    lastModified: n.updated ?? n.published,
+    priority: 0.6,
+  }));
+  return [...pages, ...work, ...notes];
 }
