@@ -14,6 +14,9 @@ test.describe("morphing navigation", () => {
 
     await page.mouse.wheel(0, 900);
     await expect(nav).toHaveAttribute("data-nav", "receded");
+    // Receded is still frosted: no opacity below 1 to let the sharp page through.
+    await expect(nav).toHaveCSS("opacity", "1");
+    await expect.poll(() => nav.evaluate((el) => getComputedStyle(el).backdropFilter)).toContain("blur");
     // Let the smooth scroll settle before turning back.
     await expect.poll(() => page.evaluate(() => scrollY)).toBe(900);
     await page.mouse.wheel(0, -300);

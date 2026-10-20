@@ -22,8 +22,9 @@ function isActive(pathname: string, href: string) {
 /**
  * One navigation object with three states, written to data-nav: "top", wide
  * and nearly transparent inside the first scene; "compact", a floating glass
- * rail once the page has moved; "receded", the rail a little smaller and
- * quieter while the reader scrolls down. It never leaves the screen. The
+ * rail once the page has moved; "receded", the rail a little smaller while
+ * the reader scrolls down. It stays fully opaque: below 1, the browser mixes
+ * the sharp page back into the frosted glass. It never leaves the screen. The
  * state is written straight to the element, so scrolling never re-renders
  * React. On phones the same object opens into the menu sheet.
  */
@@ -79,7 +80,6 @@ export function SiteHeader() {
           "data-[nav=compact]:max-w-[calc(100%-1.5rem)] data-[nav=receded]:max-w-[calc(100%-1.5rem)] md:data-[nav=compact]:max-w-[50rem] md:data-[nav=receded]:max-w-[48rem]",
           "data-[nav=compact]:rounded-[40px] data-[nav=receded]:rounded-[40px] data-[nav=compact]:border-border-strong data-[nav=receded]:border-border",
           "data-[nav=compact]:px-4 data-[nav=receded]:px-4 md:data-[nav=compact]:px-5 md:data-[nav=receded]:px-5",
-          "data-[nav=receded]:opacity-[0.88]",
           // the phone menu grows out of the same object
           "data-[open]:glass data-[open]:mt-3 data-[open]:max-w-[calc(100%-1.5rem)] data-[open]:rounded-[28px]! data-[open]:border-border-strong data-[open]:px-4 data-[open]:shadow-soft"
         )}
