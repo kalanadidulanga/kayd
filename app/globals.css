@@ -70,7 +70,7 @@
     --muted-foreground: #50675a;
     --border: rgba(16, 64, 39, 0.13);
     --border-strong: rgba(16, 64, 39, 0.24);
-    --glass: rgba(244, 248, 245, 0.78);
+    --glass: rgba(244, 248, 245, 0.86);
     --destructive: #b42318;
     --brand: #087a46;
     --brand-bright: #0b9255;
@@ -94,7 +94,7 @@
     --muted-foreground: #a0b6a8;
     --border: rgba(189, 232, 205, 0.13);
     --border-strong: rgba(189, 232, 205, 0.24);
-    --glass: rgba(10, 23, 18, 0.72);
+    --glass: rgba(10, 23, 18, 0.84);
     --destructive: #ff8f84;
     --brand: #67e39b;
     --brand-bright: #a3f6c1;
@@ -297,7 +297,7 @@ html.js [data-rise="load"] {
   background-color: var(--glass);
   /* Unprefixed only: with both written, the build keeps just the -webkit-
      one, which Chrome ignores. */
-  backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(180%);
   @media (prefers-reduced-transparency: reduce) {
     background-color: var(--surface);
     backdrop-filter: none;

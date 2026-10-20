@@ -77,11 +77,11 @@ export function SiteHeader() {
           "data-[nav=compact]:glass data-[nav=receded]:glass data-[nav=compact]:shadow-soft",
           "data-[nav=compact]:mt-3 data-[nav=receded]:mt-2 data-[nav=compact]:min-h-14 data-[nav=receded]:min-h-12",
           "data-[nav=compact]:max-w-[calc(100%-1.5rem)] data-[nav=receded]:max-w-[calc(100%-1.5rem)] md:data-[nav=compact]:max-w-[46rem] md:data-[nav=receded]:max-w-[44rem]",
-          "data-[nav=compact]:rounded-[28px] data-[nav=receded]:rounded-[28px] data-[nav=compact]:border-border-strong data-[nav=receded]:border-border",
+          "data-[nav=compact]:rounded-[40px] data-[nav=receded]:rounded-[40px] data-[nav=compact]:border-border-strong data-[nav=receded]:border-border",
           "data-[nav=compact]:px-4 data-[nav=receded]:px-4 md:data-[nav=compact]:px-5 md:data-[nav=receded]:px-5",
           "data-[nav=receded]:opacity-[0.88]",
           // the phone menu grows out of the same object
-          "data-[open]:glass data-[open]:mt-3 data-[open]:max-w-[calc(100%-1.5rem)] data-[open]:rounded-[28px] data-[open]:border-border-strong data-[open]:px-4 data-[open]:shadow-soft"
+          "data-[open]:glass data-[open]:mt-3 data-[open]:max-w-[calc(100%-1.5rem)] data-[open]:rounded-[28px]! data-[open]:border-border-strong data-[open]:px-4 data-[open]:shadow-soft"
         )}
       >
         <Link href="/" aria-label="KayD, home" className="mr-auto py-3 text-foreground">
