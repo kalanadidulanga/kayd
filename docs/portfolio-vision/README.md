@@ -37,6 +37,7 @@ Sections should not look like stacked rectangles. A visitor should feel movement
 11. [Content, data, and implementation roadmap](./11-content-data-and-roadmap.md)
 12. [Generated asset catalog](./12-generated-asset-catalog.md)
 13. [Claude Code implementation brief](./CLAUDE-CODE-BRIEF.md)
+14. [Claude Code master prompt](./MASTER-PROMPT.md)
 
 ## Binding principles
 
