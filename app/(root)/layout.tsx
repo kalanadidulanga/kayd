@@ -50,9 +50,12 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       </a>
       <SiteHeader />
       <CommandPalette items={paletteItems} email={email} />
-      <main id="content" tabIndex={-1} className="outline-none">
-        {children}
-      </main>
+      {/* The page is a curtain over the footer (see .curtain in globals.css). */}
+      <div className="curtain">
+        <main id="content" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
+      </div>
       <SiteFooter />
       <div className="no-print fixed bottom-4 right-4 z-40">
         <BackToTop />

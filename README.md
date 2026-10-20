@@ -39,6 +39,7 @@ Features degrade individually rather than failing the build.
 | --- | --- | --- |
 | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_TO` | `/api/contact` | Contact form returns 500 |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Contact form bot check | The other spam checks stand alone |
+| `GITHUB_TOKEN` | GitHub activity on the home page (no scopes needed) | The section is left out |
 | `NEXT_PUBLIC_RESUME_LINK` | "Download PDF" on `/resume` and `/about` | Only "Print or save as PDF" is offered |
 
 ## Design

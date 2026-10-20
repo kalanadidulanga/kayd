@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { test, expect } from "@playwright/test";
 import { siteStats } from "../lib/stats";
-import { Experiences, featuredCaseStudies } from "../config/experience";
+import { Experiences } from "../config/experience";
 import { now } from "../config/now";
 import { testimonials } from "../config/testimonials";
 
@@ -78,19 +78,11 @@ test.describe("experience data", () => {
   });
 });
 
-test("selected systems shows each featured case study once, the operations platform first", async ({ page }) => {
-  await page.goto("/");
-  const section = page.locator("#selected-work");
-  await expect(section.locator("article")).toHaveCount(featuredCaseStudies.length);
-  for (const e of featuredCaseStudies) await expect(section).toContainText(e.companyName);
-  await expect(section.locator("article h3").first()).toHaveText("Uniguru Operations Platform");
-});
-
 test("each principle quotes a decision from its project", async ({ page }) => {
   // The quote on the home page is read from the config, so it must match a
   // decision on the project it links to.
   await page.goto("/");
-  const items = page.locator("#how-i-think li[data-step-at]");
+  const items = page.locator("#how-i-think li[data-principle]");
   await expect(items).toHaveCount(4);
   for (const item of await items.all()) {
     const quote = (await item.locator("blockquote").textContent())!.trim();
@@ -111,13 +103,14 @@ test("the logo strip shows each client and company once", async ({ page }) => {
 });
 
 test.describe("home page structure", () => {
-  const SCENES = ["hero", "selected-work", "how-i-think", "range", "lab-signal", "personal", "contact"];
+  // github renders only with a GITHUB_TOKEN at build time.
+  const SCENES = ["hero", "github", "how-i-think", "range", "lab-signal", "personal", "contact"];
 
   test("seven connected scenes at most, in the intended order", async ({ page }) => {
     await page.goto("/");
     const ids = await page.locator("main [data-scene]").evaluateAll((nodes) => nodes.map((n) => n.id));
     expect(ids.length).toBeLessThanOrEqual(7);
-    expect(ids).toEqual(SCENES);
+    expect(ids).toEqual(SCENES.filter((id) => id !== "github" || ids.includes("github")));
   });
 
   test("scenes are open fields, not painted rectangles", async ({ page }) => {
@@ -172,4 +165,26 @@ test("the home page makes no claim the config cannot back", async ({ page }) => 
   for (const claim of ["every single day", "projects shipped", "reply to every", "available for", "i read every"]) {
     expect(text, claim).not.toContain(claim);
   }
+});
+
+test("range lights each discipline's projects, and every discipline links to the work", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const range = page.locator("#range");
+  const field = range.getByRole("img");
+  await expect(field).toHaveAttribute("aria-label", /^Web platforms: \d+ of 27 projects lit\.$/);
+  await range.getByRole("link", { name: /Windows software/ }).hover();
+  const desktop = Experiences.filter((e) => e.category.includes("Desktop App")).length;
+  await expect(field).toHaveAttribute("aria-label", `Windows software: ${desktop} of 27 projects lit.`);
+  await expect(range.getByRole("link", { name: /Windows software/ })).toHaveAttribute("href", "/work?platform=desktop");
+});
+
+test("the footer waits under the page, and its name fills with the scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await expect(page.locator("footer")).toHaveCSS("position", "sticky");
+  await expect(page.locator(".curtain")).toHaveCSS("z-index", "1");
+  const lit = page.locator("footer .footer-name-lit");
+  await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+  await expect.poll(() => lit.evaluate((el) => getComputedStyle(el).clipPath)).toMatch(/^(none|inset\(0px( 0(%|px) 0px 0px)?\))$/);
 });

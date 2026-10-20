@@ -8,6 +8,7 @@ import { roles } from "../config/work-history";
 import { services } from "../config/services";
 import { isSpam } from "../lib/contact";
 import { lab } from "../config/lab";
+import { longestStreak } from "../lib/github";
 import { notes } from "../config/notes";
 
 // Pure data checks: no page is loaded. They pin the nothing-invented rule
@@ -132,4 +133,11 @@ test("notes carry hand-written dates and real related projects", () => {
   }
   const src = readFileSync(path.join(__dirname, "..", "config", "notes.ts"), "utf-8");
   expect(src).not.toMatch(/new Date\(/);
+});
+
+test("the longest GitHub streak counts consecutive active days only", () => {
+  const days = [1, 2, 0, 3, 1, 4, 0, 0, 5].map((count) => ({ count }));
+  expect(longestStreak(days)).toBe(3);
+  expect(longestStreak([])).toBe(0);
+  expect(longestStreak([{ count: 0 }])).toBe(0);
 });

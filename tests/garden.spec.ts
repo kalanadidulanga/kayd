@@ -159,9 +159,9 @@ test.describe("atlas", () => {
       await page.goto("/");
       const opacities = await page.locator(".atlas-node").evaluateAll((ns) => ns.map((n) => getComputedStyle(n).opacity));
       expect(opacities.every((o) => o === "1"), `${opacities}`).toBe(true);
-      // Under reduced motion the dimming of inactive principles is off too.
-      const dim = await page.locator("#how-i-think li[data-step-at]").evaluateAll((ns) => ns.map((n) => getComputedStyle(n).opacity));
-      expect(dim.every((o) => o === "1"), `${dim}`).toBe(true);
+      // The footer name is whole at once, not waiting for the scroll.
+      const clip = await page.locator("footer .footer-name-lit").evaluate((el) => getComputedStyle(el).clipPath);
+      expect(clip).toBe("none");
     });
 
     test("a project cover is fully shown", async ({ page }) => {

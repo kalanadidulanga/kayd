@@ -490,25 +490,6 @@ html.js [data-rise="load"] {
   .no-print { display: none !important; }
 }
 
-/* Stepped diagrams (components/motion/step-observer.tsx). Until data-step is
-   set, everything shows lit. */
-.steps[data-step] .step-part { opacity: 0.3; transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1); }
-.steps[data-step="0"] [data-from="0"],
-.steps[data-step="1"] :is([data-from="0"], [data-from="1"]),
-.steps[data-step="2"] :is([data-from="0"], [data-from="1"], [data-from="2"]),
-.steps[data-step="3"] .step-part { opacity: 1; }
-.steps .step-path { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 800ms cubic-bezier(0.22, 1, 0.36, 1); }
-.steps[data-step="0"] .step-path { stroke-dashoffset: 0.82; }
-.steps[data-step="1"] .step-path { stroke-dashoffset: 0.55; }
-.steps[data-step="2"] .step-path { stroke-dashoffset: 0.27; }
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .steps[data-step] .step-text { opacity: 0.45; transition: opacity 600ms ease; }
-  .steps[data-step="0"] [data-step-at="0"],
-  .steps[data-step="1"] [data-step-at="1"],
-  .steps[data-step="2"] [data-step-at="2"],
-  .steps[data-step="3"] [data-step-at="3"] { opacity: 1; }
-}
-
 /* A screenshot arrives through a widening mask, not a floating card. */
 html.js .mask-reveal[data-rise=""] {
   clip-path: inset(0 0 0 22%);
@@ -555,4 +536,56 @@ html.js .mask-reveal[data-rise=""][data-in] {
   html { color-scheme: light; }
   .scene-atmos, .thread { display: none; }
   a { text-decoration: none; }
+}
+
+/* ---------- curtain footer (components/site-footer.tsx) ---------- */
+/* The page lifts like a curtain off the footer, which waits underneath.
+   Sticky only where the footer fits on screen, or its top would never show. */
+body {
+  timeline-scope: --curtain;
+}
+.curtain {
+  position: relative;
+  z-index: 1;
+  background: var(--background);
+  overflow: clip;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  box-shadow: 0 1px 0 var(--border-strong), 0 50px 90px -40px rgba(0, 0, 0, 0.55);
+  view-timeline: --curtain block;
+}
+.site-footer {
+  position: relative;
+  z-index: 0;
+  background:
+    radial-gradient(60% 80% at 20% 100%, var(--fog-strong), transparent 70%),
+    var(--field);
+}
+@media (min-width: 768px) and (min-height: 760px) {
+  .site-footer {
+    position: sticky;
+    bottom: 0;
+  }
+}
+.footer-name-base {
+  fill: var(--border-strong);
+}
+.footer-name-lit {
+  fill: var(--brand);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .footer-name-lit {
+      animation: name-fill linear both;
+      animation-timeline: --curtain;
+      animation-range: exit 0% exit 65%;
+    }
+  }
+}
+@keyframes name-fill {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@media print {
+  .curtain { box-shadow: none; border-radius: 0; }
 }

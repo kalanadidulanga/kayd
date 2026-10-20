@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Scene, SceneHeading, Cue } from "@/components/scene";
+import { Scene, Cue } from "@/components/scene";
 import { Atlas, AtlasList } from "@/components/home/atlas";
 import { Thinking } from "@/components/home/thinking";
 import { Range } from "@/components/home/range";
+import { GitHubField } from "@/components/home/github-field";
 import { PixelField } from "@/components/lab/pixel-field";
 import { Words } from "@/components/motion/words";
-import { Experiences, featuredCaseStudies, type ExperienceInterface } from "@/config/experience";
+import { Experiences } from "@/config/experience";
 import { lab } from "@/config/lab";
 import { now } from "@/config/now";
 import { profile } from "@/config/profile";
@@ -16,7 +17,6 @@ import { siteConfig } from "@/config/site";
 import { SocialLinks } from "@/config/socials";
 import { currentRoles } from "@/config/work-history";
 import { skillLabel, skillUsage } from "@/lib/skills";
-import { PLATFORMS, projectCover, projectPlatform, projectYears } from "@/lib/work";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -55,28 +55,6 @@ const structuredData = JSON.stringify({
 const email = SocialLinks.find((s) => s.link.startsWith("mailto:"))!.link;
 const btnPrimary =
   "inline-flex h-12 items-center gap-3 rounded-full bg-brand px-6 text-[15px] font-medium text-on-brand transition-transform duration-200 ease-cine active:scale-[0.98]";
-
-/** Year, platform and role, each a separate fact. */
-function Facts({ e }: { e: ExperienceInterface }) {
-  return (
-    <dl className="meta flex flex-wrap gap-x-5 gap-y-1">
-      <div>
-        <dt className="sr-only">Year</dt>
-        <dd>{projectYears(e)}</dd>
-      </div>
-      <div>
-        <dt className="sr-only">Platform</dt>
-        <dd>{PLATFORMS[projectPlatform(e)]}</dd>
-      </div>
-      {e.role ? (
-        <div>
-          <dt className="sr-only">Role</dt>
-          <dd>{e.role}</dd>
-        </div>
-      ) : null}
-    </dl>
-  );
-}
 
 function Hero() {
   const job = jobs[0];
@@ -123,80 +101,6 @@ function Hero() {
       </div>
       <div className="container relative mt-10 lg:hidden">
         <AtlasList />
-      </div>
-    </Scene>
-  );
-}
-
-function SelectedSystems() {
-  // The operations platform anchors the scene; the others follow as signals.
-  const anchor = featuredCaseStudies.find((e) => e.id === "operations-crm-platform") ?? featuredCaseStudies[0];
-  const signals = featuredCaseStudies.filter((e) => e !== anchor);
-  if (!anchor) return null;
-  const anchorCover = projectCover(anchor);
-  return (
-    <Scene id="selected-work" light={[20, 20]} className="pt-12 md:pt-20">
-      {/* The Atlas's root line continues down into the anchor project. */}
-      <span aria-hidden="true" className="thread hidden lg:block" style={{ left: "79vw", bottom: "auto", height: "16rem", background: "linear-gradient(var(--brand), transparent)" }} />
-      <div className="container">
-        <SceneHeading
-          title="Selected systems"
-          lead="Told in depth: what each system does, what I owned, and the decisions behind it."
-          action={
-            <Link href="/work" className="text-brand">
-              <Cue>All {Experiences.length} projects</Cue>
-            </Link>
-          }
-        />
-        <article className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-          <div data-rise="" className="lg:col-span-5">
-            <Facts e={anchor} />
-            <h3 className="type-display mt-5">{anchor.companyName}</h3>
-            <p className="type-lead mt-6">{anchor.shortDescription}</p>
-            {anchor.caseStudy?.outcome ? <p className="mt-6 font-medium text-brand">{anchor.caseStudy.outcome}</p> : null}
-            <Link href={`/work/${anchor.id}`} className="mt-8 inline-block text-foreground hover:text-brand">
-              <Cue>Read the case study</Cue>
-            </Link>
-          </div>
-          {anchorCover ? (
-            <div data-rise="" className="mask-reveal lg:col-span-7 lg:-mr-[4vw]">
-              <Image
-                src={anchorCover}
-                alt={`${anchor.companyName} screenshot`}
-                width={1440}
-                height={900}
-                sizes="(min-width: 1024px) 60vw, 100vw"
-                className="shadow-soft aspect-[16/10] w-full rounded-lg border border-border-strong object-cover object-left-top"
-              />
-            </div>
-          ) : null}
-        </article>
-        <div className="mt-24 grid gap-16 md:mt-32 md:grid-cols-12">
-          {signals.map((e, i) => {
-            const cover = projectCover(e);
-            return (
-              <article key={e.id} data-rise="" className={i === 0 ? "md:col-span-6" : "md:col-span-5 md:col-start-8 md:mt-24"}>
-                {cover ? (
-                  <Image
-                    src={cover}
-                    alt={`${e.companyName} screenshot`}
-                    width={1440}
-                    height={900}
-                    sizes="(min-width: 768px) 40vw, 100vw"
-                    className="mb-8 aspect-[16/9] w-full rounded-lg border border-border object-cover object-top"
-                  />
-                ) : null}
-                <Facts e={e} />
-                <h3 className="type-title mt-4">{e.companyName}</h3>
-                {e.caseStudy?.outcome && !cover ? <p className="type-title type-soft mt-2">{e.caseStudy.outcome}</p> : null}
-                <p className="mt-4 text-muted-foreground">{e.shortDescription}</p>
-                <Link href={`/work/${e.id}`} className="mt-6 inline-block text-foreground hover:text-brand">
-                  <Cue>Read the case study</Cue>
-                </Link>
-              </article>
-            );
-          })}
-        </div>
       </div>
     </Scene>
   );
@@ -269,7 +173,7 @@ function PersonalNote() {
 function Closing() {
   return (
     <Scene id="contact" light={[50, 100]} className="pb-10 text-center md:pb-16">
-      <div aria-hidden="true" className="glow absolute inset-x-0 -bottom-64 mx-auto h-[90%] max-w-5xl" />
+      <div aria-hidden="true" className="glow absolute inset-x-0 bottom-0 mx-auto h-[80%] max-w-5xl" />
       <div className="container relative">
         <h2 className="type-display mx-auto max-w-4xl">
           <Words text="Have a system worth building?" onView />
@@ -298,7 +202,7 @@ export default function IndexPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} />
       <Hero />
-      <SelectedSystems />
+      <GitHubField />
       <Thinking />
       <Range />
       <LabSignal />
