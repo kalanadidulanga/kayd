@@ -54,14 +54,3 @@ export function formatRange(role: Role): string {
   if (role.end === role.start) return formatPoint(role.start);
   return `${formatPoint(role.start)} to ${formatPoint(role.end)}`;
 }
-
-/** Roles as entries for the git-log view: newest first, the first current one is HEAD. */
-export function logEntries(list: Role[] = roles) {
-  return list.map((r, i) => ({
-    when: formatRange(r),
-    title: r.title ?? r.company,
-    where: r.title ? r.company : undefined,
-    note: r.note,
-    head: i === 0 && !r.end,
-  }));
-}

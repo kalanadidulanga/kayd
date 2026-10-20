@@ -15,5 +15,3 @@ export const contributionsUnsorted: contributionsInterface[] = [
   },
 ];
 
-export const featuredContributions: contributionsInterface[] =
-  contributionsUnsorted.slice(0, 3);

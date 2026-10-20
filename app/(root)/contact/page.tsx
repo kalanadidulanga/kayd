@@ -1,39 +1,38 @@
-import React from "react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
-import { Section, SectionHeading } from "@/components/section";
+import { Scene } from "@/components/scene";
 import { ContactForm } from "@/components/forms/contact-form";
-import { Reveal } from "@/components/reveal";
 import { SocialLinks } from "@/config/socials";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch about a project, a role, or anything else.",
+  description: "Get in touch about a project, a role, a collaboration, or anything else.",
   alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
+  const email = SocialLinks.find((s) => s.link.startsWith("mailto:"))!.link.replace("mailto:", "");
   return (
-    <Section className="relative overflow-hidden pt-36 md:pt-48">
-      <div aria-hidden="true" className="glow absolute -left-40 top-0 h-[520px] w-[620px]" />
-      <SectionHeading
-        as="h1"
-        eyebrow="Contact"
-        title="Contact,"
-        serif="let's talk."
-        lead="A project, a role, or a question: send a message."
-      />
-      <div className="grid gap-14 md:grid-cols-[1fr_auto] md:gap-20">
-        <Reveal>
-          <div className="shadow-soft max-w-2xl rounded-3xl border border-border-strong bg-surface p-6 md:p-10">
-            <ContactForm />
-          </div>
-        </Reveal>
-        <Reveal delay={120}>
-          <aside>
-            <h2 className="eyebrow">Or directly</h2>
-            <ul className="mt-5 space-y-3.5">
+    <Scene as="div" light={[50, 70]} className="min-h-[100dvh] overflow-x-clip pt-36 md:pt-44">
+      {/* The clearing: paths converging on one light, behind the form. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 top-0 -z-10 mx-auto max-w-5xl overflow-hidden">
+        <Image src="/visuals/contact-clearing.webp" alt="" fill sizes="(min-width: 1024px) 1024px, 100vw" className="art object-cover object-bottom opacity-70 [mask-image:radial-gradient(70%_60%_at_50%_70%,#000,transparent)]" />
+        {/* A dark green veil keeps the form at full contrast. */}
+        <div className="absolute inset-0 bg-background/55" />
+      </div>
+      <div className="container grid gap-16 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <h1 data-rise="load" className="type-display">
+            Tell me what needs to work better.
+          </h1>
+          <p data-rise="load" className="type-lead mt-7 max-w-md">
+            A product idea, an operational problem, an engineering role, a collaboration, or simply hello.
+          </p>
+          <div data-rise="load" className="mt-12">
+            <h2 className="meta">Or directly</h2>
+            <ul className="mt-4 space-y-3">
               {SocialLinks.map((item) => (
                 <li key={item.name}>
                   <Link
@@ -41,15 +40,18 @@ export default function ContactPage() {
                     {...(item.link.startsWith("mailto:") ? {} : { target: "_blank", rel: "noreferrer" })}
                     className="inline-flex items-center gap-3 text-muted-foreground transition-colors [overflow-wrap:anywhere] hover:text-brand"
                   >
-                    <item.icon className="h-4 w-4" aria-hidden="true" />
-                    {item.name === "Gmail" ? item.link.replace("mailto:", "") : item.name}
+                    <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    {item.link.startsWith("mailto:") ? email : item.name}
                   </Link>
                 </li>
               ))}
             </ul>
-          </aside>
-        </Reveal>
+          </div>
+        </div>
+        <div data-rise="load" className="lg:col-span-6 lg:col-start-7">
+          <ContactForm email={email} />
+        </div>
       </div>
-    </Section>
+    </Scene>
   );
 }

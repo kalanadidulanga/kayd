@@ -71,8 +71,7 @@ export async function POST(req: Request) {
       text: [
         `Name: ${name}`,
         `Email: ${form.email}`,
-        `Mobile: ${form.mobile}`,
-        `Social: ${form.social || "-"}`,
+        `About: ${form.intent || "-"}`,
         "",
         form.message,
       ].join("\n"),

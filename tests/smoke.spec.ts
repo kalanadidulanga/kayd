@@ -1,18 +1,21 @@
 import { test, expect } from "@playwright/test";
+import { profile } from "../config/profile";
 import { roles } from "../config/work-history";
 import { skillId, skillLabel, skillUsage } from "../lib/skills";
 
 const pages = [
   { path: "/work", heading: "Work" },
-  { path: "/experience", heading: "Experience" },
-  { path: "/skills", heading: "Skills" },
-  { path: "/contact", heading: "Contact" },
+  { path: "/about", heading: profile.name },
+  { path: "/lab", heading: "Lab" },
+  { path: "/notes", heading: "Notes" },
+  { path: "/contact", heading: "Tell me what needs to work better." },
+  { path: "/resume", heading: profile.name },
 ];
 
 test("home page renders", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/KayD/);
-  await expect(page.locator("body")).not.toBeEmpty();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("I build software for the real world.");
 });
 
 for (const { path, heading } of pages) {
@@ -22,11 +25,6 @@ for (const { path, heading } of pages) {
     await expect(page.getByRole("heading", { name: heading, level: 1 })).toBeVisible();
   });
 }
-
-test("/resume renders", async ({ page }) => {
-  const response = await page.goto("/resume");
-  expect(response?.status()).toBe(200);
-});
 
 test.describe("work detail", () => {
   // Regression: Next 15 made route params a promise. Reading params.id
@@ -46,35 +44,46 @@ test.describe("work detail", () => {
 
 test("navigating from the index reaches a detail page", async ({ page }) => {
   await page.goto("/work");
-  await page.locator('a[href^="/work/"]').first().click();
+  await page.getByTestId("work-index").locator('a[href^="/work/"]').first().click();
   await expect(page).toHaveURL(/\/work\/.+/);
 });
 
+test("an unknown address shows the disconnected node with routes back", async ({ page }) => {
+  const response = await page.goto("/no-such-page");
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("not connected");
+  const nav = page.getByRole("navigation", { name: "Back into the site" });
+  for (const name of ["Work", "Lab", "Home"]) await expect(nav.getByRole("link", { name })).toBeVisible();
+  // The artwork is served, not a broken image.
+  const img = page.locator("main img").first();
+  await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+});
+
 test.describe("old links still land somewhere real", () => {
-  test("a project link from the old /experience/<id> moves to /work/<id>", async ({ page }) => {
-    await page.goto("/experience/uniguru");
-    await expect(page).toHaveURL(/\/work\/uniguru$/);
-  });
+  const moves: [string, string][] = [
+    ["/experience", "/about"],
+    ["/experience/uniguru", "/work/uniguru"],
+    ["/skills", "/about#skills"],
+    ["/educations", "/about#education"],
+    ["/contributions", "/about#contributions"],
+    ["/index.html", "/"],
+  ];
+  for (const [from, to] of moves) {
+    test(`${from} moves permanently to ${to}`, async ({ request }) => {
+      const res = await request.get(from, { maxRedirects: 0 });
+      expect(res.status()).toBe(308);
+      expect(res.headers()["location"]).toBe(to);
+    });
+  }
 
-  test("/educations and /contributions now live on the experience page", async ({ page }) => {
-    for (const path of ["/educations", "/contributions"]) {
-      await page.goto(path);
-      await expect(page).toHaveURL(/\/experience/);
-      await expect(page.getByRole("heading", { name: "Experience", level: 1 })).toBeVisible();
-    }
+  test("the moved anchors exist on the About page", async ({ page }) => {
+    await page.goto("/about");
+    for (const id of ["skills", "education", "contributions", "roles"]) await expect(page.locator(`#${id}`)).toHaveCount(1);
   });
 });
 
-test("contact form validates before submitting", async ({ page }) => {
-  await page.goto("/contact");
-  await page.getByRole("button", { name: /^submit$/i }).click();
-  // zod + react-hook-form should block the submit and surface a message
-  await expect(page.locator("form")).toContainText(/required|must|invalid/i);
-});
-
-
-test("the experience page lists every role", async ({ page }) => {
-  await page.goto("/experience");
+test("the about page lists every role", async ({ page }) => {
+  await page.goto("/about");
   const section = page.locator("#roles");
   for (const r of roles) {
     await expect(section).toContainText(r.company);
@@ -85,12 +94,10 @@ test("the experience page lists every role", async ({ page }) => {
 test("each skill shows the number of projects that use it", async ({ page }) => {
   // The count is the proof. If it ever drifts from the config, a skill is
   // claiming work that is not listed.
-  await page.goto("/skills");
+  await page.goto("/about");
   for (const group of skillUsage()) {
     for (const s of group.skills) {
-      await expect(page.locator(`#${skillId(s.name)} [data-count]`)).toHaveText(
-        String(s.projects.length)
-      );
+      await expect(page.locator(`#${skillId(s.name)} [data-count]`)).toHaveText(String(s.projects.length));
     }
   }
   // A stated skill is shown, in its group, and never with a count.
@@ -103,9 +110,19 @@ test("each skill shows the number of projects that use it", async ({ page }) => 
   }
 });
 
+test("the résumé carries every role and prints", async ({ page }) => {
+  await page.goto("/resume");
+  for (const r of roles) await expect(page.locator("main")).toContainText(r.company);
+  await expect(page.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
+  // The site's chrome stays off the paper.
+  await page.emulateMedia({ media: "print" });
+  await expect(page.locator("header").first()).toBeHidden();
+  await expect(page.locator("footer").first()).toBeHidden();
+});
+
 test.describe("search engines", () => {
   test("pages carry their own canonical URL", async ({ page }) => {
-    for (const path of ["/", "/work", "/skills", "/work/kendara"]) {
+    for (const path of ["/", "/work", "/about", "/lab", "/contact", "/resume", "/work/kendara"]) {
       await page.goto(path);
       const href = await page.locator('link[rel="canonical"]').getAttribute("href");
       expect(href, path).toBe(`https://www.kalanadidulanga.com${path === "/" ? "" : path}`);
@@ -115,16 +132,18 @@ test.describe("search engines", () => {
   test("the home page describes the person behind it", async ({ page }) => {
     await page.goto("/");
     const raw = await page.locator('script[type="application/ld+json"]').textContent();
-    const person = JSON.parse(raw!)["@graph"].find((n: { "@type": string }) => n["@type"] === "Person");
+    const graph = JSON.parse(raw!)["@graph"];
+    const person = graph.find((n: { "@type": string }) => n["@type"] === "Person");
     expect(person.name).toBe("Kalana Didulanga Koralegedara");
     expect(person.sameAs).toContain("https://github.com/kalanadidulanga/");
     expect(person.image).toBe("https://www.kalanadidulanga.com/Avatar.png");
+    expect(graph.some((n: { "@type": string }) => n["@type"] === "WebSite")).toBe(true);
   });
 
-  test("an old /index.html link lands on the home page", async ({ request }) => {
-    const res = await request.get("/index.html", { maxRedirects: 0 });
-    expect(res.status()).toBe(308);
-    expect(res.headers()["location"]).toBe("/");
+  test("the empty notes index asks not to be indexed", async ({ page }) => {
+    await page.goto("/notes");
+    await expect(page.getByTestId("notes-empty")).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   });
 
   test("the photo named in the structured data is served", async ({ request }) => {
@@ -135,8 +154,8 @@ test.describe("search engines", () => {
 
   test("sitemap, robots and the share image are served", async ({ request }) => {
     const sitemap = await (await request.get("/sitemap.xml")).text();
-    expect(sitemap).toContain("https://www.kalanadidulanga.com/work/kendara");
-    expect(sitemap).not.toContain("/resume");
+    for (const path of ["/work/kendara", "/about", "/lab", "/resume"]) expect(sitemap).toContain(`https://www.kalanadidulanga.com${path}`);
+    for (const gone of ["/skills", "/experience"]) expect(sitemap).not.toContain(gone);
     expect(await (await request.get("/robots.txt")).text()).toContain("Sitemap: https://www.kalanadidulanga.com/sitemap.xml");
     const og = await request.get("/opengraph-image");
     expect(og.ok()).toBe(true);
@@ -147,11 +166,13 @@ test.describe("search engines", () => {
 test.describe("contact API", () => {
   // Only bad or bot-like requests here: with SMTP set in .env, a good one
   // would send a real email.
-  const base = { name: "Ann Perera", email: "ann@example.com", mobile: "0771234567", message: "I would like a website for my shop." };
+  const base = { name: "Ann Perera", email: "ann@example.com", message: "I would like a website for my shop.", intent: "project" };
 
   test("rejects a request that is not a valid form", async ({ request }) => {
     const res = await request.post("/api/contact", { data: { name: "A" } });
     expect(res.status()).toBe(400);
+    const odd = await request.post("/api/contact", { data: { ...base, intent: "sales pitch", startedAt: Date.now() - 60_000 } });
+    expect(odd.status()).toBe(400);
   });
 
   test("answers bots as if it worked, without trying to send", async ({ request }) => {

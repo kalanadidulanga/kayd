@@ -1,52 +1,33 @@
-import { Metadata } from "next";
+import { Suspense } from "react";
+import type { Metadata } from "next";
 
-import { Section, SectionHeading } from "@/components/section";
-import { WorkList } from "@/components/work-row";
-import { Reveal } from "@/components/reveal";
+import { Scene, SceneHeading } from "@/components/scene";
+import { Explorer, ExplorerView } from "@/components/work/explorer";
 import { Experiences } from "@/config/experience";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { summarize } from "@/lib/work";
 
 export const metadata: Metadata = {
   title: "Work",
-  description:
-    "Client platforms, products of my own, and work I lead: every project, newest first.",
+  description: "Client platforms, products of my own, and work I lead: every project, searchable by technology, domain and platform.",
   alternates: { canonical: "/work" },
 };
 
-const professional = Experiences.filter((e) => e.type === "Professional");
-const personal = Experiences.filter((e) => e.type === "Personal Project");
-const firstYear = Math.min(
-  ...Experiences.map((e) => e.startDate?.getUTCFullYear() ?? Infinity)
-);
+const projects = Experiences.map(summarize);
+const firstYear = Math.min(...Experiences.map((e) => e.startDate?.getUTCFullYear() ?? Infinity));
 
 export default function WorkPage() {
   return (
-    <Section className="pt-36 md:pt-48">
-      <SectionHeading
-        as="h1"
-        eyebrow="Index"
-        title="Work,"
-        serif="every project."
-        lead={`${Experiences.length} projects since ${firstYear}: client platforms, products of my own, and work I lead.`}
-      />
-      <Reveal>
-        <Tabs defaultValue="all">
-          <TabsList aria-label="Filter projects">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="professional">Professional</TabsTrigger>
-            <TabsTrigger value="personal">Personal</TabsTrigger>
-          </TabsList>
-          <TabsContent value="all" className="mt-10">
-            <WorkList projects={Experiences} />
-          </TabsContent>
-          <TabsContent value="professional" className="mt-10">
-            <WorkList projects={professional} />
-          </TabsContent>
-          <TabsContent value="personal" className="mt-10">
-            <WorkList projects={personal} />
-          </TabsContent>
-        </Tabs>
-      </Reveal>
-    </Section>
+    <Scene as="div" texture="grid" light={[80, 10]} className="pt-36 md:pt-44">
+      <div id="explorer" className="container scroll-mt-28">
+        <SceneHeading
+          as="h1"
+          title="Work"
+          lead={`${projects.length} projects since ${firstYear}: client platforms, products of my own, and work I lead. Every one is here, with or without pictures.`}
+        />
+        <Suspense fallback={<ExplorerView projects={projects} initial={{}} />}>
+          <Explorer projects={projects} />
+        </Suspense>
+      </div>
+    </Scene>
   );
 }

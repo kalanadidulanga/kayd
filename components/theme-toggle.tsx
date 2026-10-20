@@ -5,7 +5,7 @@ import { flushSync } from "react-dom";
 import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/icons";
+import { Moon, Sun } from "lucide-react";
 
 /**
  * One button between light and dark. Where the browser has View
@@ -61,11 +61,11 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={onClick}
       aria-label={mounted ? `Switch to ${next} theme` : "Switch theme"}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-full border border-border-strong text-foreground transition-colors hover:bg-brand-soft",
+        "inline-flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-brand-soft hover:text-foreground",
         className
       )}
     >
-      {isDark ? <Icons.sun className="h-4 w-4" /> : <Icons.moon className="h-4 w-4" />}
+      {isDark ? <Sun aria-hidden="true" className="h-4 w-4" /> : <Moon aria-hidden="true" className="h-4 w-4" />}
     </button>
   );
 }
