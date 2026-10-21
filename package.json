@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.6.0",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "next dev",
