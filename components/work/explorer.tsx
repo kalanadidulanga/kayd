@@ -59,8 +59,9 @@ function Glyph({ domain, art, className }: { domain: Domain; art: Art; className
   const Icon = DOMAIN_ICONS[domain];
   return (
     <span className={cn("relative grid shrink-0 place-items-center overflow-hidden bg-field text-brand", className)}>
+      {/* Art is cropped from the bottom, where the plate caption sits. */}
       {art[domain] ? (
-        <Image src={art[domain]!} alt="" fill sizes="160px" className="art object-cover" />
+        <Image src={art[domain]!} alt="" fill sizes="(min-width: 1024px) 220px, 50vw" className="art object-cover object-[50%_15%]" />
       ) : (
         <Icon aria-hidden="true" className="h-[40%] w-[40%]" />
       )}

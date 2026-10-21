@@ -12,6 +12,10 @@ The sources in [`generated/`](./generated/) were made on 2026-10-20 with the bui
 | `public/lab/lab-poster.webp` | `lab-poster.png` | 1448 x 1086, WebP q72 | Lab opening and Home lab signal, under the live cursor field | Poster behind a real experiment, no text on it |
 | `public/visuals/contact-clearing.webp` | `contact-clearing.png` | 1122 x 1402, WebP q70 | Contact page, behind a dark veil | Atmosphere; form contrast is tested |
 | `public/visuals/disconnected-node.webp` | `disconnected-node-404.png` | 768 x 512, WebP with alpha | 404 page | Small illustration |
+| `public/visuals/domains/<domain>.webp` (six) | `domain-<domain>.png` | 640 x 640, WebP q74 | Work: domain plates and each project row | Specimen art for the domain, no text on it |
+| `public/work/field.webp` | `work-field.png` | 2000 x 917, WebP q70 | Work page header, right side | Atmosphere behind the title |
+
+The domain plates and the Work field were generated on 2026-10-21 from the prompts given in the session that set up the Work page; their sources are listed in the catalog.
 
 In the light theme, art drawn on dark green is shown through `--art-filter` (an inverted, hue-kept negative, multiplied into the page). The source files are unchanged.
 
