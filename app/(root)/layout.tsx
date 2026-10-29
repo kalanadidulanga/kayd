@@ -52,7 +52,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <CommandPalette items={paletteItems} email={email} />
       {/* The page is a curtain over the footer (see .curtain in globals.css). */}
       <div className="curtain">
-        <div aria-hidden="true" className="world" />
         <main id="content" tabIndex={-1} className="outline-none">
           {children}
         </main>

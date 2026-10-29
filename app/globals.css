@@ -597,59 +597,6 @@ html.js .mask-reveal[data-rise=""][data-in] {
 }
 
 /* ---------- immersive scroll (home) ---------- */
-/* The world: one light that drifts across the whole page as it scrolls,
-   with a faint drift of spores, behind every scene. A sticky layer inside
-   the curtain, so it never shows over the footer. */
-.world {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  margin-bottom: -100vh;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
-.world::before,
-.world::after {
-  content: "";
-  position: absolute;
-  inset: -25%;
-}
-.world::before {
-  background: radial-gradient(32% 30% at 50% 50%, var(--fog-strong), transparent 70%);
-  transform: translate(22%, -18%);
-}
-.world::after {
-  background-image:
-    radial-gradient(circle, var(--brand) 0.8px, transparent 1.4px),
-    radial-gradient(circle, var(--brand) 0.6px, transparent 1.2px);
-  background-size: 173px 151px, 97px 113px;
-  background-position: 0 0, 41px 67px;
-  opacity: 0.14;
-  mask-image: radial-gradient(60% 55% at 50% 50%, #000, transparent 75%);
-}
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .world::before {
-      animation: world-light linear both;
-      animation-timeline: scroll(root);
-    }
-    .world::after {
-      animation: world-spores linear both;
-      animation-timeline: scroll(root);
-    }
-  }
-}
-@keyframes world-light {
-  0% { transform: translate(22%, -18%); }
-  30% { transform: translate(-24%, 4%); }
-  60% { transform: translate(20%, 14%) scale(1.15); }
-  100% { transform: translate(0, 26%) scale(1.35); }
-}
-@keyframes world-spores {
-  to { background-position: 0 -900px, 41px -1300px; }
-}
-
 /* Words that light up line by line as they pass up the screen. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
