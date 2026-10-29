@@ -71,7 +71,7 @@ export function Atlas({ className }: { className?: string }) {
             >
               <Link
                 href={n.href}
-                className="relative block aspect-square w-full rounded-[28%] outline-offset-4 ring-brand/0 transition-[box-shadow] duration-300 hover:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)] focus-visible:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)]"
+                className="relative block aspect-square w-full rounded-[28%] outline-offset-4 transition-[box-shadow] duration-300 focus-visible:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)]"
               >
                 <span className="glass absolute left-1/2 top-[calc(100%+0.5rem)] flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-border px-3 py-1.5 text-[13px] text-foreground transition-colors group-hover/node:border-brand group-focus-within/node:border-brand">
                   <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />

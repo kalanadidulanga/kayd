@@ -440,10 +440,11 @@ html.js [data-rise="load"] {
     /* Scrolling dives into the Atlas: it grows, softens and lets go, while
        the headline lifts away a little faster than the page. */
     .atlas-compress {
-      transform-origin: 68% 55%;
+      /* Toward the core of the system, where the descent continues. */
+      transform-origin: 68% 46%;
       animation: atlas-dive linear both;
       animation-timeline: scroll(root);
-      animation-range: 0 100vh;
+      animation-range: 0 60vh;
     }
     .hero-copy {
       animation: hero-lift linear both;
@@ -453,7 +454,8 @@ html.js [data-rise="load"] {
   }
 }
 @keyframes atlas-dive {
-  to { transform: scale(1.35) translateY(-6%); opacity: 0.12; filter: blur(6px); }
+  70% { opacity: 0.6; }
+  to { transform: scale(2.4); opacity: 0; filter: blur(4px); }
 }
 @keyframes hero-lift {
   to { transform: translateY(-14vh); opacity: 0; }
@@ -720,7 +722,15 @@ html.js .mask-reveal[data-rise=""][data-in] {
 
 /* The descent (components/home/system-descent.tsx) is a scroll-driven film;
    with reduced motion it is just the still of the stack, at its own height. */
+/* On wide screens with motion, the descent starts under the hero, so the
+   hero's dive and the clip are one shot. */
+.descent { height: 240vh; }
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .descent { height: 340vh; margin-top: -100vh; z-index: 0; }
+  #hero { z-index: 10; }
+}
 @media (prefers-reduced-motion: reduce) {
   .descent { height: auto; }
+  .descent-sticky { opacity: 1 !important; }
   .descent-sticky { position: relative; height: auto; aspect-ratio: 16 / 9; }
 }

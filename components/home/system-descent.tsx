@@ -2,37 +2,36 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useMotionValueEvent, useScroll } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 
 const MASK = "[mask-image:linear-gradient(to_bottom,transparent,#000_15%,#000_85%,transparent)]";
+/** Where the clip starts: by now the camera has moved past the hero's framing. */
+const START = 2;
 
 /**
- * Between the hero and the rest of the page, the camera descends through
- * the core into the stack, frame by frame with the scroll. The layout is
- * server-rendered (no shift), with the stack still underneath; the clip is
- * added on wide screens with motion welcome and no data-saver, and only
- * loads as it comes near. Phones get the still in the flow.
+ * One continuous shot from the hero into the system. On wide screens the
+ * descent sits under the hero (see .descent in globals.css): as the hero
+ * dives toward the core and fades, the clip fades in already moving, then
+ * scrubs with the scroll down through the core into the stack. The clip
+ * loads once the page is idle; phones and reduced motion see the stack as
+ * a still, in the flow.
  */
 export function SystemDescent() {
   const box = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const frame = useRef(0);
-  const [near, setNear] = useState(false);
+  const [load, setLoad] = useState(false);
   const { scrollYProgress } = useScroll({ target: box, offset: ["start start", "end end"] });
+  const opacity = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
 
   useEffect(() => {
     const wide = window.matchMedia("(min-width: 1024px)").matches;
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const saver = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (!wide || still || saver || !box.current) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        setNear(true);
-        io.disconnect();
-      }
-    }, { rootMargin: "150% 0px" });
-    io.observe(box.current);
-    return () => io.disconnect();
+    if (!wide || still || saver) return;
+    const start = () => setLoad(true);
+    const idle = window.requestIdleCallback?.(start, { timeout: 4000 }) ?? window.setTimeout(start, 2500);
+    return () => (window.cancelIdleCallback ? window.cancelIdleCallback(idle) : window.clearTimeout(idle));
   }, []);
 
   useMotionValueEvent(scrollYProgress, "change", (p) => {
@@ -40,27 +39,28 @@ export function SystemDescent() {
     if (!v || !v.duration) return;
     cancelAnimationFrame(frame.current);
     frame.current = requestAnimationFrame(() => {
-      v.currentTime = Math.min(v.duration - 0.05, Math.max(0, p) * v.duration);
+      // Hold the first moving frame while the hero hands over, then descend.
+      const t = Math.min(1, Math.max(0, (p - 0.15) / 0.85));
+      v.currentTime = START + t * (v.duration - START - 0.05);
     });
   });
 
   return (
     <>
-      <div ref={box} aria-hidden="true" className="descent relative hidden h-[240vh] lg:block">
-        <div className="descent-sticky sticky top-0 h-[100dvh] overflow-hidden">
+      <div ref={box} aria-hidden="true" className="descent pointer-events-none relative hidden lg:block">
+        <motion.div style={{ opacity }} className="descent-sticky sticky top-0 h-[100dvh] overflow-hidden">
           <Image src="/visuals/system/stack.webp" alt="" fill sizes="100vw" className={`art object-cover ${MASK}`} />
-          {near ? (
+          {load ? (
             <video
               ref={video}
               muted
               playsInline
               preload="auto"
-              poster="/visuals/system/hero-poster.webp"
-              src="/visuals/system/descent.mp4"
+              src={`/visuals/system/descent.mp4#t=${START}`}
               className={`art absolute inset-0 h-full w-full object-cover ${MASK}`}
             />
           ) : null}
-        </div>
+        </motion.div>
       </div>
       <div aria-hidden="true" className="container py-10 lg:hidden">
         <Image src="/visuals/system/stack.webp" alt="" width={1600} height={900} sizes="100vw" className="art h-auto w-full [mask-image:radial-gradient(70%_70%_at_50%_50%,#000_55%,transparent)]" />
