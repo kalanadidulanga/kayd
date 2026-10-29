@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
 import { profile } from "@/config/profile";
 import { siteConfig } from "@/config/site";
 
-// The card shown when a link to the site is shared: the Living Systems Atlas
+// The card shown when a link to the site is shared: the running system
 // behind the headline, in the fixed dark Emerald palette (a social preview
 // cannot follow the visitor's theme).
 export const alt = `${profile.name}, full stack engineer`;
@@ -14,13 +14,13 @@ export const contentType = "image/png";
 
 export default async function OpengraphImage() {
   // Satori reads PNG and JPEG, not WebP, so the card has its own JPEG cut.
-  const atlas = await readFile(path.join(process.cwd(), "public/visuals/atlas/living-systems-atlas-og.jpg"));
+  const atlas = await readFile(path.join(process.cwd(), "public/visuals/system/hero-og.jpg"));
   const src = `data:image/jpeg;base64,${atlas.toString("base64")}`;
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: "#07100d", color: "#ecf7f0" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt="" width={1008} height={630} style={{ position: "absolute", right: -60, top: 0, opacity: 0.9 }} />
+        <img src={src} alt="" width={1200} height={675} style={{ position: "absolute", right: -220, top: 0, opacity: 0.9 }} />
         <div
           style={{
             position: "absolute",

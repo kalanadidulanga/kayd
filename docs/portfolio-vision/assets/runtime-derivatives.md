@@ -14,6 +14,11 @@ The sources in [`generated/`](./generated/) were made on 2026-10-20 with the bui
 | `public/visuals/disconnected-node.webp` | `disconnected-node-404.png` | 768 x 512, WebP with alpha | 404 page | Small illustration |
 | `public/visuals/domains/<domain>.webp` (six) | `domain-<domain>.png` | 640 x 640, WebP q74 | Work: domain plates and each project row | Specimen art for the domain, no text on it |
 | `public/work/field.webp` | `work-field.png` | 2000 x 917, WebP q70 | Work page header, right side | Atmosphere behind the title |
+| `public/visuals/system/hero-loop.webm`, `.mp4` | `Hero_loop_video_settings_b3e0673a_1080p.mp4` (Veo) | 1600 x 900, no audio, 435 KB / 690 KB | Home hero on wide screens only | Gemini mark removed with ffmpeg delogo |
+| `public/visuals/system/hero-poster.webp`, `hero-og.jpg` | first frame of the hero loop | 1600 x 900 WebP q72, 1200 JPEG | Hero image (LCP), share card | |
+| `public/visuals/system/descent.mp4` | `Camera_moving_through_system_module_bdb43305_1080p.mp4` (Veo) | 1280 x 720, keyframe every 6 frames for scrubbing, 2.5 MB | Scroll descent, wide screens, loads when near | Gemini mark removed |
+| `public/visuals/system/stack.webp`, `lab-staging.webp`, `contact-console.webp`, `hero-mobile.webp` | `asg-*.png` | WebP q70 to 72 | Descent still, Lab, Contact | |
+| `public/visuals/domains/<domain>.webp` | `asg-module-<domain>.png` | 640 x 640 | Work domain plates and rows (replaces the plant specimens) | |
 
 The domain plates and the Work field were generated on 2026-10-21 from the prompts given in the session that set up the Work page; their sources are listed in the catalog.
 

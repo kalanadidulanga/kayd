@@ -18,7 +18,7 @@ export default function ContactPage() {
     <Scene as="div" light={[50, 70]} className="min-h-[100dvh] overflow-x-clip pt-36 md:pt-44">
       {/* The clearing: paths converging on one light, behind the form. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 top-0 -z-10 mx-auto max-w-5xl overflow-hidden">
-        <Image src="/visuals/contact-clearing.webp" alt="" fill sizes="(min-width: 1024px) 1024px, 100vw" className="art object-cover object-bottom opacity-70 [mask-image:radial-gradient(70%_60%_at_50%_70%,#000,transparent)]" />
+        <Image src="/visuals/system/contact-console.webp" alt="" fill sizes="(min-width: 1024px) 1024px, 100vw" className="art object-cover object-bottom opacity-70 [mask-image:radial-gradient(70%_60%_at_50%_70%,#000,transparent)]" />
         {/* A dark green veil keeps the form at full contrast. */}
         <div className="absolute inset-0 bg-background/55" />
       </div>

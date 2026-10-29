@@ -80,7 +80,7 @@ export default function LabPage() {
             </p>
           </div>
           <div data-rise="load" className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border lg:col-span-7">
-            <Image src="/lab/lab-poster.webp" alt="" fill priority sizes="(min-width: 1024px) 58vw, 100vw" className="art object-cover opacity-45" />
+            <Image src="/visuals/system/lab-staging.webp" alt="" fill priority sizes="(min-width: 1024px) 58vw, 100vw" className="art object-cover opacity-45" />
             <PixelField className="absolute inset-0 h-full w-full" />
             <p className="meta absolute bottom-4 left-4">Cursor field, canvas. Still under reduced motion.</p>
           </div>

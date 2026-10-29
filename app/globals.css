@@ -709,8 +709,13 @@ html.js .mask-reveal[data-rise=""][data-in] {
 }
 
 
-/* Root pulses (components/home/atlas.tsx) are motion for its own sake: off
-   under reduced motion. */
+/* The hero loop fades in over its identical poster once it can play. */
+.hero-video { opacity: 0; transition: opacity 800ms ease; }
+.hero-video.is-playing { opacity: 1; }
+
+/* The descent (components/home/system-descent.tsx) is a scroll-driven film;
+   with reduced motion it is just the still of the stack, at its own height. */
 @media (prefers-reduced-motion: reduce) {
-  .atlas-pulses { display: none; }
+  .descent { height: auto; }
+  .descent-sticky { position: relative; height: auto; aspect-ratio: 16 / 9; }
 }

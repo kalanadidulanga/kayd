@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Scene, Cue } from "@/components/scene";
 import { Atlas, AtlasList } from "@/components/home/atlas";
+import { SystemDescent } from "@/components/home/system-descent";
 import { Thinking } from "@/components/home/thinking";
 import { Range } from "@/components/home/range";
 import { GitHubField } from "@/components/home/github-field";
@@ -118,7 +119,7 @@ function LabSignal() {
     <Scene id="lab-signal" data-rail-label="Lab" light={[80, 50]} overlap>
       <div className="container grid items-center gap-12 lg:grid-cols-12">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border lg:col-span-7">
-          <Image src="/lab/lab-poster.webp" alt="" fill sizes="(min-width: 1024px) 55vw, 100vw" className="art object-cover opacity-40" />
+          <Image src="/visuals/system/lab-staging.webp" alt="" fill sizes="(min-width: 1024px) 55vw, 100vw" className="art object-cover opacity-40" />
           <PixelField className="absolute inset-0 h-full w-full" />
           <p className="meta absolute bottom-4 left-4">Cursor field. Move a pointer across it.</p>
         </div>
@@ -208,6 +209,7 @@ export default function IndexPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} />
       <Hero />
+      <SystemDescent />
       <GitHubField />
       <Thinking />
       <Range />

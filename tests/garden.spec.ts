@@ -172,7 +172,8 @@ test.describe("atlas", () => {
         expect(values.filter((o) => o === "1").length, sel).toBeGreaterThan(0);
       }
       // The root pulses are off, and the hero copy does not lift away.
-      await expect(page.locator(".atlas-pulses")).toBeHidden();
+      // No video loads, in the hero or the descent; the stills stand in.
+      await expect(page.locator("main video")).toHaveCount(0);
       expect(await page.locator(".hero-copy").evaluate((el) => getComputedStyle(el).animationName)).toBe("none");
     });
 

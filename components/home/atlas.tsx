@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { PointerLight } from "@/components/motion/pointer-light";
-import { HeroSoil } from "@/components/home/hero-soil";
+import { HeroVideo } from "@/components/home/hero-video";
 import { Experiences } from "@/config/experience";
 import { projectPlatform } from "@/lib/work";
 
@@ -12,7 +12,7 @@ type Node = {
   href: string;
   /** One real project that lives in this domain. */
   project: string;
-  /** Centre and diameter of the matching sphere, in percent of the artwork, measured on the 1586 x 992 source. */
+  /** Centre and width of the matching module cluster, in percent of the 16:9 frame, measured on the video poster. */
   x: number;
   y: number;
   d: number;
@@ -22,82 +22,43 @@ type Node = {
 const count = (test: (e: (typeof Experiences)[number]) => boolean) => Experiences.filter(test).length;
 
 /**
- * The six spheres of the generated artwork, named as the domains Kalana
- * works across. Counts come from the project config; each node opens the
- * Work explorer already filtered to it.
+ * The six module clusters around the core of the running system, named as
+ * the domains Kalana works across. Counts come from the project config;
+ * each node opens the Work explorer already filtered to it. The core itself
+ * is left unnamed: it is the system as a whole.
  */
 export const ATLAS_NODES: Node[] = [
-  { label: "Business operations", href: "/work?domain=operations", project: "operations-crm-platform", x: 67.15, y: 47.18, d: 12.11, count: count((e) => e.domain === "operations") },
-  { label: "Web platforms", href: "/work?platform=web", project: "kendara", x: 66.83, y: 11.29, d: 10.09, count: count((e) => projectPlatform(e) === "web") },
-  { label: "Mobile apps", href: "/work?platform=mobile", project: "student-partner-mobile-app", x: 45.52, y: 26.41, d: 10.09, count: count((e) => projectPlatform(e) === "mobile") },
-  { label: "Windows software", href: "/work?platform=desktop", project: "project-mouse", x: 89.66, y: 25.2, d: 9.96, count: count((e) => projectPlatform(e) === "desktop") },
-  { label: "Commerce", href: "/work?domain=commerce", project: "cloud-erp-pos", x: 44.83, y: 63.31, d: 10.85, count: count((e) => e.domain === "commerce") },
-  { label: "Experiments", href: "/lab", project: "snake-game", x: 89.03, y: 61.69, d: 10.34, count: count((e) => e.domain === "experiments") },
+  { label: "Web platforms", href: "/work?platform=web", project: "kendara", x: 66.6, y: 11.7, d: 11, count: count((e) => projectPlatform(e) === "web") },
+  { label: "Mobile apps", href: "/work?platform=mobile", project: "student-partner-mobile-app", x: 48.3, y: 27.8, d: 11, count: count((e) => projectPlatform(e) === "mobile") },
+  { label: "Windows software", href: "/work?platform=desktop", project: "project-mouse", x: 87.5, y: 25, d: 11, count: count((e) => projectPlatform(e) === "desktop") },
+  { label: "Commerce", href: "/work?domain=commerce", project: "cloud-erp-pos", x: 49.4, y: 60.5, d: 11, count: count((e) => e.domain === "commerce") },
+  { label: "Experiments", href: "/lab", project: "snake-game", x: 90.6, y: 52.2, d: 11, count: count((e) => e.domain === "experiments") },
+  { label: "Business operations", href: "/work?domain=operations", project: "operations-crm-platform", x: 71.6, y: 75, d: 11, count: count((e) => e.domain === "operations") },
 ];
-
-/**
- * Root paths traced over the artwork (1586 x 992), trunk first, then the
- * five branches from the core. Light pulses travel along them.
- */
-const TRUNK = "M1100 992 C 1105 880, 1095 760, 1088 690 S 1070 600, 1066 566";
-const BRANCHES = [
-  "M1062 372 C 1058 320, 1058 250, 1056 195",
-  "M975 428 C 930 385, 870 350, 800 322",
-  "M1160 405 C 1215 370, 1285 335, 1355 302",
-  "M972 505 C 915 530, 850 575, 795 610",
-  "M1160 512 C 1220 540, 1280 578, 1332 602",
-];
-
-/**
- * One pulse of light along a path: a bright core in a soft halo. It travels
- * for `travel` seconds, then rests unseen until the period comes round.
- */
-function Pulse({ path, travel, period, begin }: { path: string; travel: number; period: number; begin: number }) {
-  const f = +(travel / period).toFixed(3);
-  const timing = { dur: `${period}s`, begin: `${begin}s`, repeatCount: "indefinite" as const };
-  return (
-    <g opacity="0">
-      <circle r="11" fill="var(--brand)" opacity="0.25" />
-      <circle r="4" fill="var(--brand-bright)" />
-      <animateMotion path={path} keyPoints="0;1;1" keyTimes={`0;${f};1`} calcMode="spline" keySplines="0.45 0 0.55 1;0 0 1 1" {...timing} />
-      <animate attributeName="opacity" values="0;1;1;0;0" keyTimes={`0;${+(f * 0.15).toFixed(3)};${+(f * 0.8).toFixed(3)};${f};1`} {...timing} />
-    </g>
-  );
-}
 
 function plural(n: number) {
   return `${n} ${n === 1 ? "project" : "projects"}`;
 }
 
 /**
- * The Living Systems Atlas: the generated artwork as the static base, with
- * each sphere made a real, focusable node. Hovering or focusing a node
+ * The running system: its poster as the page image, the silent loop over it
+ * on wide screens, and each module cluster made a real, focusable node. Hovering or focusing a node
  * reveals one real project from that domain (CSS only, so it works without
  * JavaScript); a fine pointer adds a soft local light. Nodes wake in
  * sequence after the headline, and not at all under reduced motion.
  */
 export function Atlas({ className }: { className?: string }) {
   return (
-    <PointerLight className={cn("atlas-compress aspect-[1586/992]", className)}>
+    <PointerLight className={cn("atlas-compress aspect-video", className)}>
       <Image
-        src="/visuals/atlas/living-systems-atlas.webp"
+        src="/visuals/system/hero-poster.webp"
         alt=""
         fill
         priority
         sizes="(min-width: 1024px) 70vw, 100vw"
         className="art object-cover [mask-image:linear-gradient(to_right,transparent,#000_22%,#000_92%,transparent),linear-gradient(to_bottom,transparent,#000_14%,#000_70%,transparent)] [mask-composite:intersect]"
       />
-      {/* The roots grow out of code: a field of characters under the trunk. */}
-      <HeroSoil className="pointer-events-none absolute inset-x-0 bottom-0 h-[42%] w-full [mask-image:linear-gradient(to_bottom,transparent,#000_45%,#000_72%,transparent)]" />
-      {/* Light rising through the roots: up the trunk, then out to each domain. */}
-      <svg aria-hidden="true" viewBox="0 0 1586 992" className="atlas-pulses pointer-events-none absolute inset-0 h-full w-full">
-        {[0, 2.2].map((b) => (
-          <Pulse key={b} path={TRUNK} travel={2.2} period={4.4} begin={b} />
-        ))}
-        {BRANCHES.map((p, i) => (
-          <Pulse key={p} path={p} travel={1.6} period={4.4} begin={2 + i * 0.4} />
-        ))}
-      </svg>
+      <HeroVideo className="hero-video art absolute inset-0 h-full w-full object-cover [mask-image:linear-gradient(to_right,transparent,#000_22%,#000_92%,transparent),linear-gradient(to_bottom,transparent,#000_14%,#000_70%,transparent)] [mask-composite:intersect]" />
       <ul aria-label="Domains" className="absolute inset-0 hidden lg:block">
         {ATLAS_NODES.map((n, i) => {
           const project = Experiences.find((e) => e.id === n.project);
@@ -110,7 +71,7 @@ export function Atlas({ className }: { className?: string }) {
             >
               <Link
                 href={n.href}
-                className="relative block aspect-square w-full rounded-full outline-offset-4 ring-brand/0 transition-[box-shadow] duration-300 hover:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)] focus-visible:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)]"
+                className="relative block aspect-square w-full rounded-[28%] outline-offset-4 ring-brand/0 transition-[box-shadow] duration-300 hover:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)] focus-visible:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)]"
               >
                 <span className="glass absolute left-1/2 top-[calc(100%+0.5rem)] flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-border px-3 py-1.5 text-[13px] text-foreground transition-colors group-hover/node:border-brand group-focus-within/node:border-brand">
                   <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
