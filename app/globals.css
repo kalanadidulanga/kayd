@@ -734,3 +734,6 @@ html.js .mask-reveal[data-rise=""][data-in] {
   .descent-sticky { opacity: 1 !important; }
   .descent-sticky { position: relative; height: auto; aspect-ratio: 16 / 9; }
 }
+@media (prefers-reduced-motion: reduce) {
+  .descent-caption { display: none; }
+}

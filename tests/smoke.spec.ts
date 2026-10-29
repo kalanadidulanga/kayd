@@ -140,10 +140,11 @@ test.describe("search engines", () => {
     expect(graph.some((n: { "@type": string }) => n["@type"] === "WebSite")).toBe(true);
   });
 
-  test("the empty notes index asks not to be indexed", async ({ page }) => {
+  test("the notes index is indexable now that it has notes, and each note is in the sitemap", async ({ page, request }) => {
     await page.goto("/notes");
-    await expect(page.getByTestId("notes-empty")).toBeVisible();
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    expect(sitemap).toContain("https://www.kalanadidulanga.com/notes/one-ledger-for-every-report");
   });
 
   test("the photo named in the structured data is served", async ({ request }) => {

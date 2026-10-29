@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { Experiences } from "../config/experience";
 import { lab } from "../config/lab";
+import { notes } from "../config/notes";
 
 // The Living Systems Garden: behaviour a visitor relies on.
 
@@ -278,14 +279,18 @@ test.describe("lab and notes", () => {
     }
   });
 
-  test("notes say plainly that nothing is published, with a way on", async ({ page }) => {
+  test("the notes index lists every note, and each one opens with its related work", async ({ page }) => {
     await page.goto("/notes");
-    await expect(page.getByTestId("notes-empty")).toContainText("Nothing published here yet.");
-    await expect(page.getByTestId("notes-empty").getByRole("link", { name: /browse the work/i })).toBeVisible();
+    for (const n of notes) await expect(page.getByRole("link", { name: n.title })).toBeVisible();
+    const first = notes[0];
+    await page.goto(`/notes/${first.slug}`);
+    await expect(page.getByRole("heading", { name: first.title, level: 1 })).toBeVisible();
+    const project = Experiences.find((e) => e.id === first.related![0])!;
+    await expect(page.getByRole("link", { name: project.companyName })).toBeVisible();
   });
 
-  test("the development fixture never reaches production", async ({ page }) => {
-    const res = await page.goto("/notes/layout-fixture");
+  test("an unknown note is a 404", async ({ page }) => {
+    const res = await page.goto("/notes/no-such-note");
     expect(res?.status()).toBe(404);
   });
 });
