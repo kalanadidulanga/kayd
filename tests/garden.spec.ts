@@ -175,7 +175,7 @@ test.describe("atlas", () => {
       const clip = await page.locator("footer .footer-name-lit").evaluate((el) => getComputedStyle(el).clipPath);
       expect(clip).toBe("none");
       // Scroll-scrubbed words, heatmap days and Range nodes are all at full strength.
-      for (const sel of [".scrub-word", ".heat-cell", ".bloom"]) {
+      for (const sel of [".scrub-word", ".heat-cell", ".range-line"]) {
         const values = await page.locator(sel).evaluateAll((ns) => ns.map((n) => getComputedStyle(n).opacity));
         expect(values.every((o) => o === "1" || o === "0.28" || o === "0"), `${sel}: ${values.slice(0, 5)}`).toBe(true);
         expect(values.filter((o) => o === "1").length, sel).toBeGreaterThan(0);

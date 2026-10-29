@@ -170,16 +170,18 @@ test("the home page makes no claim the config cannot back", async ({ page }) => 
   }
 });
 
-test("range lights each discipline's projects, and every discipline links to the work", async ({ page }) => {
+test("range puts every project in its lanes, and every lane links to the work", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   const range = page.locator("#range");
-  const field = range.getByRole("img");
-  await expect(field).toHaveAttribute("aria-label", /^Web platforms: \d+ of 27 projects lit\.$/);
-  await range.getByRole("link", { name: /Windows software/ }).hover();
-  const desktop = Experiences.filter((e) => e.category.includes("Desktop App")).length;
-  await expect(field).toHaveAttribute("aria-label", `Windows software: ${desktop} of 27 projects lit.`);
+  const desktop = Experiences.filter((e) => e.category.includes("Desktop App"));
+  const lane = range.getByRole("list", { name: `Windows software: ${desktop.length} projects` });
+  await expect(lane.getByRole("link")).toHaveCount(desktop.length);
+  for (const e of desktop) await expect(lane.getByRole("link", { name: e.companyName })).toHaveAttribute("href", `/work/${e.id}`);
   await expect(range.getByRole("link", { name: /Windows software/ })).toHaveAttribute("href", "/work?platform=desktop");
+  // Every dated project appears in at least one lane.
+  const ids = await range.locator('ol a[href^="/work/"]').evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+  for (const e of Experiences.filter((x) => x.startDate)) expect(ids, e.id).toContain(`/work/${e.id}`);
 });
 
 test("the footer waits under the page, and its name fills with the scroll", async ({ page }) => {
