@@ -84,7 +84,9 @@ export function SystemDescent() {
     <>
       <div ref={box} aria-hidden="true" className="descent pointer-events-none relative hidden lg:block">
         <motion.div style={{ opacity }} className="descent-sticky sticky top-0 h-[100dvh] overflow-hidden">
-          <Image src="/visuals/system/stack.webp" alt="" fill sizes="100vw" className={`art object-cover ${MASK}`} />
+          <div className="absolute inset-0">
+            <Image src="/visuals/system/stack.webp" alt="" fill sizes="100vw" className={`art object-cover ${MASK}`} />
+          </div>
           {load ? (
             // Hold the first frame while the hero hands over, then descend.
             <FrameScrub progress={scrollYProgress} count={FRAMES} src={frameSrc} start={0.15} className={`art absolute inset-0 h-full w-full ${MASK}`} />

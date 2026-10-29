@@ -3,7 +3,9 @@
 import { useEffect, useRef } from "react";
 import { useMotionValueEvent, type MotionValue } from "motion/react";
 
-type Connection = { saveData?: boolean; effectiveType?: string; downlink?: number };
+// Not downlink: Chrome rounds its estimate down hard (1.5 on a 4g link), so it
+// marked real fast connections as slow. Data Saver and 2g/3g only.
+type Connection = { saveData?: boolean; effectiveType?: string };
 
 /**
  * A film scrubbed by the scroll, drawn from still frames on a canvas, the
@@ -96,7 +98,7 @@ export function FrameScrub({
     ro.observe(c);
 
     const conn = (navigator as Navigator & { connection?: Connection }).connection;
-    const slow = conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "") || (conn?.downlink ?? 10) < 3;
+    const slow = conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "");
     const strides = slow ? [12, 4] : [12, 6, 3, 1];
     const order: number[] = [];
     for (const s of strides) for (let i = 0; i < count; i += s) if (!order.includes(i)) order.push(i);

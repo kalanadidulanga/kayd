@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Connection = { saveData?: boolean; effectiveType?: string; downlink?: number };
+// Not downlink: Chrome rounds its estimate down hard (1.5 on a 4g link), so it
+// marked real fast connections as slow. Data Saver and 2g/3g only.
+type Connection = { saveData?: boolean; effectiveType?: string };
 
 /**
  * The running system, as a silent loop over its own poster. The poster is
@@ -19,7 +21,7 @@ export function HeroVideo({ className }: { className?: string }) {
     const wide = window.matchMedia("(min-width: 1024px)").matches;
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const conn = (navigator as Navigator & { connection?: Connection }).connection;
-    const slow = conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "") || (conn?.downlink ?? 10) < 3;
+    const slow = conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "");
     if (!wide || still || slow) return;
     const start = () => setPlay(true);
     const idle = window.requestIdleCallback?.(start, { timeout: 2500 }) ?? window.setTimeout(start, 1200);

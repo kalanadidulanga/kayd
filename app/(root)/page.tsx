@@ -183,8 +183,8 @@ function Closing() {
   return (
     <Scene id="contact" data-rail-label="Contact" light={[50, 100]} className="pb-10 text-center md:pb-16">
       {/* Requests arriving at one endpoint: the lines of the page converge here. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-full max-w-3xl [mask-image:linear-gradient(to_bottom,transparent,#000_45%)]">
-        <Image src="/visuals/system/contact-console.webp" alt="" fill sizes="(min-width: 768px) 768px, 100vw" className="art object-cover object-bottom opacity-70" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-full max-w-5xl [mask-image:radial-gradient(ellipse_55%_60%_at_50%_72%,#000_35%,transparent_80%)]">
+        <Image src="/visuals/system/contact-console.webp" alt="" fill sizes="(min-width: 1024px) 1024px, 100vw" className="art object-cover object-bottom opacity-80" />
       </div>
       <div aria-hidden="true" className="glow absolute inset-x-0 bottom-0 mx-auto h-[60%] max-w-5xl" />
       <div className="container relative">
@@ -203,9 +203,8 @@ function Closing() {
             or email {email.replace("mailto:", "")}
           </a>
         </div>
-        {/* Every line on the page arrives here: one quiet source. */}
-        <span aria-hidden="true" className="mx-auto mt-20 block h-24 w-px bg-gradient-to-b from-transparent to-brand" />
-        <span aria-hidden="true" className="mx-auto block h-2 w-2 rounded-full bg-brand shadow-[0_0_24px_6px_var(--fog-strong)]" />
+        {/* Room for the endpoint in the artwork, where every line arrives. */}
+        <span aria-hidden="true" className="block h-56" />
       </div>
     </Scene>
   );
