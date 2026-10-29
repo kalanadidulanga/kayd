@@ -1,0 +1,112 @@
+{
+  "concept": "All Systems Green",
+  "save_to": "docs/portfolio-vision/assets/generated/",
+  "style_block": "Cinematic night-time render of a software system built as physical architecture. Dark graphite and smoked-glass modules, like minimal server units and service blocks, floating at different depths and connected by very thin fibre-optic lines. Data travels as small mint light pulses. Deep forest-black environment (#07100D), soft emerald and signal-mint light (#67E39B, #A3F6C1), light volumetric haze, shallow depth of field, anamorphic lens character, fine film grain. Precise, calm, engineered, premium. One green colour family only.",
+  "negative": "no text, no letters, no numbers, no logos, no readable screens or UI, no people, no hands, no keyboards, no cityscape, no sci-fi spaceship, no server-farm photo, no cables in a mess, no blue, no cyan, no purple, no orange, no red, no rainbow, no lens flare streaks, no watermark",
+  "assets": [
+    {
+      "id": "A1",
+      "name": "Hero keyframe",
+      "tool": "ChatGPT (image generation)",
+      "file": "asg-hero-keyframe.png",
+      "aspect_ratio": "16:9",
+      "size": "1920x1080 or larger",
+      "prompt": "A wide cinematic view of a running software system at night. On the right 55 percent of the frame, a loose constellation of about twelve dark smoked-glass modules floats in layered depth: one larger central core module, and around it six distinct clusters of smaller modules, clearly separated from each other with space between them. Each cluster has a tiny mint status light. Hair-thin fibre-optic lines connect every cluster to the core, and a few small mint light pulses are caught mid-travel along the lines. A faint grid floor fades into haze below. The left 45 percent of the frame is calm, dark, nearly empty negative space with only soft haze, reserved for large headline typography. Lighting: the core glows softly from within, mint rim light on module edges, the rest in deep forest-black. [style_block] [negative]",
+      "composition": {
+        "empty_area": "left 45 percent, dark and calm",
+        "subject_area": "right 55 percent",
+        "clusters": "six separate clusters around one core, none touching the frame edge",
+        "camera": "eye level, slightly elevated, 35mm, straight on, no dutch angle"
+      },
+      "checks": [
+        "six clearly separate clusters plus a core",
+        "left side empty enough for a two-line headline",
+        "only greens, no text anywhere"
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "Hero loop video",
+      "tool": "Google Flow, Veo 3.1 Quality, Frames to Video",
+      "file": "asg-hero-loop.mp4",
+      "first_frame": "asg-hero-keyframe.png",
+      "last_frame": "asg-hero-keyframe.png",
+      "aspect_ratio": "16:9",
+      "duration_seconds": 8,
+      "resolution": "1080p",
+      "audio": "irrelevant, it is removed",
+      "prompt": "Locked-off camera, absolutely no camera movement: no pan, no tilt, no zoom, no dolly, no rotation. Every module, cluster and fibre line stays exactly in place and keeps its size and shape for the whole shot. Only light moves. Small mint data pulses travel smoothly along the fibre lines from the core out to each cluster and back, unhurried, a few at a time. The tiny status lights on the clusters breathe softly, slightly out of sync. The core's inner glow swells and settles once. The haze drifts very slowly from right to left. The final frame matches the first frame exactly so the clip loops seamlessly. Calm, hypnotic, premium, cinematic night. One green colour family only. No new objects appear, no text, no flashes, no colour shifts, no lens flares.",
+      "checks": [
+        "camera and objects do not move at all",
+        "start and end look identical (loop it in a player to check)",
+        "no flicker, no new objects, only greens"
+      ]
+    },
+    {
+      "id": "A3",
+      "name": "Hero still for phones",
+      "tool": "ChatGPT (image edit, upload asg-hero-keyframe.png)",
+      "file": "asg-hero-mobile.png",
+      "aspect_ratio": "4:5",
+      "prompt": "Recompose the uploaded image as a 4:5 vertical frame. Keep the same scene, modules, lighting, colours and style exactly. Place the core and its six clusters in the lower 60 percent of the frame, and leave the top 40 percent dark, calm and empty for a headline. Do not add anything new. [negative]"
+    },
+    {
+      "id": "B1",
+      "name": "The stack",
+      "tool": "ChatGPT (image generation, same chat as A1)",
+      "file": "asg-stack-layers.png",
+      "aspect_ratio": "16:9",
+      "prompt": "In the same visual world as the previous image: a vertical stack of five wide, thin, smoked-glass planes floating one above another with generous space between them, seen from a slightly elevated three-quarter angle. Each plane carries a sparse pattern of tiny modules and hair-thin fibre lines, getting denser from top to bottom: the top plane is almost empty and clean (the interface), the bottom plane is dense and structured (the infrastructure). Thin vertical mint light lines connect the planes, with a few pulses travelling downward. Composition centred, with dark calm space on both sides. [style_block] [negative]"
+    },
+    {
+      "id": "B2",
+      "name": "Lab staging bench",
+      "tool": "ChatGPT (image generation, same chat as A1)",
+      "file": "asg-lab-staging.png",
+      "aspect_ratio": "4:3",
+      "prompt": "In the same visual world: a long dark workbench seen from a low three-quarter angle, holding small experimental modules in different states. Some are half-open with exposed fine mint circuitry, one is lit and running, one sits in a soft scanning beam of mint light, small pixel-like light particles float above another. It feels like a staging area where new things are tried before they go live: curious, playful but precise. Slightly brighter mint than the hero, still one green family. Dark calm space at the top for a title. [style_block] [negative]"
+    },
+    {
+      "id": "B3",
+      "name": "Contact console",
+      "tool": "ChatGPT (image generation, same chat as A1)",
+      "file": "asg-contact-console.png",
+      "aspect_ratio": "4:5",
+      "prompt": "In the same visual world: many hair-thin fibre lines converge from the edges of the frame into one calm point of mint light low in the centre, like requests arriving at a single endpoint. Above it, a large quiet dark area, almost empty, where a contact form will sit with full contrast. Minimal, still, inviting. [style_block] [negative]"
+    },
+    {
+      "id": "B4",
+      "name": "Service modules (six, one per message)",
+      "tool": "ChatGPT (image generation, same chat as A1)",
+      "files": {
+        "operations": "asg-module-operations.png",
+        "hospitality": "asg-module-hospitality.png",
+        "education": "asg-module-education.png",
+        "commerce": "asg-module-commerce.png",
+        "tools": "asg-module-tools.png",
+        "experiments": "asg-module-experiments.png"
+      },
+      "aspect_ratio": "1:1",
+      "shared_prompt": "In the same visual world: a single smoked-glass and graphite service module floating in the centre of a square frame on a flat, even deep forest-black background (#07100D) that fills the frame edge to edge. Soft mint rim light from the upper left, one small mint status light on the module. The module fills about 50 percent of the frame, with the lower quarter of the frame empty and dark. Studio product shot, precise, premium. [negative]",
+      "per_module": {
+        "operations": "The module is a cluster of interlocking small blocks with fine routing lines between them, like a workflow engine.",
+        "hospitality": "The module is a tall stack of thin translucent floors with a few softly lit cells, like rooms in a building.",
+        "education": "The module opens like a book of thin glass layers, with small nodes branching out of its edges.",
+        "commerce": "The module is a stack of thin translucent discs on a central spindle, with fine transaction lines spiralling between them.",
+        "tools": "The module is a compact precise instrument block with a dial and fine engraved contour lines, balanced and exact.",
+        "experiments": "The module is cracked open, releasing small square pixels of mint light that drift outward, slightly brighter than the others."
+      }
+    },
+    {
+      "id": "C1",
+      "name": "Descent through the stack (optional)",
+      "tool": "Google Flow, Veo 3.1 Quality, Frames to Video",
+      "file": "asg-descent.mp4",
+      "first_frame": "asg-hero-keyframe.png",
+      "last_frame": "asg-stack-layers.png",
+      "aspect_ratio": "16:9",
+      "duration_seconds": 8,
+      "prompt": "One smooth, slow, continuous camera move: the camera glides forward into the core module, passes through its glowing glass, and descends vertically through the system, arriving at the stack of glass planes. Constant gentle speed, no cuts, no shake, no sudden turns. Mint data pulses stream past the camera along the fibre lines as it descends. One green colour family only. No text, no new colours, no flashes."
+    }
+  ]
+}
