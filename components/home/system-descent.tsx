@@ -2,11 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+
+import { FrameScrub } from "@/components/home/frame-scrub";
 
 const MASK = "[mask-image:linear-gradient(to_bottom,transparent,#000_15%,#000_85%,transparent)]";
-/** Where the clip starts: by now the camera has moved past the hero's framing. */
-const START = 2;
+/** 96 frames, 12 a second, from 2 s into the clip, where the camera has left the hero's framing. */
+const FRAMES = 96;
+const frameSrc = (n: number) => `/visuals/system/descent/${String(n).padStart(3, "0")}.avif`;
 
 /**
  * Chapter titles over the film, each held for one beat of the scroll:
@@ -63,8 +66,6 @@ function Stack({ p }: { p: MotionValue<number> }) {
  */
 export function SystemDescent() {
   const box = useRef<HTMLDivElement>(null);
-  const video = useRef<HTMLVideoElement>(null);
-  const frame = useRef(0);
   const [load, setLoad] = useState(false);
   const { scrollYProgress } = useScroll({ target: box, offset: ["start start", "end end"] });
   const opacity = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
@@ -79,31 +80,14 @@ export function SystemDescent() {
     return () => (window.cancelIdleCallback ? window.cancelIdleCallback(idle) : window.clearTimeout(idle));
   }, []);
 
-  useMotionValueEvent(scrollYProgress, "change", (p) => {
-    const v = video.current;
-    if (!v || !v.duration) return;
-    cancelAnimationFrame(frame.current);
-    frame.current = requestAnimationFrame(() => {
-      // Hold the first moving frame while the hero hands over, then descend.
-      const t = Math.min(1, Math.max(0, (p - 0.15) / 0.85));
-      v.currentTime = START + t * (v.duration - START - 0.05);
-    });
-  });
-
   return (
     <>
       <div ref={box} aria-hidden="true" className="descent pointer-events-none relative hidden lg:block">
         <motion.div style={{ opacity }} className="descent-sticky sticky top-0 h-[100dvh] overflow-hidden">
           <Image src="/visuals/system/stack.webp" alt="" fill sizes="100vw" className={`art object-cover ${MASK}`} />
           {load ? (
-            <video
-              ref={video}
-              muted
-              playsInline
-              preload="auto"
-              src={`/visuals/system/descent.mp4#t=${START}`}
-              className={`art absolute inset-0 h-full w-full object-cover ${MASK}`}
-            />
+            // Hold the first frame while the hero hands over, then descend.
+            <FrameScrub progress={scrollYProgress} count={FRAMES} src={frameSrc} start={0.15} className={`art absolute inset-0 h-full w-full ${MASK}`} />
           ) : null}
           {BEATS.map((b) => (
             <Beat key={b.title} p={scrollYProgress} {...b} />

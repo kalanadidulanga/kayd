@@ -4,16 +4,14 @@ The sources in [`generated/`](./generated/) were made on 2026-10-20 with the bui
 
 | Runtime file | Source | Size | Used on | Shown as |
 | --- | --- | --- | --- | --- |
-| `public/visuals/atlas/living-systems-atlas.webp` | `living-systems-atlas.png` | 1586 x 992, WebP q74 | Home hero, under the six domain nodes | Decorative base of the Atlas; every node is real, linked text |
-| `public/visuals/atlas/living-systems-atlas-og.jpg` | `living-systems-atlas.png` | 1008 x 630, JPEG q72 | `/opengraph-image` share card | Background art |
 | `public/visuals/textures/technical-field.webp` | `technical-field-texture.png` | 1254 x 1254, WebP q62 | Scene texture "field" (project headers) | Low-opacity texture |
 | `public/work/operations-crm-platform/system-illustration.webp` | `operations-system-artwork.png` | 1586 x 992, WebP q74 | Uniguru Operations Platform case study | Captioned "Illustration, not a screenshot of the product." |
 | `public/work/hotel-management-system/system-illustration.webp` | `hospitality-system-artwork.png` | 1586 x 992, WebP q74 | Hotel Management System case study | Captioned "Illustration, not a screenshot of the product." |
 | `public/visuals/disconnected-node.webp` | `disconnected-node-404.png` | 768 x 512, WebP with alpha | 404 page | Small illustration |
 | `public/work/field.webp` | `work-field.png` | 2000 x 917, WebP q70 | Work page header, right side | Atmosphere behind the title |
-| `public/visuals/system/hero-loop.webm`, `.mp4` | `Hero_loop_video_settings_b3e0673a_1080p.mp4` (Veo) | 1600 x 900, no audio, 435 KB / 690 KB | Home hero on wide screens only | Gemini mark removed with ffmpeg delogo |
-| `public/visuals/system/hero-poster.webp`, `hero-og.jpg` | first frame of the hero loop | 1600 x 900 WebP q72, 1200 JPEG | Hero image (LCP), share card | |
-| `public/visuals/system/descent.mp4` | `Camera_moving_through_system_module_bdb43305_1080p.mp4` (Veo) | 1280 x 720, keyframe every 6 frames for scrubbing, 2.5 MB | Scroll descent, wide screens, loads when near | Gemini mark removed |
+| `public/visuals/system/hero-loop.webm`, `.mp4` | `Hero_loop_video_settings_b3e0673a_1080p.mp4` (Veo) | 1920 x 1080, no audio, VP9 1.0 MB / H.264 2.2 MB | Home hero, wide screens on a fast connection only, paused off screen | Gemini mark removed with ffmpeg delogo |
+| `public/visuals/system/hero-poster.webp`, `hero-og.jpg` | first frame of the hero loop | 1920 x 1080 WebP q78, 1200 JPEG | Hero image (LCP), share card | |
+| `public/visuals/system/descent/001-096.avif` | `Camera_moving_through_system_module_bdb43305_1080p.mp4` (Veo), from 2 s, 12 fps | 96 frames, 1440 x 810 AVIF q52, 2.9 MB in all | Scroll descent on a canvas, wide screens; loaded coarse to fine, every 4th frame only on slow connections | Gemini mark removed |
 | `public/visuals/system/stack.webp`, `lab-staging.webp`, `contact-console.webp` | `asg-*.png` | WebP q70 to 72 | Descent still, Lab, Contact | |
 | `public/visuals/domains/<domain>.webp` | `asg-module-<domain>.png` | 640 x 640 | Work domain plates and rows (replaces the plant specimens) | |
 

@@ -79,7 +79,6 @@
     --fog: rgba(40, 128, 76, 0.07);
     --fog-strong: rgba(40, 128, 76, 0.13);
     --shadow-soft: 0 30px 80px -40px rgba(10, 40, 24, 0.35);
-    --grain: 0.03;
     /* Generated art is drawn on dark green. On the light field it is turned
        to its light negative, hue kept, and multiplied into the page. */
     --art-filter: invert(1) hue-rotate(180deg) saturate(0.8);
@@ -103,7 +102,6 @@
     --fog: rgba(126, 214, 159, 0.07);
     --fog-strong: rgba(126, 214, 159, 0.14);
     --shadow-soft: 0 40px 100px -40px rgba(0, 8, 4, 0.9);
-    --grain: 0.05;
     --art-filter: none;
     --art-blend: normal;
   }
@@ -146,17 +144,6 @@
     outline-offset: 3px;
   }
 
-  /* A faint still grain over the whole page: texture, not motion. */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    pointer-events: none;
-    opacity: var(--grain);
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
-
   @media (prefers-reduced-motion: reduce) {
     /* Everything that animates in is simply there. */
     [data-reveal],
@@ -179,9 +166,6 @@
     }
   }
 
-  @media print {
-    body::after { display: none; }
-  }
 }
 
 /* Reveal and Words (components/reveal.tsx, components/motion/words.tsx).
@@ -455,7 +439,8 @@ html.js [data-rise="load"] {
 }
 @keyframes atlas-dive {
   70% { opacity: 0.6; }
-  to { transform: scale(2.4); opacity: 0; filter: blur(4px); }
+  /* Transform and opacity only: both stay on the GPU while scrolling. */
+  to { transform: scale(2.4); opacity: 0; }
 }
 @keyframes hero-lift {
   to { transform: translateY(-14vh); opacity: 0; }
@@ -679,42 +664,30 @@ html.js .mask-reveal[data-rise=""][data-in] {
   from { opacity: 0.16; }
 }
 
-/* The GitHub year sweeps in column by column, left to right. */
+/* The GitHub year sweeps in left to right, and the Range field rises into
+   place. One animation per figure, not one per square or node: hundreds of
+   scroll-linked animations cost the browser more than the page is worth. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .heat {
-      view-timeline: --heat block;
+    .heat > [role="img"] {
+      animation: heat-sweep linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
     }
-    .heat-cell {
-      animation: heat-cell linear both;
-      animation-timeline: --heat;
-      animation-range: cover calc(4% + var(--c) * 0.6%) cover calc(14% + var(--c) * 0.6%);
+    .bloom-field > svg {
+      animation: field-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
     }
   }
 }
-@keyframes heat-cell {
-  from { opacity: 0.08; scale: 0.4; }
+@keyframes heat-sweep {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
 }
-
-/* Range blooms from the oldest ring outward as the field arrives. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .bloom-field {
-      view-timeline: --bloom block;
-    }
-    .bloom {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: bloom linear both;
-      animation-timeline: --bloom;
-      animation-range: entry calc(var(--ring) * 18%) entry calc(30% + var(--ring) * 18%);
-    }
-  }
+@keyframes field-rise {
+  from { opacity: 0; transform: scale(0.88); }
 }
-@keyframes bloom {
-  from { opacity: 0; scale: 0.2; }
-}
-
 
 /* The hero loop fades in over its identical poster once it can play. */
 .hero-video { opacity: 0; transition: opacity 800ms ease; }

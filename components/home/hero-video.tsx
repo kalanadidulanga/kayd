@@ -1,29 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+type Connection = { saveData?: boolean; effectiveType?: string; downlink?: number };
 
 /**
  * The running system, as a silent loop over its own poster. The poster is
  * the page's image (and its largest paint); the video joins only on wide
- * screens, with motion welcome and no data-saver, and only once the page
- * is idle, so it never competes with the first paint.
+ * screens, with motion welcome, on a connection that is not slow or saving
+ * data, and only once the page is idle. It pauses whenever it is off screen
+ * or the tab is hidden, so it never decodes frames nobody sees.
  */
 export function HeroVideo({ className }: { className?: string }) {
   const [play, setPlay] = useState(false);
+  const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const wide = window.matchMedia("(min-width: 1024px)").matches;
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const saver = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (!wide || still || saver) return;
+    const conn = (navigator as Navigator & { connection?: Connection }).connection;
+    const slow = conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "") || (conn?.downlink ?? 10) < 3;
+    if (!wide || still || slow) return;
     const start = () => setPlay(true);
     const idle = window.requestIdleCallback?.(start, { timeout: 2500 }) ?? window.setTimeout(start, 1200);
     return () => (window.cancelIdleCallback ? window.cancelIdleCallback(idle) : window.clearTimeout(idle));
   }, []);
 
+  useEffect(() => {
+    const v = ref.current;
+    if (!play || !v) return;
+    let visible = true;
+    const sync = () => (visible && !document.hidden ? v.play().catch(() => {}) : v.pause());
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      sync();
+    });
+    io.observe(v);
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
+  }, [play]);
+
   if (!play) return null;
   return (
     <video
+      ref={ref}
       className={className}
       autoPlay
       muted
