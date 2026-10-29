@@ -52,9 +52,12 @@ export function ScrollRail() {
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setAtTop(v < 0.01);
+    // In pixels: a scene counts once its top is within a header's height
+    // of the top of the screen, however long the page is.
+    const y = v * maxScroll();
     let i = -1;
     markers.forEach((m, j) => {
-      if (m.at <= v + 0.02) i = j;
+      if (m.at * maxScroll() <= y + 140) i = j;
     });
     setActive(i);
   });

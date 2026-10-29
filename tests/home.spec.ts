@@ -199,5 +199,6 @@ test("the scene rail marks where you are and takes you to a scene", async ({ pag
   const scenes = await page.locator("main [data-scene]").count();
   await expect(rail.locator("a")).toHaveCount(scenes);
   await rail.locator('a[href="#range"]').click();
-  await expect(rail.locator('a[href="#range"]')).toHaveAttribute("aria-current", "true");
+  // A long smooth scroll: give it time to land.
+  await expect(rail.locator('a[href="#range"]')).toHaveAttribute("aria-current", "true", { timeout: 10_000 });
 });
