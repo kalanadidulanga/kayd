@@ -29,6 +29,14 @@ test.describe("morphing navigation", () => {
     expect(box!.height).toBeGreaterThan(30);
   });
 
+  test("the logo takes you back to the top of the home page", async ({ page }) => {
+    await page.goto("/");
+    await page.mouse.wheel(0, 2000);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(1000);
+    await page.getByRole("link", { name: "KayD, home" }).click();
+    await expect.poll(() => page.evaluate(() => scrollY), { timeout: 5000 }).toBeLessThan(5);
+  });
+
   test("marks the current page with aria-current", async ({ page }) => {
     await page.goto("/work/kendara");
     await expect(page.getByRole("navigation", { name: "Main" }).first().getByRole("link", { name: "Work" })).toHaveAttribute("aria-current", "page");

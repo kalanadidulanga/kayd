@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { Menu, Search, X } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
@@ -30,6 +31,7 @@ function isActive(pathname: string, href: string) {
  */
 export function SiteHeader() {
   const pathname = usePathname();
+  const lenis = useLenis();
   const ref = React.useRef<HTMLDivElement>(null);
   const [open, setOpen] = React.useState(false);
   const [navigations, setNavigations] = React.useState(0);
@@ -84,7 +86,17 @@ export function SiteHeader() {
           "data-[open]:glass data-[open]:mt-3 data-[open]:max-w-[calc(100%-1.5rem)] data-[open]:rounded-[28px]! data-[open]:border-border-strong data-[open]:px-4 data-[open]:shadow-soft"
         )}
       >
-        <Link href="/" aria-label="KayD, home" className="col-start-1 justify-self-start py-2 text-foreground">
+        <Link
+          href="/"
+          aria-label="KayD, home"
+          // Already home: a link to the same page does nothing, so go to the top.
+          onClick={(e) => {
+            if (pathname !== "/") return;
+            e.preventDefault();
+            if (lenis) lenis.scrollTo(0);
+            else window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="col-start-1 justify-self-start py-2 text-foreground">
           <Logo
             className="text-[1.6rem] transition-[font-size] duration-[550ms] ease-cine group-data-[nav=receded]/nav:text-2xl"
           />
