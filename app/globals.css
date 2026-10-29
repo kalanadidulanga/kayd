@@ -669,7 +669,7 @@ html.js .mask-reveal[data-rise=""][data-in] {
    scroll-linked animations cost the browser more than the page is worth. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .heat > [role="img"] {
+    .heat [role="img"] {
       animation: heat-sweep linear both;
       animation-timeline: view();
       animation-range: entry 20% cover 40%;
@@ -710,3 +710,64 @@ html.js .mask-reveal[data-rise=""][data-in] {
 @media (prefers-reduced-motion: reduce) {
   .descent-caption { display: none; }
 }
+
+/* ---------- layers (home) ---------- */
+/* A layer's dot lights once as its scene arrives: a status turning live. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .layer-tag .layer-dot {
+      animation: layer-live linear both;
+      animation-timeline: view();
+      animation-range: entry 40% entry 100%;
+    }
+  }
+}
+@keyframes layer-live {
+  from { background: var(--border-strong); box-shadow: none; }
+  to { box-shadow: 0 0 0 4px var(--brand-soft); }
+}
+
+/* GitHub: a scan line leads the sweep across the year. */
+.heat-scan { display: none; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .heat-scan {
+      display: block;
+      position: absolute;
+      inset: -8px 0;
+      pointer-events: none;
+      animation: heat-scan linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+    .heat-scan::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      background: var(--brand-bright);
+      box-shadow: 0 0 18px 4px var(--fog-strong);
+    }
+  }
+}
+@keyframes heat-scan {
+  from { translate: 0 0; opacity: 1; }
+  92% { opacity: 1; }
+  to { translate: 100% 0; opacity: 0; }
+}
+
+/* How I think: each habit is a check that closes into a tick on arrival. */
+.check-ring, .check-tick { stroke-dasharray: 1; stroke-dashoffset: 0; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .check-ring, .check-tick {
+      animation: check-draw linear both;
+      animation-timeline: view();
+    }
+    .check-ring { animation-range: entry 60% cover 30%; }
+    .check-tick { animation-range: cover 28% cover 40%; }
+  }
+}
+@keyframes check-draw { from { stroke-dashoffset: 1; } }

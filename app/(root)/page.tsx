@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Scene, Cue } from "@/components/scene";
+import { Scene, Cue, LayerTag } from "@/components/scene";
 import { Atlas, AtlasList } from "@/components/home/atlas";
 import { SystemDescent } from "@/components/home/system-descent";
 import { Thinking } from "@/components/home/thinking";
@@ -118,12 +118,13 @@ function LabSignal() {
   return (
     <Scene id="lab-signal" data-rail-label="Lab" light={[80, 50]} overlap>
       <div className="container grid items-center gap-12 lg:grid-cols-12">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border lg:col-span-7">
-          <Image src="/visuals/system/lab-staging.webp" alt="" fill sizes="(min-width: 1024px) 55vw, 100vw" className="art object-cover opacity-40" />
+        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:col-span-7 [mask-image:radial-gradient(85%_85%_at_50%_50%,#000_60%,transparent)]">
+          <Image src="/visuals/system/lab-staging.webp" alt="" fill sizes="(min-width: 1024px) 55vw, 100vw" className="art object-cover opacity-85" />
           <PixelField className="absolute inset-0 h-full w-full" />
-          <p className="meta absolute bottom-4 left-4">Cursor field. Move a pointer across it.</p>
+          <p className="meta absolute bottom-6 left-8">Staging bench. Move a pointer across it.</p>
         </div>
         <div data-rise="" className="lg:col-span-5">
+          <LayerTag layer="staging" name="lab" className="mb-5" />
           <h2 className="type-section">From the Lab</h2>
           <p className="type-lead mt-6">Small things I build to learn and to play: games, animations and small tools.</p>
           <ul className="mt-8 border-t border-border">
@@ -160,6 +161,7 @@ function PersonalNote() {
           />
         </div>
         <div data-rise="" className="md:col-span-8 lg:col-span-6 lg:col-start-6">
+          <LayerTag layer="operator" name="kalana" className="mb-5" />
           <h2 className="type-title">A note from me</h2>
           <div className="mt-6 space-y-5 text-[clamp(1.0625rem,1.5vw,1.3125rem)] leading-relaxed">
             {profile.about.map((p) => (
@@ -180,8 +182,13 @@ function PersonalNote() {
 function Closing() {
   return (
     <Scene id="contact" data-rail-label="Contact" light={[50, 100]} className="pb-10 text-center md:pb-16">
-      <div aria-hidden="true" className="glow absolute inset-x-0 bottom-0 mx-auto h-[80%] max-w-5xl" />
+      {/* Requests arriving at one endpoint: the lines of the page converge here. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-full max-w-3xl [mask-image:linear-gradient(to_bottom,transparent,#000_45%)]">
+        <Image src="/visuals/system/contact-console.webp" alt="" fill sizes="(min-width: 768px) 768px, 100vw" className="art object-cover object-bottom opacity-70" />
+      </div>
+      <div aria-hidden="true" className="glow absolute inset-x-0 bottom-0 mx-auto h-[60%] max-w-5xl" />
       <div className="container relative">
+        <LayerTag layer="request" name="new" className="mb-6 justify-center" />
         <h2 className="type-display mx-auto max-w-4xl">
           <Words text="Have a system worth building?" onView />
         </h2>

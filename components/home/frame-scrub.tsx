@@ -37,31 +37,48 @@ export function FrameScrub({
   const shown = useRef(-1);
   const raf = useRef(0);
 
-  function draw() {
-    raf.current = 0;
-    const c = canvas.current;
-    const ctx = c?.getContext("2d");
-    if (!c || !ctx) return;
-    // The nearest loaded frame to the one the scroll asks for.
-    let i = -1;
-    for (let d = 0; d < count; d++) {
-      if (frames.current[want.current - d]) { i = want.current - d; break; }
-      if (frames.current[want.current + d]) { i = want.current + d; break; }
-    }
-    if (i < 0 || i === shown.current) return;
-    shown.current = i;
-    const img = frames.current[i]!;
+  function cover(ctx: CanvasRenderingContext2D, c: HTMLCanvasElement, img: HTMLImageElement) {
     // object-fit: cover, by hand.
     const s = Math.max(c.width / img.naturalWidth, c.height / img.naturalHeight);
     const w = img.naturalWidth * s, h = img.naturalHeight * s;
     ctx.drawImage(img, (c.width - w) / 2, (c.height - h) / 2, w, h);
   }
 
+  /**
+   * Draws the exact point the scroll asks for, between frames: the loaded
+   * frame below it, then the loaded frame above it on top, as much as the
+   * point has moved toward it. A crossfade instead of a jump, so the film
+   * moves continuously however few frames have arrived.
+   */
+  function draw() {
+    raf.current = 0;
+    const c = canvas.current;
+    const ctx = c?.getContext("2d");
+    if (!c || !ctx) return;
+    const at = want.current;
+    let lo = Math.floor(at), hi = Math.ceil(at);
+    while (lo >= 0 && !frames.current[lo]) lo--;
+    while (hi < count && !frames.current[hi]) hi++;
+    const below = lo >= 0 ? frames.current[lo] : null;
+    const above = hi < count ? frames.current[hi] : null;
+    if (!below && !above) return;
+    const key = Math.round(at * 100);
+    if (key === shown.current) return;
+    shown.current = key;
+    ctx.globalAlpha = 1;
+    cover(ctx, c, (below ?? above)!);
+    if (below && above && hi !== lo) {
+      ctx.globalAlpha = (at - lo) / (hi - lo);
+      cover(ctx, c, above);
+      ctx.globalAlpha = 1;
+    }
+  }
+
   const request = () => { if (!raf.current) raf.current = requestAnimationFrame(draw); };
 
   useMotionValueEvent(progress, "change", (p) => {
     const t = Math.min(1, Math.max(0, (p - start) / (1 - start)));
-    want.current = Math.round(t * (count - 1));
+    want.current = t * (count - 1);
     request();
   });
 
@@ -97,7 +114,9 @@ export function FrameScrub({
         () => {
           if (cancelled) return;
           frames.current[i] = img;
-          if (Math.abs(i - want.current) < Math.abs(shown.current - want.current) || shown.current < 0) { shown.current = -1; request(); }
+          // Each new frame may be a closer neighbour of the playhead: redraw.
+          shown.current = -1;
+          request();
           load();
         },
         () => load()

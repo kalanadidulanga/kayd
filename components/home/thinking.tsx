@@ -24,7 +24,7 @@ export function Thinking() {
   return (
     <Scene id="how-i-think" data-rail-label="How I think" tone="deep" light={[25, 40]} edge="fog">
       <div className="container">
-        <SceneHeading title="How I think" lead="Four habits, each shown by a decision on a real project." />
+        <SceneHeading tag={{ layer: "logic", name: "checks" }} title="How I think" lead="Four habits, each shown by a decision on a real project." />
         <ul className="border-t border-border">
           {PRINCIPLES.map((p) => {
             const project = Experiences.find((e) => e.id === p.project)!;
@@ -34,9 +34,16 @@ export function Thinking() {
                   href={`/work/${project.id}`}
                   className="group grid gap-x-10 gap-y-3 py-8 md:grid-cols-12 md:py-10"
                 >
-                  <span className="md:col-span-5">
+                  <span className="flex gap-4 md:col-span-5">
+                    {/* A check that closes into a tick as the row arrives. */}
+                    <svg aria-hidden="true" viewBox="0 0 28 28" className="check mt-0.5 h-7 w-7 shrink-0 text-brand">
+                      <circle className="check-ring" cx="14" cy="14" r="12" pathLength={1} fill="none" stroke="currentColor" strokeWidth="1.5" transform="rotate(-90 14 14)" />
+                      <path className="check-tick" d="M8.5 14.5l3.5 3.5 7.5-8" pathLength={1} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span>
                     <span className="type-card block transition-colors group-hover:text-brand">{p.title}</span>
                     <span className="mt-1.5 block text-muted-foreground">{p.line}</span>
+                    </span>
                   </span>
                   <blockquote className="text-[17px] leading-relaxed md:col-span-5">{project.decisions?.[p.decision]}</blockquote>
                   <span className="meta flex items-start gap-3 md:col-span-2 md:justify-end">

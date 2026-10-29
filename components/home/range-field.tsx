@@ -99,23 +99,26 @@ export function RangeField({ nodes, disciplines, rings }: { nodes: FieldNode[]; 
                 style={{ opacity: n.in.includes(active) ? 0.28 : 0, "--ring": n.ring } as React.CSSProperties}
               />
             ))}
-            <circle cx={C} cy={C} r="26" fill="var(--fog-strong)" />
-            <circle cx={C} cy={C} r="6" fill="var(--brand)" />
+            <rect x={C - 26} y={C - 26} width="52" height="52" rx="12" fill="var(--fog-strong)" />
+            <rect x={C - 9} y={C - 9} width="18" height="18" rx="4" fill="var(--brand)" />
             {nodes.map((n) => {
               const lit = n.in.includes(active);
               const named = proof.has(n.id);
               return (
                 <a key={n.id} href={`/work/${n.id}`} tabIndex={-1} aria-hidden="true" className="group/node bloom" style={{ "--ring": n.ring } as React.CSSProperties}>
                   <circle cx={n.x} cy={n.y} r="16" fill="transparent" />
-                  <circle
-                    cx={n.x}
-                    cy={n.y}
-                    r={lit ? 7 : 3.5}
+                  {/* Each project is a module, like the ones in the running system. */}
+                  <rect
+                    x={n.x - 6}
+                    y={n.y - 6}
+                    width="12"
+                    height="12"
+                    rx="3"
                     fill={lit ? "var(--brand)" : "var(--muted-foreground)"}
-                    className="transition-[r,fill,opacity] duration-500 ease-cine"
-                    style={{ opacity: lit ? 1 : 0.35 }}
+                    className="transition-[fill,opacity,scale] duration-500 ease-cine [transform-box:fill-box] [transform-origin:center]"
+                    style={{ opacity: lit ? 1 : 0.35, scale: lit ? "1" : "0.55" }}
                   />
-                  {lit ? <circle cx={n.x} cy={n.y} r="14" fill="none" stroke="var(--brand)" strokeOpacity="0.35" /> : null}
+                  {lit ? <rect x={n.x - 12} y={n.y - 12} width="24" height="24" rx="6" fill="none" stroke="var(--brand)" strokeOpacity="0.35" /> : null}
                   <text
                     x={n.x + (n.x > C ? -14 : 14)}
                     y={n.y + 4}

@@ -76,6 +76,7 @@ export function Range() {
     <Scene id="range" data-rail-label="Range" light={[70, 50]}>
       <div className="container">
         <SceneHeading
+          tag={{ layer: "services", name: "range" }}
           title="Range"
           lead={
             <>

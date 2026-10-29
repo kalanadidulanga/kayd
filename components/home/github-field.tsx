@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Scene } from "@/components/scene";
+import { LayerTag, Scene } from "@/components/scene";
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 import { getActivity } from "@/lib/github";
@@ -47,6 +47,7 @@ export async function GitHubField() {
       <div className="container">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div data-rise="" className="lg:col-span-6">
+            <LayerTag layer="data" name="commits" className="mb-5" />
             <h2 className="type-section">The work you can&apos;t open</h2>
             <p className="type-lead mt-6 max-w-xl">
               Client and company code lives in private repositories, so most of what I build is not public. GitHub still
@@ -65,6 +66,7 @@ export async function GitHubField() {
         </div>
 
         <figure className="heat mt-14">
+          <div className="relative">
           <div
             role="img"
             aria-label={`Contribution calendar: ${n(activity.total)} contributions in the last year, ${share}% of them in private repositories.`}
@@ -78,6 +80,8 @@ export async function GitHubField() {
                 style={{ background: d ? SHADES[d.level] : "transparent", "--c": Math.floor(i / 7) } as React.CSSProperties}
               />
             ))}
+          </div>
+          <span aria-hidden="true" className="heat-scan" />
           </div>
           <figcaption className="mt-5 flex flex-wrap items-center justify-between gap-4">
             <span className="meta">From GitHub, refreshed daily.</span>

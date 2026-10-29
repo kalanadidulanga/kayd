@@ -57,6 +57,22 @@ export function Scene({
   );
 }
 
+/**
+ * Where a scene sits in the running system: a live dot and a path, such as
+ * data/commits. The home page reads as a descent through these layers.
+ */
+export function LayerTag({ layer, name, className }: { layer: string; name: string; className?: string }) {
+  return (
+    <p className={cn("layer-tag meta inline-flex items-center gap-2.5 text-brand", className)}>
+      <span aria-hidden="true" className="layer-dot h-1.5 w-1.5 rounded-full bg-brand" />
+      <span>
+        {layer}
+        <span className="text-muted-foreground">/{name}</span>
+      </span>
+    </p>
+  );
+}
+
 /** A scene heading: a large title, an optional lead, and an optional link aside. */
 export function SceneHeading({
   title,
@@ -64,9 +80,12 @@ export function SceneHeading({
   lead,
   action,
   as: Heading = "h2",
+  tag,
   className,
 }: {
   title: string;
+  /** The layer this scene stands for, shown above the title. */
+  tag?: { layer: string; name: string };
   /** A second phrase in the lighter weight of the same family. */
   soft?: string;
   lead?: React.ReactNode;
@@ -80,6 +99,7 @@ export function SceneHeading({
       className={cn("mb-14 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between", className)}
     >
       <div className="max-w-4xl">
+        {tag ? <LayerTag {...tag} className="mb-5" /> : null}
         <Heading className={Heading === "h1" ? "type-display" : "type-section"}>
           {title}
           {soft ? (
