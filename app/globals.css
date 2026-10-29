@@ -473,6 +473,11 @@ html.js [data-rise="load"] {
     opacity: var(--pl-on, 0);
     transition: opacity 400ms ease;
     background: radial-gradient(130px circle at var(--px, 50%) var(--py, 50%), var(--fog-strong), transparent 70%);
+    /* Fade out toward every edge, so the light never stops at the box. */
+    mask-image:
+      linear-gradient(to right, transparent, #000 18%, #000 82%, transparent),
+      linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    mask-composite: intersect;
   }
 }
 
