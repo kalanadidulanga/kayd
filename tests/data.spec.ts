@@ -9,6 +9,7 @@ import { services } from "../config/services";
 import { isSpam } from "../lib/contact";
 import { lab } from "../config/lab";
 import { currentStreak, longestStreak, privateContributions } from "../lib/github";
+import { parseReleases } from "../lib/releases";
 import { ownerEmail, visitorEmail } from "../lib/email";
 import { notes } from "../config/notes";
 
@@ -166,4 +167,35 @@ test("streaks and the private share count what GitHub counts", () => {
   expect(
     privateContributions({ restrictedContributionsCount: 10, byRepository: [[repo(true, 5), repo(false, 7)], [repo(true, 2)]], createdRepositories: [{ isPrivate: true }, { isPrivate: false }] })
   ).toBe(18);
+});
+
+test("releases: newest published first, drafts and pre-releases dropped, installer matched by suffix", () => {
+  const asset = (name: string) => ({ name, size: 2_000_000, browser_download_url: `https://x/${name}` });
+  const rel = (tag: string, at: string | null, extra: object = {}) => ({
+    tag_name: tag, html_url: `https://x/${tag}`, published_at: at, draft: false, prerelease: false,
+    assets: [asset(`app_${tag}_x64-setup.exe`), asset("latest.json")], ...extra,
+  });
+  const out = parseReleases(
+    [
+      rel("v1.0.0", "2026-10-09T16:00:00Z"),
+      rel("v1.1.0", null, { draft: true }),
+      rel("v1.0.2-beta", "2026-11-01T00:00:00Z", { prerelease: true }),
+      rel("v1.0.1", "2026-10-30T10:00:00Z"),
+      rel("v0.9.0", "2026-08-01T00:00:00Z", { assets: [] }),
+    ],
+    "_x64-setup.exe",
+  );
+  expect(out.map((r) => r.version)).toEqual(["1.0.1", "1.0.0", "0.9.0"]);
+  expect(out[0].installer?.name).toBe("app_v1.0.1_x64-setup.exe");
+  expect(out[2].installer).toBeUndefined();
+});
+
+test("a project with releases names a real GitHub repository and both theme screenshots", () => {
+  for (const e of Experiences.filter((x) => x.release)) {
+    expect(e.release!.repo).toMatch(/^[\w.-]+\/[\w.-]+$/);
+    expect(e.githubLink).toBe(`https://github.com/${e.release!.repo}`);
+    for (const src of [e.release!.shots.light, e.release!.shots.dark]) {
+      expect(() => readFileSync(path.join("public", src))).not.toThrow();
+    }
+  }
 });

@@ -64,6 +64,18 @@ export interface ExperienceInterface {
   systemMap?: { layer: string; items: string[] }[];
   /** Generated, conceptual artwork. Always captioned as an illustration, never shown as a screen. */
   illustration?: { src: string; alt: string; width: number; height: number };
+  /** Software people install: its GitHub releases feed a download block on the page. */
+  release?: {
+    /** "owner/name" on GitHub. */
+    repo: string;
+    /** End of the installer's file name, e.g. "_x64-setup.exe". */
+    asset: string;
+    platform: string;
+    facts: string[];
+    note?: string;
+    /** The running app, captured from the real window, in each theme. */
+    shots: { light: string; dark: string };
+  };
 }
 
 export type Presentation = "case-study" | "story" | "note";
@@ -587,30 +599,62 @@ const experiences: ExperienceInterface[] = [
     presentation: "story",
     domain: "tools",
     decisions: [
-      "It keeps the PC awake with Windows power requests, and moves the mouse only as an opt-in.",
-      "CI blocks a merge on formatting, Clippy warnings, failing tests or an oversized executable.",
+      "One Start button does both jobs: it holds a Windows power request so the PC stays awake, and it moves the mouse a few pixels and back only after the PC has had no input for a while.",
+      "Every release is built by GitHub Actions: CI runs formatting, Clippy, the tests, an honesty lint and a size gate first, and the update feed is signed so installed copies only take real releases.",
+      "It is tested on the real window: Playwright drives the Windows app over the WebView2 DevTools port, which caught bugs the unit tests could not.",
     ],
     companyName: "Project Mouse",
     type: "Personal Project",
     category: ["Desktop App", "Backend"],
     shortDescription:
-      "A Windows tray app that keeps the PC awake only while a rule says so, using Windows power requests, with mouse movement only as an opt-in.",
+      "A Windows tray app that keeps your PC awake and moves the mouse a few pixels after it has been idle, so the screen lock and apps such as Teams see activity. One Start button.",
     githubLink: "https://github.com/kalanadidulanga/project-mouse",
     techStack: ["Rust", "Tauri", "React", "Typescript"],
     startDate: new Date("2026-08-22"),
-    endDate: new Date("2026-08-28"),
+    coverImg: "/experience/project-mouse/home-dark.png",
+    release: {
+      repo: "kalanadidulanga/project-mouse",
+      asset: "_x64-setup.exe",
+      platform: "Windows 10 and 11",
+      facts: [
+        "64-bit, installs for you alone, no admin rights needed",
+        "Updates itself: the tray says when a new version is out",
+        "Free and open source, MIT licence",
+      ],
+      note: "The installer is not code-signed yet, so the first time Windows SmartScreen asks: choose More info, then Run anyway. Signing through SignPath Foundation has been applied for.",
+      shots: { light: "/experience/project-mouse/home-light.png", dark: "/experience/project-mouse/home-dark.png" },
+    },
+    pagesInfoArr: [
+      {
+        title: "Movement",
+        description: "Sixteen patterns including Invisible, distance and speed, and it stops the moment you touch the mouse.",
+        imgArr: ["/experience/project-mouse/movement-dark.png"],
+      },
+      {
+        title: "Behaviour",
+        description: "Pause on battery, while locked or presenting, and keep awake while chosen apps run.",
+        imgArr: ["/experience/project-mouse/behaviour-light.png"],
+      },
+      {
+        title: "Schedules",
+        description: "Start and stop at set times, such as work hours on weekdays.",
+        imgArr: ["/experience/project-mouse/schedules-dark.png"],
+      },
+    ],
     descriptionDetails: {
       paragraphs: [
-        "A task-bound wake lock for Windows. It keeps the PC awake while a rule holds, such as a process running, a time window, AC power or a battery level, and lets go when the rule stops holding. It uses Windows power requests, with separate keep running and keep presenting modes.",
-        "The core is Rust on Tauri v2 with a React settings window. Releases ship as signed installers through GitHub Releases with auto-update, and CI blocks a merge on formatting, Clippy warnings, failing tests or an oversized executable.",
+        "Windows, the screen lock and chat apps decide you are away by watching idle time. Project Mouse keeps the PC awake with a Windows power request and, while it runs, moves the mouse a few pixels and back once the PC has had no input for a while, so they see activity. It is built as a modern, open alternative to Move Mouse, and it imports Move Mouse settings.",
+        "The core is Rust on Tauri v2 with a small React window that opens at launch and closes to the tray. It changes no system settings and lets go of everything when it exits, and it says plainly that monitoring software can detect simulated input. Releases ship through GitHub Releases with signed in-app updates.",
       ],
       bullets: [
-        "Rules engine: process, time window, expiry, AC power, battery, unlocked session and foreground app",
-        "A \"why is my PC awake?\" report",
-        "Optional input simulation, off by default",
-        "Command-line control",
+        "Start and Stop, with Run for 30 minutes, a few hours or until a set time",
+        "Sixteen movement patterns, including an invisible nudge, with random interval and distance",
+        "Automatic pauses on battery, when the screen is locked or while presenting",
+        "Weekly schedules and blackout times, such as lunch",
+        "Keep awake while chosen apps run, for builds and downloads",
+        "A \"why is my PC awake?\" report and an activity log",
         "Imports Move Mouse settings",
-        "Signed auto-updates from GitHub Releases",
+        "Light and dark themes, tray icon status and optional notifications",
       ],
     },
   },

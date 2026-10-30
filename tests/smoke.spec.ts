@@ -197,3 +197,14 @@ test("the GitHub profile banners are served as SVG", async ({ request }) => {
     expect(res.headers()["content-type"]).toContain("image/svg+xml");
   }
 });
+
+test("the Project Mouse page offers its Windows download", async ({ page }) => {
+  await page.goto("/work/project-mouse");
+  const download = page.locator("#download");
+  await expect(download.getByRole("heading", { name: "Download Project Mouse" })).toBeVisible();
+  // The latest installer when GitHub answered, the Releases page when it did not.
+  await expect(download.getByRole("link", { name: /Download for Windows|Get it on GitHub/ })).toHaveAttribute(
+    "href",
+    /^https:\/\/github\.com\/kalanadidulanga\/project-mouse\/releases\//,
+  );
+});

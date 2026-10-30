@@ -4,6 +4,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { Scene, Cue } from "@/components/scene";
+import { Download } from "@/components/work/download";
 import { Icons } from "@/components/icons";
 import { Experiences, type ExperienceInterface } from "@/config/experience";
 import { skillLabel } from "@/lib/skills";
@@ -175,8 +176,13 @@ export default async function WorkDetailPage({ params }: WorkPageProps) {
           <p data-rise="load" className="type-lead mt-6 max-w-2xl">
             {exp.shortDescription}
           </p>
-          {exp.websiteLink || exp.githubLink ? (
+          {exp.websiteLink || exp.githubLink || exp.release ? (
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
+              {exp.release ? (
+                <a href="#download" className="text-brand">
+                  <Cue>Download</Cue>
+                </a>
+              ) : null}
               {exp.websiteLink ? (
                 <Link href={exp.websiteLink} target="_blank" rel="noreferrer" className="text-brand">
                   <Cue>Visit the site</Cue>
@@ -193,7 +199,9 @@ export default async function WorkDetailPage({ params }: WorkPageProps) {
         </div>
       </Scene>
 
-      {cover ? (
+      {exp.release ? (
+        <Download exp={exp} />
+      ) : cover ? (
         <div className="container pb-16 md:pb-24">
           <div data-rise="load" style={{ "--rise-delay": "200ms" } as React.CSSProperties}>
             <Image
