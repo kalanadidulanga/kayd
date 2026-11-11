@@ -9,10 +9,10 @@ import { Experiences } from "@/config/experience";
  * the config, so it cannot drift from the project page.
  */
 const PRINCIPLES = [
-  { title: "Understand the operation", line: "Model the business the way it really runs.", project: "hotel-management-system", decision: 3 },
-  { title: "Make complexity legible", line: "Say what the system knows, and what it does not.", project: "kendara", decision: 4 },
-  { title: "Build for reliability", line: "Give every critical job a second way to run.", project: "operations-crm-platform", decision: 1 },
-  { title: "Refine the last interaction", line: "Finish the work where a person meets it.", project: "kayd-invoice-studio", decision: 1 },
+  { title: "Understand the operation", line: "Model the business the way it really runs", project: "hotel-management-system", decision: 3 },
+  { title: "Make complexity legible", line: "Say what the system knows, and what it does not", project: "kendara", decision: 4 },
+  { title: "Build for reliability", line: "Give every critical job a second way to run", project: "operations-crm-platform", decision: 1 },
+  { title: "Refine the last interaction", line: "Finish the work where a person meets it", project: "kayd-invoice-studio", decision: 1 },
 ] as const;
 
 /**
@@ -45,7 +45,7 @@ export function Thinking() {
                     <span className="mt-1.5 block text-muted-foreground">{p.line}</span>
                     </span>
                   </span>
-                  <blockquote className="text-[17px] leading-relaxed md:col-span-5">{project.decisions?.[p.decision]}</blockquote>
+                  <blockquote className="text-lg leading-relaxed md:col-span-5">{project.decisions?.[p.decision]}</blockquote>
                   <span className="meta flex items-start gap-3 md:col-span-2 md:justify-end">
                     <span className="text-brand">{project.companyName}</span>
                     <span

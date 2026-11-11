@@ -59,7 +59,7 @@ const structuredData = JSON.stringify({
 
 const email = SocialLinks.find((s) => s.link.startsWith("mailto:"))!.link;
 const btnPrimary =
-  "inline-flex h-12 items-center gap-3 rounded-full bg-brand px-6 text-[15px] font-medium text-on-brand transition-transform duration-200 ease-cine active:scale-[0.98]";
+  "inline-flex h-12 items-center gap-3 rounded-full bg-brand px-6 text-ui font-medium text-on-brand transition-transform duration-200 ease-cine active:scale-[0.98]";
 
 function Hero() {
   const job = jobs[0];
@@ -67,13 +67,13 @@ function Hero() {
     <Scene as="section" id="hero" data-rail-label="Start" edge="fog" light={[78, 40]} className="flex min-h-[100dvh] flex-col justify-center overflow-x-clip pb-16 pt-28 md:pb-24 md:pt-32">
       <div className="container pointer-events-none relative z-10">
         <div className="hero-copy pointer-events-auto max-w-[min(100%,46rem)] lg:max-w-[52%]">
-          <p data-rise="load" className="text-[15px] text-muted-foreground">
+          <p data-rise="load" className="text-ui text-muted-foreground">
             {profile.displayName}
           </p>
           <h1 className="type-hero mt-6 lg:whitespace-nowrap">
             <Words text="I build software" delay={0.1} />
             <br className="hidden lg:block" />{" "}
-            <Words text="for the real world." delay={0.34} />
+            <Words text="for the real world" delay={0.34} />
           </h1>
           <div data-rise="load" style={{ "--rise-delay": "500ms" } as React.CSSProperties}>
             <p className="type-lead mt-8 max-w-xl">
@@ -81,8 +81,8 @@ function Hero() {
               database to the last interaction.
             </p>
             {job ? (
-              <p className="mt-5 text-[15px] text-muted-foreground">
-                {job.title} at {job.company}.
+              <p className="mt-5 text-ui text-muted-foreground">
+                {job.title} at {job.company}
               </p>
             ) : null}
             {now.text.trim() ? (
@@ -186,7 +186,6 @@ function Closing() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 mx-auto h-full max-w-5xl [mask-image:radial-gradient(ellipse_55%_60%_at_50%_72%,#000_35%,transparent_80%)]">
         <Image src="/visuals/system/contact-console.webp" alt="" fill sizes="(min-width: 1024px) 1024px, 100vw" className="art object-cover object-bottom opacity-80" />
       </div>
-      <div aria-hidden="true" className="glow absolute inset-x-0 bottom-0 mx-auto h-[60%] max-w-5xl" />
       <div className="container relative">
         <LayerTag layer="request" name="new" className="mb-6 justify-center" />
         <h2 className="type-display mx-auto max-w-4xl">
@@ -199,7 +198,7 @@ function Closing() {
           <Link href="/contact" className={btnPrimary}>
             Start a conversation
           </Link>
-          <a href={email} className="text-[15px] text-muted-foreground hover:text-brand">
+          <a href={email} className="text-ui text-muted-foreground hover:text-brand">
             or email {email.replace("mailto:", "")}
           </a>
         </div>

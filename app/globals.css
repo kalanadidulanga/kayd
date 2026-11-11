@@ -45,6 +45,12 @@
   --font-heading: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 
+  /* Interface sizes between the type utilities: body UI text and small labels. */
+  --text-ui: 0.9375rem;
+  --text-ui--line-height: 1.5;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.4;
+
   --radius-lg: 1rem;
   --radius-md: 0.75rem;
   --radius-sm: 0.5rem;
@@ -222,7 +228,7 @@ html.js [data-rise="load"] {
 /* ---------- type ---------- */
 @utility type-hero {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   /* Two lines at most beside the Atlas on wide screens. */
   font-size: clamp(3rem, 5.4vw, 5.75rem);
   line-height: 0.98;
@@ -231,7 +237,7 @@ html.js [data-rise="load"] {
 
 @utility type-display {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(2.6rem, 5.6vw, 6rem);
   line-height: 0.98;
   letter-spacing: -0.048em;
@@ -239,7 +245,7 @@ html.js [data-rise="load"] {
 
 @utility type-section {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(2.2rem, 5vw, 5rem);
   line-height: 1;
   letter-spacing: -0.045em;
@@ -247,7 +253,7 @@ html.js [data-rise="load"] {
 
 @utility type-title {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(1.75rem, 3vw, 2.625rem);
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -255,7 +261,7 @@ html.js [data-rise="load"] {
 
 @utility type-card {
   font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.375rem;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -283,15 +289,10 @@ html.js [data-rise="load"] {
 }
 
 /* ---------- surfaces ---------- */
+/* A raised surface for labels, tooltips and the open menu: solid, so depth
+   comes from the surface step and its hairline, not from blur. */
 @utility glass {
-  background-color: var(--glass);
-  /* Unprefixed only: with both written, the build keeps just the -webkit-
-     one, which Chrome ignores. */
-  backdrop-filter: blur(40px) saturate(180%);
-  @media (prefers-reduced-transparency: reduce) {
-    background-color: var(--surface);
-    backdrop-filter: none;
-  }
+  background-color: var(--surface);
 }
 
 @utility shadow-soft {
@@ -686,7 +687,6 @@ html.js .mask-reveal[data-rise=""][data-in] {
       left: 0;
       width: 2px;
       background: var(--brand-bright);
-      box-shadow: 0 0 18px 4px var(--fog-strong);
     }
   }
 }

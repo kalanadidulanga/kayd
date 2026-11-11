@@ -16,9 +16,9 @@ const frameSrc = (n: number) => `/visuals/system/descent/${String(n).padStart(3,
  * [fade in from, fully in, start out, gone]. Facts about the work only.
  */
 const BEATS = [
-  { at: [0.28, 0.33, 0.42, 0.47], title: "Every system has a core.", line: "The data and the rules a business runs on." },
-  { at: [0.5, 0.55, 0.64, 0.69], title: "Then the logic.", line: "Permissions, scheduled jobs, the rules written into code." },
-  { at: [0.71, 0.75, 0.82, 0.86], title: "Down through every layer.", line: "" },
+  { at: [0.28, 0.33, 0.42, 0.47], title: "Every system has a core", line: "The data and the rules a business runs on" },
+  { at: [0.5, 0.55, 0.64, 0.69], title: "Then the logic", line: "Permissions, scheduled jobs, the rules written into code" },
+  { at: [0.71, 0.75, 0.82, 0.86], title: "Down through every layer", line: "" },
 ] as const;
 
 /** The five planes of the stack, top to bottom, at the end of the film. */
@@ -51,7 +51,7 @@ function Stack({ p }: { p: MotionValue<number> }) {
           <span className="h-px bg-brand" style={{ width: `${48 - i * 4}px` }} />
         </div>
       ))}
-      <p className="type-title absolute bottom-[12vh] right-[9%] max-w-xs text-right">Built top to bottom.</p>
+      <p className="type-title absolute bottom-[12vh] right-[9%] max-w-xs text-right">Built top to bottom</p>
     </motion.div>
   );
 }

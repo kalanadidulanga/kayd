@@ -102,15 +102,15 @@ export function Range() {
                       <li key={e.id} className="absolute top-[calc(var(--r)*16px)] -translate-x-1/2 md:top-[calc(var(--r)*24px)]" style={{ left: `${at}%`, "--r": row } as React.CSSProperties}>
                         <Link
                           href={`/work/${e.id}`}
-                          className="group/block relative block h-[11px] w-[11px] rounded-[3px] md:h-[18px] md:w-[18px] md:rounded-[5px] border border-brand/70 bg-brand/25 transition-[background-color,scale] duration-200 hover:scale-125 hover:bg-brand focus-visible:scale-125 focus-visible:bg-brand"
+                          className="group/block relative block h-[11px] w-[11px] rounded-[3px] md:h-[18px] md:w-[18px] md:rounded-[5px] border border-brand/70 bg-brand/25 transition-[background-color,border-color] duration-200 hover:border-brand hover:bg-brand focus-visible:border-brand focus-visible:bg-brand"
                         >
                           <span className="sr-only">{e.companyName}</span>
                           <span
                             aria-hidden="true"
-                            className="glass pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-border-strong px-3 py-1 text-[12px] opacity-0 transition-opacity duration-200 group-hover/block:opacity-100 group-focus-visible/block:opacity-100"
+                            className="glass pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-border-strong px-3 py-1 text-small opacity-0 transition-opacity duration-200 group-hover/block:opacity-100 group-focus-visible/block:opacity-100"
                           >
                             {e.companyName}
-                            <span className="meta ml-2 text-[11px]">{e.startDate!.getUTCFullYear()}</span>
+                            <span className="meta ml-2 tabular-nums">{e.startDate!.getUTCFullYear()}</span>
                           </span>
                         </Link>
                       </li>

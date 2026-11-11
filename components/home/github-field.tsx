@@ -59,7 +59,7 @@ export async function GitHubField() {
               <div key={label} className="border-l border-border-strong pl-4">
                 <dt className="sr-only">{label}</dt>
                 <dd className="type-title tabular-nums">{value}</dd>
-                <dd className="mt-1 text-[15px] text-muted-foreground">{label}</dd>
+                <dd className="mt-1 text-ui text-muted-foreground">{label}</dd>
               </div>
             ))}
           </dl>
@@ -84,8 +84,8 @@ export async function GitHubField() {
           <span aria-hidden="true" className="heat-scan" />
           </div>
           <figcaption className="mt-5 flex flex-wrap items-center justify-between gap-4">
-            <span className="meta">From GitHub, refreshed daily.</span>
-            <Link href={siteConfig.links.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[15px] text-brand hover:underline">
+            <span className="meta">From GitHub, refreshed daily</span>
+            <Link href={siteConfig.links.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-ui text-brand hover:underline">
               <Icons.gitHub aria-hidden="true" className="h-4 w-4" />
               {login}
             </Link>

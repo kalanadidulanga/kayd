@@ -71,12 +71,12 @@ export function Atlas({ className }: { className?: string }) {
             >
               <Link
                 href={n.href}
-                className="relative block aspect-square w-full rounded-[28%] outline-offset-4 transition-[box-shadow] duration-300 focus-visible:shadow-[0_0_0_1px_var(--brand),0_0_60px_var(--fog-strong)]"
+                className="relative block aspect-square w-full rounded-[28%] outline-offset-4 transition-[box-shadow] duration-300 focus-visible:shadow-[0_0_0_1px_var(--brand)]"
               >
-                <span className="glass absolute left-1/2 top-[calc(100%+0.5rem)] flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-border px-3 py-1.5 text-[13px] text-foreground transition-colors group-hover/node:border-brand group-focus-within/node:border-brand">
+                <span className="glass absolute left-1/2 top-[calc(100%+0.5rem)] flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-border px-3 py-1.5 text-small text-foreground transition-colors group-hover/node:border-brand group-focus-within/node:border-brand">
                   <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand" />
                   {n.label}
-                  <span className="meta text-[11px]">{n.count}</span>
+                  <span className="meta tabular-nums">{n.count}</span>
                   <span className="sr-only">: {plural(n.count)}</span>
                 </span>
               </Link>
@@ -108,7 +108,7 @@ export function AtlasList() {
     <ul aria-label="Domains" className="grid grid-cols-2 gap-x-6 gap-y-1 sm:grid-cols-3 lg:hidden">
       {ATLAS_NODES.map((n) => (
         <li key={n.label}>
-          <Link href={n.href} className="flex items-baseline justify-between gap-3 border-b border-border py-3 text-[15px] hover:text-brand">
+          <Link href={n.href} className="flex items-baseline justify-between gap-3 border-b border-border py-3 text-ui hover:text-brand">
             {n.label}
             <span className="meta">{n.count}</span>
           </Link>
